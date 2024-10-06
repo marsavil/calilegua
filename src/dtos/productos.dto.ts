@@ -43,6 +43,6 @@ export class CreateProductoDTO {
 //   readonly imagen?: string;
 // }
 
-export class UpdateProductDTO extends PartialType(
+export class UpdateProductoDTO extends PartialType(
   OmitType(CreateProductoDTO, ['nombre']),
 ) {}

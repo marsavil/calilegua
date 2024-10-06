@@ -19,7 +19,7 @@ export class ProductosController {
           nombre: 'Producto 2',
           precio: 200,
           stock: 30,
-        }
+        },
         {
           id: 3,
           nombre: 'Producto 3',
@@ -29,7 +29,7 @@ export class ProductosController {
       ],
     };
   }
-  @Get(:id)
+  @Get(':id')
   getProductoById(@Param('id') id: number) {
     return {
       message: 'Obteniendo producto por ID',
