@@ -34,5 +34,5 @@ export class OperadoresController {
     return {
       message: `Operador ${id} eliminado exitosamente`,
     };
-  
+  }
 }

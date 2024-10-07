@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 
 @Controller('categorias')
 export class CategoriasController {
@@ -41,5 +49,5 @@ export class CategoriasController {
       message: 'Categoría eliminada exitosamente',
       id,
     };
-  
+  }
 }

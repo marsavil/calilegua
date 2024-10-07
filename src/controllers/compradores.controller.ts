@@ -47,5 +47,5 @@ export class CompradoresController {
       message: 'Comprador eliminado exitosamente',
       idComprador: idComprador,
     };
-  
+  }
 }

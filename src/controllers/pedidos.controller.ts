@@ -45,6 +45,6 @@ export class PedidosController {
       message: `Pedido ${id} eliminado exitosamente`,
       id,
     };
-  
+  }
 }
 
