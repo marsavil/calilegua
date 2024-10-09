@@ -25,6 +25,14 @@ import { CategoriasService } from './services/categorias.service';
     CompradoresController,
     CategoriasController,
   ],
-  providers: [AppService, ProductosService, PedidosService, OperadoresService, FabricantesService, CompradoresService, CategoriasService],
+  providers: [
+    AppService,
+    ProductosService,
+    PedidosService,
+    OperadoresService,
+    FabricantesService,
+    CompradoresService,
+    CategoriasService,
+  ],
 })
 export class AppModule {}

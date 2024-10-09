@@ -22,7 +22,7 @@ export class ProductosService {
       stock: 20,
     },
   ];
-  private idCont = 3; // idCont coincidente con la cantidad de productos
+  private idCont = this.productos.length; // idCont coincidente con la cantidad de productos
   findAll() {
     return this.productos;
   }
