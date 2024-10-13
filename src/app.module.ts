@@ -1,38 +1,32 @@
 import { Module } from '@nestjs/common';
+import  { HttpModule, HttpService } from '@nestjs/axios';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { FabricantesController } from './controllers/fabricantes.controller';
-import { ProductosController } from './controllers/productos.controller';
-import { PedidosController } from './controllers/pedidos.controller';
-import { OperadoresController } from './controllers/operadores.controller';
-import { CompradoresController } from './controllers/compradores.controller';
-import { CategoriasController } from './controllers/categorias.controller';
-import { ProductosService } from './services/productos.service';
-import { PedidosService } from './services/pedidos.service';
-import { OperadoresService } from './services/operadores.service';
-import { FabricantesService } from './services/fabricantes.service';
-import { CompradoresService } from './services/compradores.service';
-import { CategoriasService } from './services/categorias.service';
+import { OperadoresModule } from './operadores/operadores.module';
+import { ProductosModule } from './productos/productos.module';
+import { lastValueFrom } from 'rxjs';
+import { DatabaseModule } from './database/database.module';
+
+const APIKEY = 'DEV-456';
+const APIKEYPROD = 'PROD-12345';
 
 @Module({
-  imports: [],
-  controllers: [
-    AppController,
-    FabricantesController,
-    ProductosController,
-    PedidosController,
-    OperadoresController,
-    CompradoresController,
-    CategoriasController,
-  ],
-  providers: [
-    AppService,
-    ProductosService,
-    PedidosService,
-    OperadoresService,
-    FabricantesService,
-    CompradoresService,
-    CategoriasService,
-  ],
+  imports: [ HttpModule, OperadoresModule, ProductosModule, DatabaseModule],
+  controllers: [AppController],
+  providers: [AppService,
+    {
+      provide: 'APIKEY',
+      useValue: process.env.NODE_ENV === 'prod' ? APIKEYPROD : APIKEY
+    },
+    {
+      provide: 'TAREA ASINC',
+      useFactory: async (http: HttpService) => {
+        const req = http.get('https://jsonplaceholder.typicode.com/posts');
+        const tarea = await lastValueFrom(req);
+        return tarea.data
+      },
+      inject: [HttpService]
+    }
+  ]
 })
 export class AppModule {}

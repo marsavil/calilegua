@@ -3,25 +3,33 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 @Injectable()
 export class ProductosService {
   productos = [
-    {
-      id: 1,
-      nombre: 'Producto 1',
-      precio: 100,
-      stock: 50,
+    { 
+      id: 1, 
+      nombre: 'Producto 1', 
+      precio: 100, 
+      stock: 10, 
+      descripcion: 'Descripción del producto 1', 
+      imagen: 'imagen1.png', 
+      origen: 'Origen 1' 
     },
-    {
-      id: 2,
-      nombre: 'Producto 2',
-      precio: 200,
-      stock: 30,
+    { 
+      id: 2, 
+      nombre: 'Producto 2', 
+      precio: 200, 
+      stock: 5, 
+      descripcion: 'Descripción del producto 2', 
+      imagen: 'imagen2.png', 
+      origen: 'Origen 2' 
     },
-    {
-      id: 3,
-      nombre: 'Producto 3',
-      precio: 300,
-      stock: 20,
-    },
-  ];
+    { 
+      id: 3, 
+      nombre: 'Producto 3', 
+      precio: 150, 
+      stock: 15, 
+      descripcion: 'Descripción del producto 3', 
+      imagen: 'imagen3.png', 
+      origen: 'Origen 3' 
+    }]
   private idCont = this.productos.length; // idCont coincidente con la cantidad de productos
   findAll() {
     return this.productos;
