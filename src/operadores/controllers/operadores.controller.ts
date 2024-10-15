@@ -1,7 +1,9 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
+import { OperadoresService } from 'src/operadores/services/operadores.service';
 
 @Controller('operadores')
 export class OperadoresController {
+  constructor(private operadoresService: OperadoresService){}
   @Get()
   getAllOperadores() {
     return [
@@ -34,5 +36,9 @@ export class OperadoresController {
     return {
       message: `Operador ${id} eliminado exitosamente`,
     };
+  }
+  @Get (':id/pedidos')
+  getOrders( @Param('id', ParseIntPipe) id: number ){
+    return this.operadoresService.getOrdersByUser(id);
   }
 }

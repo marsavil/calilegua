@@ -9,8 +9,8 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
-import { CreateProductoDTO, UpdateProductoDTO } from 'src/dtos/productos.dto';
-import { ProductosService } from 'src/services/productos.service';
+import { CreateProductoDTO, UpdateProductoDTO } from 'src/productos/dtos/productos.dto';
+import { ProductosService } from 'src/productos/services/productos.service';
 
 @Controller('productos')
 export class ProductosController {
