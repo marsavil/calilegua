@@ -1,9 +1,12 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Pedidos')
 @Controller('pedidos')
 export class PedidosController {
 
   @Get()
+  @ApiOperation({ summary: 'Devuelve una lista con todos los pedidos registrados'})
   getPedidos() {
     return {
       message: 'Listado de pedidos',
@@ -14,7 +17,8 @@ export class PedidosController {
     };
   }
   @Get(':id')
-  getPedidoById(@Param('id') id: number) {
+  @ApiOperation({ summary: 'Devuelve un pedido por su ID'})  
+  getPedidoById(@Param('id', new ParseIntPipe()) id: number) {
     return {
       message: 'Pedido encontrado',
       data: { 
@@ -25,6 +29,7 @@ export class PedidosController {
     };
   }
   @Post('add')
+  @ApiOperation({ summary: 'Crea un nuevo pedido'})  
   createPedido(@Body() payload: any) {
     return {
       message: 'Pedido creado exitosamente',
@@ -32,7 +37,8 @@ export class PedidosController {
     };
   }
   @Put('edit/:id')
-  editPedido(@Param('id') id: number, @Body() payload: any) {
+  @ApiOperation({ summary: 'Actualiza un pedido existente'})  
+  editPedido(@Param('id', new ParseIntPipe()) id: number, @Body() payload: any) {
     return {
       message: `Pedido ${id} editado exitosamente`,
       id,
@@ -40,7 +46,8 @@ export class PedidosController {
     };
   }
   @Delete('delete/:id')
-  deletePedido(@Param('id') id: number) {
+  @ApiOperation({ summary: 'Elimina un pedido existente'})  
+  deletePedido(@Param('id', new ParseIntPipe()) id: number) {
     return {
       message: `Pedido ${id} eliminado exitosamente`,
       id,
