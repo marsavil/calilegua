@@ -6,15 +6,11 @@ export class OperadoresController {
   constructor(private operadoresService: OperadoresService){}
   @Get()
   getAllOperadores() {
-    return [
-      { id: 1, nombre: 'Juan', apellido: 'Perez', edad: 30 },
-      { id: 2, nombre: 'Maria', apellido: 'Garcia', edad: 28 },
-      { id: 3, nombre: 'Pedro', apellido: 'Lopez', edad: 32 },
-    ];
+    return this.operadoresService.findAll();
   }
   @Get(':id')
-  getOperadorById(@Param('id') id: number) {
-    return `Operador ${id}`;
+  getOperadorById(@Param('id', ParseIntPipe) id: number) {
+    return this.operadoresService.findOne(id);;
   }
   @Post('add')
   createOperador(@Body() payload: any) {
