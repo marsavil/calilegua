@@ -1,8 +1,11 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Compradores')
 @Controller('compradores')
 export class CompradoresController {
   @Get()
+  @ApiOperation({summary: 'Devuelve una lista con todos los compradores'})
   getAllCompradores() {
     return {
       message: 'Listado de compradores',
@@ -15,16 +18,18 @@ export class CompradoresController {
     };
   }
   @Get(':idComprador')
-  getCompradorById(@Param('idComprador') idComprador: string) {
+  @ApiOperation({summary: 'Devuelve un comprador específico'})
+  getCompradorById(@Param('id', new ParseIntPipe()) id: number) {
     return {
       message: 'Comprador encontrado',
       data: {
-        id: idComprador,
-        nombre: `Comprador con ID ${idComprador}`,
+        id: id,
+        nombre: `Comprador con ID ${id}`,
       },
     };
   }
   @Post('add')
+  @ApiOperation({summary: 'Agrega un nuevo comprador'})
   createComprador(@Body() payload: any) {
     return {
       message: 'Comprador agregado exitosamente',
@@ -32,20 +37,22 @@ export class CompradoresController {
     };
   }
   @Put('edit/:idComprador')
+  @ApiOperation({summary: 'Actualiza la información de un comprador existente'})
   updateComprador(
-    @Param('idComprador') idComprador: string,
+    @Param('id', new ParseIntPipe()) id: number,
     @Body() body: any,
   ): any {
     return {
-      idComprador: idComprador,
+      idComprador: id,
       nombre: body.nombre,
     };
   }
   @Delete('delete/:idComprador')
-  deleteComprador(@Param('idComprador') idComprador: string): any {
+  @ApiOperation({summary: 'Elimina un comprador existente'})
+  deleteComprador(@Param('id', new ParseIntPipe()) id: number): any {
     return {
       message: 'Comprador eliminado exitosamente',
-      idComprador: idComprador,
+      idComprador: id,
     };
   }
 }
