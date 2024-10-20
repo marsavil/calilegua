@@ -1,58 +1,38 @@
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { CompradoresService } from '../services/compradores.service';
+import { CreateCompradorDTO } from '../dtos/comprador.dto';
 
 @ApiTags('Compradores')
 @Controller('compradores')
 export class CompradoresController {
+  constructor(private compradoresService: CompradoresService) {}
   @Get()
   @ApiOperation({summary: 'Devuelve una lista con todos los compradores'})
   getAllCompradores() {
-    return {
-      message: 'Listado de compradores',
-      data: [
-        { id: '1', nombre: 'Juan' },
-        { id: '2', nombre: 'Maria' },
-        { id: '3', nombre: 'Pedro' },
-        { id: '4', nombre: 'Luis' },
-      ],
-    };
+    return this.compradoresService.findAll();
   }
-  @Get(':idComprador')
+  @Get(':id')
   @ApiOperation({summary: 'Devuelve un comprador específico'})
   getCompradorById(@Param('id', new ParseIntPipe()) id: number) {
-    return {
-      message: 'Comprador encontrado',
-      data: {
-        id: id,
-        nombre: `Comprador con ID ${id}`,
-      },
-    };
+    return this.compradoresService.findOne(id);
   }
   @Post('add')
   @ApiOperation({summary: 'Agrega un nuevo comprador'})
   createComprador(@Body() payload: any) {
-    return {
-      message: 'Comprador agregado exitosamente',
-      payload,
-    };
+    return this.compradoresService.create(payload);
   }
-  @Put('edit/:idComprador')
+  @Put('edit/:id')
   @ApiOperation({summary: 'Actualiza la información de un comprador existente'})
   updateComprador(
     @Param('id', new ParseIntPipe()) id: number,
-    @Body() body: any,
-  ): any {
-    return {
-      idComprador: id,
-      nombre: body.nombre,
-    };
+    @Body() payload: CreateCompradorDTO,
+  ) {
+    return this.compradoresService.update(id, payload)
   }
-  @Delete('delete/:idComprador')
+  @Delete('delete/:id')
   @ApiOperation({summary: 'Elimina un comprador existente'})
-  deleteComprador(@Param('id', new ParseIntPipe()) id: number): any {
-    return {
-      message: 'Comprador eliminado exitosamente',
-      idComprador: id,
-    };
+  deleteComprador(@Param('id', new ParseIntPipe()) id: number){
+    return this.compradoresService.remove(id)
   }
 }
