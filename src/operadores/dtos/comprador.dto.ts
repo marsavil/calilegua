@@ -24,5 +24,5 @@ export class CreateCompradorDTO {
 
 
 export class UpdateCompradorDTO extends PartialType(
-  OmitType(CreateCompradorDTO, ['nombre']),
+  OmitType(CreateCompradorDTO, ['nombre', 'apellido']),
 ) {}
