@@ -4,12 +4,15 @@ import { Operador } from 'src/operadores/entities/operador.entity';
 import { Pedido } from 'src/operadores/entities/pedido.entity';
 import { ProductosService } from 'src/productos/services/productos.service';
 import { CreateOperadorDTO, UpdateOperadorDTO } from '../dtos/operador.dto';
+import { Client } from 'pg';
+
 
 @Injectable()
 export class OperadoresService {
   constructor(
     private productService: ProductosService,
     private configService: ConfigService, // Inyección de dependencias de ConfigService
+    @Inject('PG') private clientPg: Client,
   ){}
   operadores: Operador[] = [
     { id: 1, email: 'operador1@email.com', password: '123456', role: 'admin' },
@@ -74,4 +77,18 @@ export class OperadoresService {
         id,
       }
     }
+    getTasks() {
+      console.log('Solicitando listado de tareas desde la BD');
+      return new Promise((resolve, reject) => {
+        this.clientPg.query('SELECT * FROM tareas', (err, res) => {
+          if (err) {
+            console.log('Error de petición', err);
+            reject(err);
+          }
+          console.log('respuesta:', res.rows);
+          resolve(res.rows);
+        });
+      });
+    }
+    
 }

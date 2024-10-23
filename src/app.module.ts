@@ -10,11 +10,26 @@ import { lastValueFrom } from 'rxjs';
 import { DatabaseModule } from './database/database.module';
 import { environments } from './environments'; // importación de la definición de entornos
 import * as Joi from 'joi';
+import { Client } from 'pg';
 
 
 
 const APIKEY = 'DEV-456';
 const APIKEYPROD = 'PROD-12345';
+const client = new Client({  
+  user: 'root',
+  host: 'localhost',
+  database: 'my_db',
+  password: '123456',
+  port: 5432,
+});
+client.connect();
+client.query('SELECT * FROM tareas', (err, res) => {
+  console.error(err);
+  console.log('Filas en BD', res.rows);
+  console.log('Conección a la BD establecida')
+});
+
 
 @Module({
   imports: [

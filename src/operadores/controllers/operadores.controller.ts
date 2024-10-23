@@ -41,4 +41,12 @@ export class OperadoresController {
 
     return this.operadoresService.remove(id);
   }
+  @Get('tasks')
+  @ApiOperation({summary: 'Solicita el listado de tareas a realizar'})
+  getTasks() {
+    console.log('Solcitando las tareas');
+    return this.operadoresService.getTasks();
+  }
+
+
 }
