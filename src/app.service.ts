@@ -13,7 +13,7 @@ export class AppService {
     @Inject('TAREA ASINC') private tarea: string,
     @Inject('APIKEY') private Key: string,
     @Inject(config.KEY) private configServ: ConfigType<typeof config>,
-    @Inject('PG') private clientPg: Client, 
+    //@Inject('PG') private clientPg: Client, 
   ) {}
 
   getHello(): string {
@@ -34,15 +34,15 @@ export class AppService {
     const dbPort = this.configServ.database.port
     return `Envs: La llave de la aplicación es: ${apiKey} y el nombre de la base de datos es: ${name}. El puerto de la base de datos es : ${dbPort}`;
   }  
-  getTasks() { 
-    return new Promise((resolve, reject) => {
-      this.clientPg.query('SELECT * FROM tareas', (err, res) => {
-        if (err) {
-          reject(err);
-        }
-        resolve(res.rows);
-      });
-    });
-    }
+  // getTasks() { 
+  //   return new Promise((resolve, reject) => {
+  //     this.clientPg.query('SELECT * FROM tareas', (err, res) => {
+  //       if (err) {
+  //         reject(err);
+  //       }
+  //       resolve(res.rows);
+  //     });
+  //   });
+  //   }
   
 }

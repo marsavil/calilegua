@@ -21,3 +21,29 @@ services:
       - '5050:80'
     volumes:
       - ./pgadmin_data:/var/lib/pgadmin
+
+  mysqlcali: 
+  # Replace 'your_username' and 'your_password' with your actual MySQL credentials
+    image: mysql:5
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+      - MYSQL_DATABASE=my_db
+      - MYSQL_USER=marsavil
+      - MYSQL_PASSWORD=123456
+    ports:
+      - '3307:3306'
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+
+  phpmyadmin:
+  # Replace 'your_username' and 'your_password' with your actual MySQL credentials
+    image: phpmyadmin/phpmyadmin
+    environment:
+    - MYSQL_ROOT_PASSWORD=123456
+    - PMA_HOST=mysqlcali
+    ports:
+    - '8080:80'
+    
+
+
+  

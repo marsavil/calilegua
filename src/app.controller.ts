@@ -37,10 +37,10 @@ getEstoyOk(): string {
 getEnvs(): string {
   return this.appService.getEnvs();
 }
-@Get('tasks')
-  tasks() {
-	return this.appService.getTasks();
-  }
+// @Get('tasks')
+//   tasks() {
+// 	return this.appService.getTasks();
+//   }
 
 
 }

@@ -1,7 +1,15 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { Fabricante } from '../entities/fabricante.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { CreateFabricanteDTO, UpdatefabricanteDTO } from '../dtos/fabricante.dto';
 
 @Injectable()
 export class FabricantesService {
+  constructor(
+    @InjectRepository(Fabricante)
+    private readonly fabricantesRepository: Repository<Fabricante>,
+  ){}
   fabricantes = [
     {
       id: 1,
@@ -21,52 +29,65 @@ export class FabricantesService {
     },
   ];
   private idCont = this.fabricantes.length; // idCont coincidente con la cantidad de fabricantes
+  async seedDB(){
+    await Promise.all(this.fabricantes.map((fabricante) => this.create(fabricante)));
+    return 'Fabricantes cargados a l a base de datos'
+  }
   findAll() {
-    return this.fabricantes;
+    return this.fabricantesRepository.find();
   }
 
   findOne(id: number) {
-    return this.fabricantes.find((item) => item.id === id);
+    return this.fabricantesRepository.findOneBy({id});
   }
 
-  create(payload: any) {
-    this.idCont = this.idCont + 1;
-    const newFabricante = {
-      id: this.idCont,
-      ...payload,
-    };
-    this.fabricantes.push(newFabricante);
-    return newFabricante;
+  async create(payload: CreateFabricanteDTO) {
+    // this.idCont = this.idCont + 1;
+    // const newFabricante = {
+    //   id: this.idCont,
+    //   ...payload,
+    // };
+    // this.fabricantes.push(newFabricante);
+    const newFabricante = this.fabricantesRepository.create(payload)
+    return this.fabricantesRepository.save(newFabricante);
   }
-  update(id: number, payload: any) {
-    const fabricante = this.fabricantes.find((p) => p.id === id);
+  async update(id: number, payload: UpdatefabricanteDTO) {
+    // const fabricante = this.fabricantes.find((p) => p.id === id);
+    // if (!fabricante) {
+    //   throw new Error(`No se encontró el fabricante con id ${id}`);
+    // }
+    // Object.assign(fabricante, payload);
+    // const index = this.fabricantes.findIndex((item) => item.id === id);
+    // if (index === -1) {
+    //   throw new NotFoundException(`El fabricante #${id} no se encuentra`);
+    // }
+
+    // // Reemplazar el producto actualizado en la lista
+    // this.fabricantes.splice(index, 1, fabricante);
+    // return {
+    //   message: 'Fabricante actualizado correctamente',
+    //   fabricante,
+    // };
+    const fabricante = await this.findOne(id)
     if (!fabricante) {
-      throw new Error(`No se encontró el fabricante con id ${id}`);
+      throw new NotFoundException(`El fabricante con id ${id} no se encuentra`);
     }
-    Object.assign(fabricante, payload);
-    const index = this.fabricantes.findIndex((item) => item.id === id);
-    if (index === -1) {
-      throw new NotFoundException(`El fabricante #${id} no se encuentra`);
-    }
-
-    // Reemplazar el producto actualizado en la lista
-    this.fabricantes.splice(index, 1, fabricante);
-    return {
-      message: 'Fabricante actualizado correctamente',
-      fabricante,
-    };
+    this.fabricantesRepository.merge(fabricante, payload)
+    console.log(fabricante)
+    return this.fabricantesRepository.save(fabricante);
   }
   remove(id: number) {
-    const index = this.fabricantes.findIndex((item) => item.id === id);
-    if (index === -1) {
-      throw new NotFoundException(
-        `El fabricante con el id ${id} no se encuentra`,
-      );
-    }
-    this.fabricantes.splice(index, 1);
-    return {
-      message: 'Fabricante eliminado correctamente',
-      id,
-    };
+    // const index = this.fabricantes.findIndex((item) => item.id === id);
+    // if (index === -1) {
+    //   throw new NotFoundException(
+    //     `El fabricante con el id ${id} no se encuentra`,
+    //   );
+    // }
+    // this.fabricantes.splice(index, 1);
+    // return {
+    //   message: 'Fabricante eliminado correctamente',
+    //   id,
+    // };
+    return this.fabricantesRepository.delete(id)
   }
 }

@@ -17,6 +17,11 @@ export class OperadoresController {
   getOperadorById(@Param('id', ParseIntPipe) id: number) {
     return this.operadoresService.findOne(id);;
   }
+  @Post('seed')
+  @ApiOperation({summary: 'Carga inicial de operadores para la base de datos'})
+  seedDB() {
+    return this.operadoresService.seedDB();
+  }
   @Post('add')
   @ApiOperation({summary: 'Crea un nuevo operador con la información suministrada'})
   createOperador(@Body() payload: CreateOperadorDTO) {
@@ -41,12 +46,12 @@ export class OperadoresController {
 
     return this.operadoresService.remove(id);
   }
-  @Get('tasks')
-  @ApiOperation({summary: 'Solicita el listado de tareas a realizar'})
-  getTasks() {
-    console.log('Solcitando las tareas');
-    return this.operadoresService.getTasks();
-  }
+  // @Get('tasks')
+  // @ApiOperation({summary: 'Solicita el listado de tareas a realizar'})
+  // getTasks() {
+  //   console.log('Solcitando las tareas');
+  //   return this.operadoresService.getTasks();
+  // }
 
 
 }

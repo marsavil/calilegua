@@ -34,6 +34,11 @@ export class ProductosController {
     return this.productsService.findOne(id);
     
   }
+  @Post('seed')
+  @ApiOperation({summary: 'Genera y añade productos a la base de datos'})
+  seedDB() {
+    return this.productsService.seedDB();
+  }
   @Post('add')
   @ApiOperation({summary: 'Crea un nuevo producto con la información suministrada'})
   createProducto(@Body() payload: CreateProductoDTO) {

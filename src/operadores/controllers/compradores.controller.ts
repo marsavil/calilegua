@@ -17,6 +17,11 @@ export class CompradoresController {
   getCompradorById(@Param('id', new ParseIntPipe()) id: number) {
     return this.compradoresService.findOne(id);
   }
+  @Post('seed')
+  @ApiOperation({summary: 'Carga inicial de compradores en la base de datos'})
+  seedDB() {
+    return this.compradoresService.seedDB();
+  }
   @Post('add')
   @ApiOperation({summary: 'Agrega un nuevo comprador'})
   createComprador(@Body() payload: any) {
