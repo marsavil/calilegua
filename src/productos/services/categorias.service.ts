@@ -1,7 +1,15 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { Categoria } from '../entities/categoria.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { CreateCategoriaDTO, UpdateCategoriaDTO } from '../dtos/categorias.dto';
 
 @Injectable()
 export class CategoriasService {
+  constructor(
+    @InjectRepository(Categoria)
+    private readonly categoriasRepository: Repository<Categoria>,
+  ){}
   categorias = [
     { id: 1, nombre: 'Juegos' },
     { id: 2, nombre: 'Musica' },
@@ -9,51 +17,64 @@ export class CategoriasService {
   ]
   private idCont = this.categorias.length; // idCont coincidente con la cantidad de categorias
   findAll() {
-    return this.categorias;
+    return this.categoriasRepository.find();
   }
 
   findOne(id: number) {
-    return this.categorias.find((item) => item.id === id);
+    return this.categoriasRepository.findOneBy({id});
   }
 
-  create(payload: any) {
-    this.idCont = this.idCont + 1;
-    const newCategory = {
-      id: this.idCont,
-      ...payload,
-    };
-    this.categorias.push(newCategory);
-    return newCategory;
+  async seedDB(){
+    await Promise.all(this.categorias.map((categoria) => this.create(categoria)));
+    return 'Categorias cargadas a la base de datos'
   }
-  update(id: number, payload: any) {
-    const category = this.categorias.find((p) => p.id === id);
+  async create(payload: CreateCategoriaDTO) {
+    // this.idCont = this.idCont + 1;
+    // const newCategory = {
+    //   id: this.idCont,
+    //   ...payload,
+    // };
+    // this.categorias.push(newCategory);
+    // return newCategory;
+    const newCategory = this.categoriasRepository.create(payload)
+    return await this.categoriasRepository.save(newCategory);
+  }
+  async update(id: number, payload: UpdateCategoriaDTO) {
+    // const category = this.categorias.find((p) => p.id === id);
+    // if (!category) {
+    //   throw new Error(`No se encontró la categoría con id ${id}`);
+    // }
+    // Object.assign(category, payload);
+    // const index = this.categorias.findIndex((item) => item.id === id);
+    // if (index === -1) {
+    //   throw new NotFoundException(`La categoriía #${id} no se encuentra`);
+    // }
+
+    // // Reemplazar el categoryo actualizado en la lista
+    // this.categorias.splice(index, 1, category);
+    // return {
+    //   message: 'Categoria actualizada correctamente',
+    //   category,
+    // };
+    const category = await this.findOne(id);
     if (!category) {
-      throw new Error(`No se encontró la categoría con id ${id}`);
+      throw new NotFoundException(`El operador #${id} no se encuentra`);
     }
-    Object.assign(category, payload);
-    const index = this.categorias.findIndex((item) => item.id === id);
-    if (index === -1) {
-      throw new NotFoundException(`La categoriía #${id} no se encuentra`);
-    }
-
-    // Reemplazar el categoryo actualizado en la lista
-    this.categorias.splice(index, 1, category);
-    return {
-      message: 'Categoria actualizada correctamente',
-      category,
-    };
+    this.categoriasRepository.merge(category, payload);
+    return await this.categoriasRepository.save(category);
   }
   remove(id: number) {
-    const index = this.categorias.findIndex((item) => item.id === id);
-    if (index === -1) {
-      throw new NotFoundException(
-        `La categoria con el id ${id} no se encuentra`,
-      );
-    }
-    this.categorias.splice(index, 1);
-    return {
-      message: 'Categoría eliminada correctamente',
-      id,
-    }
+    // const index = this.categorias.findIndex((item) => item.id === id);
+    // if (index === -1) {
+    //   throw new NotFoundException(
+    //     `La categoria con el id ${id} no se encuentra`,
+    //   );
+    // }
+    // this.categorias.splice(index, 1);
+    // return {
+    //   message: 'Categoría eliminada correctamente',
+    //   id,
+    // }
+    return this.categoriasRepository.delete(id)
   }
 }

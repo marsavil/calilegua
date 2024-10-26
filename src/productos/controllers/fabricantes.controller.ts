@@ -16,6 +16,11 @@ import { CreateFabricanteDTO } from '../dtos/fabricante.dto';
 @Controller('fabricantes')
 export class FabricantesController {
   constructor(private fabricantesService: FabricantesService) {}
+  @Post('seed')
+  @ApiOperation({summary: 'Llena la base de datos con datos de fabricantes'})
+  seedDB() {
+    return this.fabricantesService.seedDB();
+  }
   @Post('add')
   @ApiOperation({summary:'Agregar un nuevo fabricante a la base de datos'})
   createFabricante(@Body() payload: CreateFabricanteDTO) {
