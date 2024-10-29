@@ -38,7 +38,8 @@ export class FabricantesService {
   }
 
   findOne(id: number) {
-    return this.fabricantesRepository.findOneBy({id});
+    // return this.fabricantesRepository.findOneBy({id});
+    return this.fabricantesRepository.findOne(id);
   }
 
   async create(payload: CreateFabricanteDTO) {

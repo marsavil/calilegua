@@ -26,7 +26,8 @@ export class CompradoresService {
   }
 
   findOne(id: number) {
-    return this.compradoresRepository.findOneBy({ id });
+    //return this.compradoresRepository.findOneBy({ id });
+    return this.compradoresRepository.findOne( id );
   }
 
   async create(payload: CreateCompradorDTO) {

@@ -1,7 +1,7 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class dateColumns1730239926790 implements MigrationInterface {
-    name = 'dateColumns1730239926790'
+export class nuevasPropiedades1730245298258 implements MigrationInterface {
+    name = 'nuevasPropiedades1730245298258'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`ALTER TABLE "producto" ADD "createdAt" TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT now()`);

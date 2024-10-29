@@ -31,7 +31,8 @@ export class OperadoresService {
   }
 
   findOne(id: number) {
-    return this.operadoresRepository.findOneBy({id});
+    // return this.operadoresRepository.findOneBy({id});
+    return this.operadoresRepository.findOne(id);
   }
   findAll() {
     // const apiKey = this.configService.get('API_KEY'); // Asignacion de la variable de entorno a una constante

@@ -21,7 +21,8 @@ export class CategoriasService {
   }
 
   findOne(id: number) {
-    return this.categoriasRepository.findOneBy({id});
+    // return this.categoriasRepository.findOneBy({id});
+    return this.categoriasRepository.findOne(id);
   }
 
   async seedDB(){

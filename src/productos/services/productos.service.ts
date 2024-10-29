@@ -51,7 +51,12 @@ export class ProductosService {
   }
 
   findOne(id: number) {
-    return this.productosRepository.findOneBy({id});
+    // const product = this.productosRepository.findOneBy({id});
+    const product =  this.productosRepository.findOne(id);
+    if (!product) {
+      throw new NotFoundException(`El producto con el id ${id} no se encuentra`);
+    }
+    return product;
   }
 
   async create(payload: CreateProductoDTO) {
@@ -82,7 +87,8 @@ export class ProductosService {
     //   message: 'Producto actualizado correctamente',
     //   product,
     // };
-    const product = await this.productosRepository.findOneBy({ id })
+    // const product = await this.productosRepository.findOneBy({ id })
+    const product = await this.productosRepository.findOne( id )
     if (!product) {
       throw new NotFoundException(`El producto con el id ${id} no se encuentra`);
     }
