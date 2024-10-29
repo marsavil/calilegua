@@ -1,7 +1,7 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Operador } from 'src/operadores/entities/operador.entity';
-import { Pedido } from 'src/operadores/entities/pedido.entity';
+//import { Pedido } from 'src/operadores/entities/pedido.entity';
 import { ProductosService } from 'src/productos/services/productos.service';
 import { CreateOperadorDTO, UpdateOperadorDTO } from '../dtos/operador.dto';
 import { Client } from 'pg';
