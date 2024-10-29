@@ -8,7 +8,7 @@ import { OperadoresService } from './services/operadores.service';
 import { ProductosModule } from 'src/productos/productos.module';
 import { Operador } from './entities/operador.entity';
 import { Comprador } from './entities/comprador.entity';
-import { Pedido } from './entities/pedido.entity';
+//import { Pedido } from './entities/pedido.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
