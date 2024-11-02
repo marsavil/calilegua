@@ -7,6 +7,7 @@ import { CreateOperadorDTO, UpdateOperadorDTO } from '../dtos/operador.dto';
 import { Client } from 'pg';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { CompradoresService } from './compradores.service';
 
 
 @Injectable()
@@ -14,33 +15,47 @@ export class OperadoresService {
   constructor(
     @InjectRepository(Operador)
     private readonly operadoresRepository: Repository<Operador>,
+    private compradorService: CompradoresService,
     private productService: ProductosService,
     private configService: ConfigService, // Inyección de dependencias de ConfigService
 
     //@Inject('PG') private clientPg: Client,
   ){}
-  operadores: Operador[] = [
-    { id: 1, email: 'operador1@email.com', password: '123456', role: 'admin' },
-    { id: 2, email: 'operador2@email.com', password: '654321', role: 'operador' },
-  ];
-  private idCont = this.operadores.length; // idCont coincidente con la cantidad de operadores
+  // operadores: Operador[] = [
+  //   { id: 1, email: 'operador1@email.com', password: '123456', role: 'admin' },
+  //   { id: 2, email: 'operador2@email.com', password: '654321', role: 'operador' },
+  // ];
+  // private idCont = this.operadores.length; // idCont coincidente con la cantidad de operadores
 
-  async seedDB(){
-    await Promise.all(this.operadores.map((operador) => this.create(operador)));
-    return 'Carga inicial de operadores a base de datos realizada'
-  }
+  // async seedDB(){
+  //   await Promise.all(this.operadores.map((operador) => this.create(operador)));
+  //   return 'Carga inicial de operadores a base de datos realizada'
+  // }
 
-  findOne(id: number) {
+  async findOne(id: number) {
+    const operador = await this.operadoresRepository.findOne(id, {
+      relations: ['comprador'],
+    });
+    if ( !operador ) {
+      throw new NotFoundException(`El operador con el id ${id} no se encuentra`);
+    }
     // return this.operadoresRepository.findOneBy({id});
-    return this.operadoresRepository.findOne(id);
+    return operador;
   }
-  findAll() {
+  async findAll() {
     // const apiKey = this.configService.get('API_KEY'); // Asignacion de la variable de entorno a una constante
     // const dbName = this.configService.get('DATABASE_NAME');  // idem
     // console.log('Api key: ',apiKey, 'DB name: ', dbName);
     // return this.operadores;
-    return this.operadoresRepository.find();
+    const operadores = await this.operadoresRepository.find({
+      relations: ['comprador'],
+    });
+    if ( !operadores.length ) {
+      throw new NotFoundException(`No se encontraron operadores cargados a la base de datos`);
     }
+    return operadores;
+    }
+
     async update(id: number, payload: UpdateOperadorDTO) {
       // const operador = this.operadores.find((p) => p.id === id);
       // if (!operador) {
@@ -74,9 +89,9 @@ export class OperadoresService {
       // this.operadores.push(newOperador);
       // return newOperador;
       const newOperador = this.operadoresRepository.create(payload);
-      return this.operadoresRepository.save(newOperador); 
+      return await this.operadoresRepository.save(newOperador); 
     }
-    remove(id: number) {
+    async remove(id: number) {
       // const index = this.operadores.findIndex((item) => item.id === id);
       // if (index === -1) {
       //   throw new NotFoundException(
@@ -88,6 +103,10 @@ export class OperadoresService {
       //   message: 'Operador eliminado correctamente',
       //   id,
       // }
+      const operador = await  this.operadoresRepository.findOne(id);
+      if (!operador) {
+        throw new NotFoundException(`El  id ${id} no pertenece a un operador registrado en esta base de datos`);
+      }
       return this.operadoresRepository.delete(id)
     }
     async getOrdersByUser (id: number){

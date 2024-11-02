@@ -17,11 +17,11 @@ export class OperadoresController {
   getOperadorById(@Param('id', ParseIntPipe) id: number) {
     return this.operadoresService.findOne(id);;
   }
-  @Post('seed')
-  @ApiOperation({summary: 'Carga inicial de operadores para la base de datos'})
-  seedDB() {
-    return this.operadoresService.seedDB();
-  }
+  // @Post('seed')
+  // @ApiOperation({summary: 'Carga inicial de operadores para la base de datos'})
+  // seedDB() {
+  //   return this.operadoresService.seedDB();
+  // }
   @Post('add')
   @ApiOperation({summary: 'Crea un nuevo operador con la información suministrada'})
   createOperador(@Body() payload: CreateOperadorDTO) {

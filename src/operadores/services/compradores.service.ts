@@ -21,13 +21,25 @@ export class CompradoresService {
     await Promise.all(this.compradores.map((comprador) => this.create(comprador)));
     return 'Coimpradores cargados a la base de datos'
   }
-  findAll() {
-    return this.compradoresRepository.find();
+  async findAll() {
+    const compradores =  await this.compradoresRepository.find({
+      relations: ['operador']
+    });
+    if ( !compradores.length) {
+      throw new NotFoundException('No se encontraron compradores en la base de datos');
+    }
+    return compradores
   }
 
-  findOne(id: number) {
+  async findOne(id: number) {
     //return this.compradoresRepository.findOneBy({ id });
-    return this.compradoresRepository.findOne( id );
+    const comprador = await this.compradoresRepository.findOne( id, {
+      relations: ['operador']
+    } );
+    if (!comprador) {
+      throw new NotFoundException(`El comprador con el id ${id} no se encuentra`);
+    }
+    return comprador
   }
 
   async create(payload: CreateCompradorDTO) {
@@ -65,7 +77,7 @@ export class CompradoresService {
     await this.compradoresRepository.merge(comprador, payload);
     return await this.compradoresRepository.save(comprador);
   }
-  remove(id: number) {
+  async remove(id: number) {
     // const index = this.compradores.findIndex((item) => item.id === id);
     // if (index === -1) {
     //   throw new NotFoundException(
@@ -77,6 +89,10 @@ export class CompradoresService {
     //   message: 'comprador eliminado correctamente',
     //   id,
     // }
+    const comprador = await this.compradoresRepository.findOne(id);
+    if (!comprador) {
+      throw new NotFoundException(`No existe un comprador con el id ${id} en esta base de datos`);
+    }
     return this.compradoresRepository.delete(id)
   }
 }
