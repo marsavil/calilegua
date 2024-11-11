@@ -34,12 +34,12 @@ export class FabricantesService {
     return 'Fabricantes cargados a l a base de datos'
   }
   findAll() {
-    return this.fabricantesRepository.find();
+    return this.fabricantesRepository.find({ relations: ['products']});
   }
 
   findOne(id: number) {
     // return this.fabricantesRepository.findOneBy({id});
-    return this.fabricantesRepository.findOne(id);
+    return this.fabricantesRepository.findOne(id, { relations: ['products']});
   }
 
   async create(payload: CreateFabricanteDTO) {

@@ -38,6 +38,11 @@ export class CreateProductoDTO {
   @IsUrl()
   @IsNotEmpty()
   readonly imagen: string;
+
+  @ApiProperty({description: 'ID del fabricante del producto', required: true})
+  @IsNotEmpty()
+  @IsPositive()
+  readonly fabricanteId: number;
 }
 
 // export class UpdateProductoDTO {
