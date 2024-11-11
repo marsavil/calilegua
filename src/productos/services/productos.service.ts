@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 
 import { Producto } from './../entities/producto.entity'; 
 import { CreateProductoDTO, UpdateProductoDTO } from './../dtos/productos.dto';
+import { FabricantesService } from './fabricantes.service';
 
 
 @Injectable()
@@ -11,6 +12,7 @@ export class ProductosService {
   constructor(
     @InjectRepository(Producto)
     private readonly productosRepository: Repository<Producto>,
+    private fabricantesService: FabricantesService
   ){}
   productos = [
     { 
@@ -20,7 +22,8 @@ export class ProductosService {
       stock: 10, 
       descripcion: 'Descripción del producto 1', 
       imagen: 'imagen1.png', 
-      origen: 'Origen 1' 
+      origen: 'Origen 1',
+      fabricanteId: 3  
     },
     { 
       id: 2, 
@@ -29,7 +32,8 @@ export class ProductosService {
       stock: 5, 
       descripcion: 'Descripción del producto 2', 
       imagen: 'imagen2.png', 
-      origen: 'Origen 2' 
+      origen: 'Origen 2',
+      fabricanteId: 3 
     },
     { 
       id: 3, 
@@ -38,7 +42,8 @@ export class ProductosService {
       stock: 15, 
       descripcion: 'Descripción del producto 3', 
       imagen: 'imagen3.png', 
-      origen: 'Origen 3' 
+      origen: 'Origen 3',
+      fabricanteId: 4
     }]
   private idCont = this.productos.length; // idCont coincidente con la cantidad de productos
   
@@ -68,6 +73,13 @@ export class ProductosService {
     // this.productos.push(newProduct);
     // return newProduct;
     const newProduct = this.productosRepository.create(payload)
+    if ( payload.fabricanteId ){
+      const fabricante = await this.fabricantesService.findOne( payload.fabricanteId )
+      if (!fabricante ) {
+        throw new Error(`Fabricante con id ${payload.fabricanteId} no encontrado`)
+      }
+      newProduct.fabricante = fabricante
+    }
     return this.productosRepository.save(newProduct);
   }
   async update(id: number, payload: UpdateProductoDTO) {
@@ -91,6 +103,13 @@ export class ProductosService {
     const product = await this.productosRepository.findOne( id )
     if (!product) {
       throw new NotFoundException(`El producto con el id ${id} no se encuentra`);
+    }
+    if ( payload.fabricanteId ){
+      const fabricante = await this.fabricantesService.findOne( payload.fabricanteId )
+      if (!fabricante ) {
+        throw new Error(`Fabricante con id ${payload.fabricanteId} no encontrado`)
+      }
+      product.fabricante = fabricante
     }
     this.productosRepository.merge( product, payload )
     return this.productosRepository.save(product)
