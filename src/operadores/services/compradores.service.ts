@@ -1,30 +1,26 @@
-import { forwardRef, Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Comprador } from '../entities/comprador.entity';
 import { Repository } from 'typeorm';
 import { CreateCompradorDTO, UpdateCompradorDTO } from '../dtos/comprador.dto';
-import { OperadoresService } from './operadores.service';
 
 @Injectable()
 export class CompradoresService {
   constructor(
     @InjectRepository(Comprador)
     private readonly compradoresRepository: Repository<Comprador>,
-    @Inject(forwardRef(() => OperadoresService))
-    private readonly operadorService: OperadoresService,
-  ) {}
-  
-  // compradores = [
-  //   { id: 1, nombre: 'Juan', apellido: 'Perez', telefono: '123456789' },
-  //       { id: 2, nombre: 'Maria', apellido: 'Lopez', telefono: '987654321' },
-  //       { id: 3, nombre: 'Pedro', apellido: 'Gonzalez', telefono: '147852369' },
-  //       { id: 4, nombre: 'Luis', apellido: 'Gomez', telefono: '369852147' },
-  //     ]
-  // private idCont = this.compradores.length; // idCont coincidente con la cantidad de compradores
-  // async seedDB(){
-  //   await Promise.all(this.compradores.map((comprador) => this.create(comprador)));
-  //   return 'Coimpradores cargados a la base de datos'
-  // }
+  ){}
+  compradores = [
+    { id: 1, nombre: 'Juan', apellido: 'Perez', telefono: '123456789' },
+        { id: 2, nombre: 'Maria', apellido: 'Lopez', telefono: '987654321' },
+        { id: 3, nombre: 'Pedro', apellido: 'Gonzalez', telefono: '147852369' },
+        { id: 4, nombre: 'Luis', apellido: 'Gomez', telefono: '369852147' },
+      ]
+  private idCont = this.compradores.length; // idCont coincidente con la cantidad de compradores
+  async seedDB(){
+    await Promise.all(this.compradores.map((comprador) => this.create(comprador)));
+    return 'Coimpradores cargados a la base de datos'
+  }
   async findAll() {
     const compradores =  await this.compradoresRepository.find({
       relations: ['operador']
@@ -55,14 +51,7 @@ export class CompradoresService {
     // this.compradores.push(newComprador);
     // return newComprador;
     const newComprador = await this.compradoresRepository.create(payload);
-    if (newComprador.operadorId){
-      const saved = await this.compradoresRepository.save(newComprador)
-      console.log('este es el id del operador a relacionar', saved.operadorId);
-      console.log('y este es el comprador', newComprador)
-      const update = { compradorId: newComprador.id }
-      await this.operadorService.update(newComprador.operadorId, update);
-    }
-    return newComprador;
+    return await this.compradoresRepository.save(newComprador);
   }
   async update(id: number, payload: UpdateCompradorDTO) {
     // const comprador = this.compradores.find((p) => p.id === id);

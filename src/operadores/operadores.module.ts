@@ -1,4 +1,4 @@
-import { forwardRef, Module } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { PedidosController } from './controllers/pedidos.controller';
 import { OperadoresController } from './controllers/operadores.controller';
 import { CompradoresController } from './controllers/compradores.controller';
@@ -13,7 +13,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   imports: [
-    forwardRef(() => ProductosModule),//para resolver la dependencia circular entre OperadoresService y CompradoresService
+    ProductosModule,
     TypeOrmModule.forFeature([Operador, Comprador]),
   ],
   controllers: [PedidosController, OperadoresController, CompradoresController],

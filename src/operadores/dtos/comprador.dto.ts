@@ -2,7 +2,6 @@ import { ApiProperty, PartialType, OmitType } from '@nestjs/swagger';
 
 import {
   IsNotEmpty,
-  IsNumber,
   IsString,
 } from 'class-validator';
 
@@ -21,10 +20,6 @@ export class CreateCompradorDTO {
   @IsString()
   @IsNotEmpty()
   readonly telefono: string;
-
-  @ApiProperty({ description: 'id de un operador'})
-  @IsNumber()
-  readonly operadorId: number
 }
 
 
