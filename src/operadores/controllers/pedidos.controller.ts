@@ -1,57 +1,41 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  Controller,
+  Get,
+  Param,
+  Post,
+  Body,
+  Put,
+  Delete,
+  ParseIntPipe
+} from '@nestjs/common';
+import { PedidosService } from 'src/operadores/services/pedidos.service';
+import { CreatePedidoDto, UpdatePedidoDto } from 'src/operadores/dtos/pedido.dto.';
 
-@ApiTags('Pedidos')
 @Controller('pedidos')
 export class PedidosController {
+  constructor (private pedidosService: PedidosService){}
 
   @Get()
-  @ApiOperation({ summary: 'Devuelve una lista con todos los pedidos registrados'})
-  getPedidos() {
-    return {
-      message: 'Listado de pedidos',
-      data: [
-        { id: 1, nombre: 'Pedido 1', precio: 100 },
-        { id: 2, nombre: 'Pedido 2', precio: 200 },
-      ],
-    };
+  findAll() {
+    return this.pedidosService.findAll();
   }
   @Get(':id')
-  @ApiOperation({ summary: 'Devuelve un pedido por su ID'})  
-  getPedidoById(@Param('id', new ParseIntPipe()) id: number) {
-    return {
-      message: 'Pedido encontrado',
-      data: { 
-        id, 
-        nombre: `Pedido ${id}`, 
-        precio: Math.random() * 100 
-      },
-    };
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.pedidosService.findOne(id);
   }
-  @Post('add')
-  @ApiOperation({ summary: 'Crea un nuevo pedido'})  
-  createPedido(@Body() payload: any) {
-    return {
-      message: 'Pedido creado exitosamente',
-      payload,
-    };
+  @Post()
+  create(@Body() payload: CreatePedidoDto) {
+    console.log('se va a crear el pedido')
+    return this.pedidosService.create(payload);
   }
-  @Put('edit/:id')
-  @ApiOperation({ summary: 'Actualiza un pedido existente'})  
-  editPedido(@Param('id', new ParseIntPipe()) id: number, @Body() payload: any) {
-    return {
-      message: `Pedido ${id} editado exitosamente`,
-      id,
-      payload,
-    };
+  @Put(':id')
+  update(
+    @Param('id', ParseIntPipe) id: number, 
+    @Body() payload: UpdatePedidoDto) {
+    return this.pedidosService.update(id, payload);
   }
-  @Delete('delete/:id')
-  @ApiOperation({ summary: 'Elimina un pedido existente'})  
-  deletePedido(@Param('id', new ParseIntPipe()) id: number) {
-    return {
-      message: `Pedido ${id} eliminado exitosamente`,
-      id,
-    };
+  @Delete(':id')
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.pedidosService.remove(id);
   }
 }
-
