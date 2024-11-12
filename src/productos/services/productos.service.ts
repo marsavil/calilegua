@@ -1,131 +1,143 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm'; 
-import { Repository } from 'typeorm'; 
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
-import { Producto } from './../entities/producto.entity'; 
+import { Producto } from './../entities/producto.entity';
 import { CreateProductoDTO, UpdateProductoDTO } from './../dtos/productos.dto';
 import { FabricantesService } from './fabricantes.service';
-
+import { Categoria } from '../entities/categoria.entity';
 
 @Injectable()
 export class ProductosService {
   constructor(
     @InjectRepository(Producto)
     private readonly productosRepository: Repository<Producto>,
-    private fabricantesService: FabricantesService
-  ){}
+    @InjectRepository(Categoria)
+    private categoriasRepository: Repository<Categoria>,
+    private fabricantesService: FabricantesService,
+  ) {}
   productos = [
-    { 
-      id: 1, 
-      nombre: 'Producto 1', 
-      precio: 100, 
-      stock: 10, 
-      descripcion: 'Descripción del producto 1', 
-      imagen: 'imagen1.png', 
+    {
+      id: 1,
+      nombre: 'Producto 1',
+      precio: 100,
+      stock: 10,
+      descripcion: 'Descripción del producto 1',
+      imagen: 'imagen1.png',
       origen: 'Origen 1',
-      fabricanteId: 3  
+      fabricanteId: 3,
+      categoriasIds: [1, 2],
     },
-    { 
-      id: 2, 
-      nombre: 'Producto 2', 
-      precio: 200, 
-      stock: 5, 
-      descripcion: 'Descripción del producto 2', 
-      imagen: 'imagen2.png', 
+    {
+      id: 2,
+      nombre: 'Producto 2',
+      precio: 200,
+      stock: 5,
+      descripcion: 'Descripción del producto 2',
+      imagen: 'imagen2.png',
       origen: 'Origen 2',
-      fabricanteId: 3 
+      fabricanteId: 3,
+      categoriasIds: [2],
     },
-    { 
-      id: 3, 
-      nombre: 'Producto 3', 
-      precio: 150, 
-      stock: 15, 
-      descripcion: 'Descripción del producto 3', 
-      imagen: 'imagen3.png', 
+    {
+      id: 3,
+      nombre: 'Producto 3',
+      precio: 150,
+      stock: 15,
+      descripcion: 'Descripción del producto 3',
+      imagen: 'imagen3.png',
       origen: 'Origen 3',
-      fabricanteId: 4
-    }]
-  private idCont = this.productos.length; // idCont coincidente con la cantidad de productos
-  
-  async seedDB(){
+      fabricanteId: 4,
+      categoriasIds: [3],
+    },
+  ];
+
+  async seedDB() {
     await Promise.all(this.productos.map((producto) => this.create(producto)));
-    return 'Base de datos cargada'
+    return 'Base de datos cargada';
   }
   findAll() {
-    return this.productosRepository.find();
+    return this.productosRepository.find({
+      relations: ['fabricante', 'categorias'],
+    });
   }
 
   findOne(id: number) {
-    // const product = this.productosRepository.findOneBy({id});
-    const product =  this.productosRepository.findOne(id);
+    const product = this.productosRepository.findOne(id, {
+      relations: ['fabricante', 'categorias'],
+    });
     if (!product) {
-      throw new NotFoundException(`El producto con el id ${id} no se encuentra`);
+      throw new NotFoundException(
+        `El producto con el id ${id} no se encuentra`,
+      );
     }
     return product;
   }
 
   async create(payload: CreateProductoDTO) {
-    // this.idCont = this.idCont + 1;
-    // const newProduct = {
-    //   id: this.idCont,
-    //   ...payload,
-    // };
-    // this.productos.push(newProduct);
-    // return newProduct;
-    const newProduct = this.productosRepository.create(payload)
-    if ( payload.fabricanteId ){
-      const fabricante = await this.fabricantesService.findOne( payload.fabricanteId )
-      if (!fabricante ) {
-        throw new Error(`Fabricante con id ${payload.fabricanteId} no encontrado`)
+
+    const newProduct = this.productosRepository.create(payload);
+    if (payload.fabricanteId) {
+      const fabricante = await this.fabricantesService.findOne(
+        payload.fabricanteId,
+      );
+      if (!fabricante) {
+        throw new Error(
+          `Fabricante con id ${payload.fabricanteId} no encontrado`,
+        );
       }
-      newProduct.fabricante = fabricante
+      newProduct.fabricante = fabricante;
+    }
+    if (payload.categoriasIds) {
+      const categorias = await this.categoriasRepository.findByIds(
+        payload.categoriasIds,
+      );
+      console.log('estas son las categorias a guardar',categorias)
+      if (categorias.length !== payload.categoriasIds.length) {
+        throw new Error(
+          `Hay un error con alguno de los ids ${payload.categoriasIds}. Verifique`,
+        );
+      }
+      newProduct.categorias = categorias;
     }
     return this.productosRepository.save(newProduct);
   }
-  async update(id: number, payload: UpdateProductoDTO) {
-    // const product = this.productos.find((p) => p.id === id);
-    // if (!product) {
-    //   throw new Error(`No se encontró el producto con id ${id}`);
-    // }
-    // Object.assign(product, payload);
-    // const index = this.productos.findIndex((item) => item.id === id);
-    // if (index === -1) {
-    //   throw new NotFoundException(`El producto #${id} no se encuentra`);
-    // }
 
-    // // Reemplazar el producto actualizado en la lista
-    // this.productos.splice(index, 1, product);
-    // return {
-    //   message: 'Producto actualizado correctamente',
-    //   product,
-    // };
-    // const product = await this.productosRepository.findOneBy({ id })
-    const product = await this.productosRepository.findOne( id )
+  async update(id: number, payload: UpdateProductoDTO) {
+    // Separar los IDs de fabricante y categorías del resto del payload
+    const { fabricanteId, categoriasIds, ...updateData } = payload;
+  
+    // Buscar el producto
+    const product = await this.productosRepository.findOne(id);
     if (!product) {
       throw new NotFoundException(`El producto con el id ${id} no se encuentra`);
     }
-    if ( payload.fabricanteId ){
-      const fabricante = await this.fabricantesService.findOne( payload.fabricanteId )
-      if (!fabricante ) {
-        throw new Error(`Fabricante con id ${payload.fabricanteId} no encontrado`)
+  
+    // Validar y asignar el fabricante si fabricanteId está en el payload
+    if (fabricanteId) {
+      const fabricante = await this.fabricantesService.findOne(fabricanteId);
+      if (!fabricante) {
+        throw new Error(`Fabricante con id ${fabricanteId} no encontrado`);
       }
-      product.fabricante = fabricante
+      product.fabricante = fabricante;
     }
-    this.productosRepository.merge( product, payload )
-    return this.productosRepository.save(product)
+  
+    // Validar y asignar categorías si categoriasIds está en el payload
+    if (categoriasIds && categoriasIds.length > 0) {
+      const categorias = await this.categoriasRepository.findByIds(categoriasIds);
+      if (categorias.length !== categoriasIds.length) {
+        throw new Error(`Hay un error con alguno de los ids ${categoriasIds}. Verifique`);
+      }
+      product.categorias = categorias;
+    }
+  
+    // Actualizar el producto con el resto de los datos del payload
+    this.productosRepository.merge(product, updateData);
+    return this.productosRepository.save(product);
   }
+  
   remove(id: number) {
-    // const index = this.productos.findIndex((item) => item.id === id);
-    // if (index === -1) {
-    //   throw new NotFoundException(
-    //     `El producto con el id ${id} no se encuentra`,
-    //   );
-    // }
-    // this.productos.splice(index, 1);
-    // return {
-    //   message: 'Producto eliminado correctamente',
-    //   id,
-    // }
-    return this.productosRepository.delete(id)
+
+    return this.productosRepository.delete(id);
   }
 }

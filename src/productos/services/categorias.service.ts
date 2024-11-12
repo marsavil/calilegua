@@ -21,8 +21,12 @@ export class CategoriasService {
   }
 
   findOne(id: number) {
+    const categoria = this.categoriasRepository.findOne(id);
+    if (!categoria) {
+      throw new NotFoundException(`No se encontró la categoría con id ${id}`);
+    }
     // return this.categoriasRepository.findOneBy({id});
-    return this.categoriasRepository.findOne(id);
+    return categoria;
   }
 
   async seedDB(){
