@@ -135,9 +135,35 @@ export class ProductosService {
     this.productosRepository.merge(product, updateData);
     return this.productosRepository.save(product);
   }
-  
+
   remove(id: number) {
 
     return this.productosRepository.delete(id);
+  }
+
+    
+
+  async addCategoryToProduct(produtoId: number, categoryId: number) {
+    console.log(`Agregando categoría ${categoryId}`)
+    const producto = await this.productosRepository.findOne(produtoId, {
+      relations: ['categorias'],
+    })
+    const categoria = await this.categoriasRepository.findOne(categoryId);
+    if (!categoria) {
+      throw new Error(`Categoría con id ${categoryId} no encontrada`);
+    }
+    producto.categorias.push(categoria);
+    return this.productosRepository.save(producto);
+  }
+
+  async removeProductFromCategory(produtoId: number, categoryId: number) {
+    console.log(`Quitando categoría ${categoryId}`)
+    const producto = await this.productosRepository.findOne(produtoId, {
+      relations: ['categorias'],
+    })
+    producto.categorias = producto.categorias.filter(
+      (cat) => cat.id !== categoryId,
+    );
+    return this.productosRepository.save(producto);
   }
 }

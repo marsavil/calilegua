@@ -9,11 +9,14 @@ import { ProductosService } from './services/productos.service';
 import { Producto } from './entities/producto.entity';
 import { Categoria } from './entities/categoria.entity';
 import { Fabricante } from './entities/fabricante.entity';
+import { PedidosService } from 'src/operadores/services/pedidos.service';
+import { Pedido } from 'src/operadores/entities/pedido.entity';
+import { Comprador } from 'src/operadores/entities/comprador.entity';
 
 @Module({
   //TypeORM se encargará de administrar las entidades intervinientes
   imports: [
-    TypeOrmModule.forFeature([Categoria, Fabricante, Producto]),
+    TypeOrmModule.forFeature([Categoria, Fabricante, Producto, Pedido, Comprador]),
   ],
   controllers: [
     FabricantesController,
