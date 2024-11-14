@@ -1,5 +1,6 @@
 import { PrimaryGeneratedColumn, Column, Entity, CreateDateColumn, OneToMany } from 'typeorm';
 import { Producto } from './producto.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class Fabricante {
@@ -18,17 +19,19 @@ export class Fabricante {
   @Column({type: 'varchar'})
   imagen: string;
   
+  @Exclude()
   @CreateDateColumn({
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP',
   })
-  createdAt: Date;
+  created_at: Date;
 
+  @Exclude()
   @CreateDateColumn({
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP',
   })
-  updatedAt: Date;
+  updated_at: Date;
 
   @OneToMany(() => Producto, (product) => product.fabricante)
   products: Producto[];

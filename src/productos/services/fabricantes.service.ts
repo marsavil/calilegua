@@ -2,7 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { Fabricante } from '../entities/fabricante.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateFabricanteDTO, UpdatefabricanteDTO } from '../dtos/fabricante.dto';
+import { CreateFabricanteDTO, FilterFabricantesDTO, UpdatefabricanteDTO } from '../dtos/fabricante.dto';
+import { fabricantes } from 'src/data/data';
 
 @Injectable()
 export class FabricantesService {
@@ -10,30 +11,20 @@ export class FabricantesService {
     @InjectRepository(Fabricante)
     private readonly fabricantesRepository: Repository<Fabricante>,
   ){}
-  fabricantes = [
-    {
-      id: 1,
-      nombre: 'Fabricante1',
-      direccion: 'calle 1',
-      email: 'fabricante1@mail.com',
-      imagen:
-        'https://res.cloudinary.com/dlzp43wz9/image/upload/v1709585844/user-icon-2048x2048-ihoxz4vq_ydc8ku.png',
-    },
-    {
-      id: 2,
-      nombre: 'Fabricante2',
-      direccion: 'calle 2',
-      email: 'fabricante2@mail.com',
-      imagen:
-        'https://res.cloudinary.com/dlzp43wz9/image/upload/v1709585844/user-icon-2048x2048-ihoxz4vq_ydc8ku.png',
-    },
-  ];
-  private idCont = this.fabricantes.length; // idCont coincidente con la cantidad de fabricantes
+  
   async seedDB(){
-    await Promise.all(this.fabricantes.map((fabricante) => this.create(fabricante)));
+    await Promise.all(fabricantes.map((fabricante) => this.create(fabricante)));
     return 'Fabricantes cargados a l a base de datos'
   }
-  findAll() {
+  findAll(params?: FilterFabricantesDTO) {
+    if(params){
+      const { limit, offset } = params;
+      return this.fabricantesRepository.find({ 
+        relations: ['products'], 
+        take: limit, 
+        skip: offset 
+      });
+    }
     return this.fabricantesRepository.find({ relations: ['products']});
   }
 

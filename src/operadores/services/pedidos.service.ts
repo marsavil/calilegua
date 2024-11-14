@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Pedido } from '../entities/pedido.entity';
 import { Comprador } from '../entities/comprador.entity';
-import { CreatePedidoDto, UpdatePedidoDto } from '../dtos/pedido.dto.';
+import { CreatePedidoDto, FilterPedidosDTO, UpdatePedidoDto } from '../dtos/pedido.dto.';
 
 @Injectable()
 export class PedidosService {
@@ -12,7 +12,15 @@ export class PedidosService {
     @InjectRepository(Comprador) private compradorRepository: Repository<Comprador>
   ){}
 
-  findAll() {
+  findAll(params?: FilterPedidosDTO) {
+    if (params) {
+      const { limit, offset } = params;
+      return this.pedidosRepository.find({
+        take: limit,
+        skip: offset,
+        relations: ['detalles', 'detalles.producto']
+      });
+    }
     return this.pedidosRepository.find()
   }
 

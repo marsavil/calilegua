@@ -7,10 +7,11 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { FabricantesService } from '../services/fabricantes.service';
-import { CreateFabricanteDTO } from '../dtos/fabricante.dto';
+import { CreateFabricanteDTO, FilterFabricantesDTO } from '../dtos/fabricante.dto';
 
 @ApiTags('Fabricantes')
 @Controller('fabricantes')
@@ -33,8 +34,10 @@ export class FabricantesController {
   }
   @Get()
   @ApiOperation({summary: 'Devuelve la lista de todos los fabricantes'})
-  getFabricantes() {
-    return this.fabricantesService.findAll();
+  getFabricantes(
+    @Query() params: FilterFabricantesDTO
+  ) {
+    return this.fabricantesService.findAll(params);
   }
 
   @Put('edit/:id')

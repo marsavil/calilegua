@@ -2,7 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Comprador } from '../entities/comprador.entity';
 import { Repository } from 'typeorm';
-import { CreateCompradorDTO, UpdateCompradorDTO } from '../dtos/comprador.dto';
+import { CreateCompradorDTO, FilterCompradoresDTO, UpdateCompradorDTO } from '../dtos/comprador.dto';
+import { compradores } from 'src/data/data';
 
 @Injectable()
 export class CompradoresService {
@@ -10,18 +11,19 @@ export class CompradoresService {
     @InjectRepository(Comprador)
     private readonly compradoresRepository: Repository<Comprador>,
   ){}
-  compradores = [
-    { id: 1, nombre: 'Juan', apellido: 'Perez', telefono: '123456789' },
-        { id: 2, nombre: 'Maria', apellido: 'Lopez', telefono: '987654321' },
-        { id: 3, nombre: 'Pedro', apellido: 'Gonzalez', telefono: '147852369' },
-        { id: 4, nombre: 'Luis', apellido: 'Gomez', telefono: '369852147' },
-      ]
-  private idCont = this.compradores.length; // idCont coincidente con la cantidad de compradores
   async seedDB(){
-    await Promise.all(this.compradores.map((comprador) => this.create(comprador)));
+    await Promise.all(compradores.map((comprador) => this.create(comprador)));
     return 'Coimpradores cargados a la base de datos'
   }
-  async findAll() {
+  async findAll(params?: FilterCompradoresDTO) {
+    if (params) {
+      const { limit, offset } = params
+      return this.compradoresRepository.find({
+        relations: ['operador'],
+        take: limit,
+        skip: offset,
+      });
+    }
     const compradores =  await this.compradoresRepository.find({
       relations: ['operador']
     });

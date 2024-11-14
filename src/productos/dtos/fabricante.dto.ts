@@ -5,6 +5,8 @@ import {
   IsNumber,
   IsUrl,
   IsPositive,
+  IsOptional,
+  Min,
 } from 'class-validator';
 
 export class CreateFabricanteDTO {
@@ -33,3 +35,15 @@ export class CreateFabricanteDTO {
 export class UpdatefabricanteDTO extends PartialType(
   OmitType(CreateFabricanteDTO, ['nombre']),
 ) {}
+
+export class FilterFabricantesDTO {
+  @ApiProperty({description: 'Cantidad de Fabricantes por página'})
+  @IsOptional()
+  @IsPositive()
+  limit: number;
+
+  @ApiProperty({description: 'Punto de inicio de la lista de fabricantes a devolver'})
+  @IsOptional()
+  @Min(0)
+  offset: number;
+}

@@ -8,23 +8,26 @@ import {
 } from  'typeorm'
 import { Producto } from 'src/productos/entities/producto.entity';
 import { Pedido } from './pedido.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class DetallePedido {
   @PrimaryGeneratedColumn()
   id: number;
   
+  @Exclude()
   @CreateDateColumn({
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP'
   })
-  createdAt: Date;
+  created_at: Date;
 
+  @Exclude()
   @UpdateDateColumn({
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP'
   })
-  updatedAt: Date;
+  updated_at: Date;
 
   @Column({type: 'int'})
     cantidad: number;

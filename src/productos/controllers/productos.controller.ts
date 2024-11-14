@@ -10,7 +10,7 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { CreateProductoDTO, UpdateProductoDTO } from 'src/productos/dtos/productos.dto';
+import { CreateProductoDTO, FilterProductoDTO, UpdateProductoDTO } from 'src/productos/dtos/productos.dto';
 import { ProductosService } from 'src/productos/services/productos.service';
 
 @ApiTags('Productos')
@@ -20,12 +20,10 @@ export class ProductosController {
   @Get()
   @ApiOperation({summary: 'Devuelve una lista con una cantidad determinada de productos'})
   getAllProductos(
-    @Query('limit') limit = 100, 
-    @Query('offset') offset = 0, 
-    @Query('brand') brand = '',
+    @Query() params: FilterProductoDTO 
   ) {
     console.log(`Buscando todos los productos`);
-    return this.productsService.findAll();
+    return this.productsService.findAll(params);
   }
   @Get(':id')
   @ApiOperation({summary: 'Devuelve información del producto identificado con el id suministrado'})

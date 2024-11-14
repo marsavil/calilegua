@@ -6,28 +6,32 @@ import {
   UpdateDateColumn,
   ManyToOne,
   OneToMany,
+  JoinColumn,
 } from  'typeorm'
 import { Operador } from "./operador.entity";
 import { Producto } from "src/productos/entities/producto.entity";
 import { Comprador } from './comprador.entity';
 import { DetallePedido } from './detallePedido.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class Pedido {
   @PrimaryGeneratedColumn()
   id: number;
 
-    @CreateDateColumn({
+  @Exclude()
+  @CreateDateColumn({
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP'
   })
-  createdAt: Date;
+  created_at: Date;
 
+  @Exclude()
   @UpdateDateColumn({
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP'
   })
-  updatedAt: Date;
+  updated_at: Date;
 
   @ManyToOne(() => Comprador, (comprador) => comprador.pedidos)
   comprador: Comprador;
@@ -35,3 +39,4 @@ export class Pedido {
   @OneToMany(() => DetallePedido, (detalle) => detalle.pedido) 
   detalles: DetallePedido[];
 }
+

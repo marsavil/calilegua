@@ -6,18 +6,22 @@ import {
   Body,
   Put,
   Delete,
-  ParseIntPipe
+  ParseIntPipe,
+  Query
 } from '@nestjs/common';
 import { PedidosService } from 'src/operadores/services/pedidos.service';
-import { CreatePedidoDto, UpdatePedidoDto } from 'src/operadores/dtos/pedido.dto.';
+import { CreatePedidoDto, FilterPedidosDTO, UpdatePedidoDto } from 'src/operadores/dtos/pedido.dto.';
+import { ApiOperation } from '@nestjs/swagger';
 
 @Controller('pedidos')
 export class PedidosController {
   constructor (private pedidosService: PedidosService){}
 
   @Get()
-  findAll() {
-    return this.pedidosService.findAll();
+  @ApiOperation({summary: 'Devuelve una lista con todos los pedidos'})  
+
+  getAllPedidos(@Query() params: FilterPedidosDTO) {
+    return this.pedidosService.findAll(params);
   }
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {

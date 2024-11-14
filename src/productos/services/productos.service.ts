@@ -1,11 +1,12 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Between, FindConditions, Repository } from 'typeorm';
 
 import { Producto } from './../entities/producto.entity';
-import { CreateProductoDTO, UpdateProductoDTO } from './../dtos/productos.dto';
+import { CreateProductoDTO, FilterProductoDTO, UpdateProductoDTO } from './../dtos/productos.dto';
 import { FabricantesService } from './fabricantes.service';
 import { Categoria } from '../entities/categoria.entity';
+import { productos } from 'src/data/data';
 
 @Injectable()
 export class ProductosService {
@@ -16,47 +17,26 @@ export class ProductosService {
     private categoriasRepository: Repository<Categoria>,
     private fabricantesService: FabricantesService,
   ) {}
-  productos = [
-    {
-      id: 1,
-      nombre: 'Producto 1',
-      precio: 100,
-      stock: 10,
-      descripcion: 'Descripción del producto 1',
-      imagen: 'imagen1.png',
-      origen: 'Origen 1',
-      fabricanteId: 3,
-      categoriasIds: [1, 2],
-    },
-    {
-      id: 2,
-      nombre: 'Producto 2',
-      precio: 200,
-      stock: 5,
-      descripcion: 'Descripción del producto 2',
-      imagen: 'imagen2.png',
-      origen: 'Origen 2',
-      fabricanteId: 3,
-      categoriasIds: [2],
-    },
-    {
-      id: 3,
-      nombre: 'Producto 3',
-      precio: 150,
-      stock: 15,
-      descripcion: 'Descripción del producto 3',
-      imagen: 'imagen3.png',
-      origen: 'Origen 3',
-      fabricanteId: 4,
-      categoriasIds: [3],
-    },
-  ];
-
+  
   async seedDB() {
-    await Promise.all(this.productos.map((producto) => this.create(producto)));
+    await Promise.all(productos.map((producto) => this.create(producto)));
     return 'Base de datos cargada';
   }
-  findAll() {
+  findAll(params?: FilterProductoDTO) {
+    // Opcional
+    if ( params ) {
+      const where: FindConditions<Producto> = {}
+      const { limit, offset, precioMinimo, precioMaximo } = params;
+      if(precioMinimo && precioMaximo) {
+        where.precio = Between(precioMinimo, precioMaximo); 
+      }
+      return this.productosRepository.find({
+        relations: ['fabricante', 'categorias'],
+        where,
+        take: limit,
+        skip: offset,
+      });
+    }
     return this.productosRepository.find({
       relations: ['fabricante', 'categorias'],
     });
