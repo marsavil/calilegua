@@ -6,6 +6,9 @@ import {
   IsUrl,
   IsPositive,
   IsArray,
+  IsOptional,
+  Min,
+  ValidateIf,
 } from 'class-validator';
 
 export class CreateProductoDTO {
@@ -51,15 +54,26 @@ export class CreateProductoDTO {
   readonly categoriasIds: number[];
 }
 
-// export class UpdateProductoDTO {
-//   readonly nombre?: string;
-//   readonly precio?: number;
-//   readonly descripcion?: string;
-//   readonly stock?: number;
-//   readonly origen?: string;
-//   readonly imagen?: string;
-// }
-
 export class UpdateProductoDTO extends PartialType(
   OmitType(CreateProductoDTO, ['nombre']),
 ) {}
+
+export class FilterProductoDTO {
+  @ApiProperty({description: 'Cantidad de productos por página'})
+  @IsOptional()
+  @IsPositive()
+  limit: number;
+
+  @ApiProperty({description: 'Punto de inicio de la lista de productos a devolver'})
+  @IsOptional()
+  @Min(0)
+  offset: number;
+
+  @IsOptional()
+  @IsPositive()
+  precioMinimo: number;
+
+  @ValidateIf((item) => item.precioMinimo)
+  @IsPositive()
+  precioMaximo: number;
+}

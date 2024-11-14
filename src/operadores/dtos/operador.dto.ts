@@ -2,7 +2,9 @@ import { ApiProperty, PartialType, OmitType } from '@nestjs/swagger';
 import {
   IsNotEmpty,
   IsOptional,
+  IsPositive,
   IsString,
+  Min,
 } from 'class-validator';
 
 export class CreateOperadorDTO {
@@ -21,13 +23,25 @@ export class CreateOperadorDTO {
   @IsNotEmpty()
   readonly role: string;
 
-  @IsOptional()
-  @IsNotEmpty()
-  @ApiProperty()
-  readonly compradorId: number;
+  // @IsOptional()
+  // @IsNotEmpty()
+  // @ApiProperty()
+  // readonly comprador_id: number;
 }
 
 
 export class UpdateOperadorDTO extends PartialType(
   OmitType(CreateOperadorDTO, ['email']),
 ) {}
+
+export class FilterOperadoresDTO {
+  @ApiProperty({description: 'Cantidad de operadores por página'})
+  @IsOptional()
+  @IsPositive()
+  limit: number;
+
+  @ApiProperty({description: 'Punto de inicio de la lista de operadores a devolver'})
+  @IsOptional()
+  @Min(0)
+  offset: number;
+}

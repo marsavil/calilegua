@@ -3,6 +3,7 @@ import { Categoria } from '../entities/categoria.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateCategoriaDTO, UpdateCategoriaDTO } from '../dtos/categorias.dto';
+import { categorias } from 'src/data/data';
 
 @Injectable()
 export class CategoriasService {
@@ -10,12 +11,7 @@ export class CategoriasService {
     @InjectRepository(Categoria)
     private readonly categoriasRepository: Repository<Categoria>,
   ){}
-  categorias = [
-    { id: 1, nombre: 'Juegos' },
-    { id: 2, nombre: 'Musica' },
-    { id: 3, nombre: 'Deportes' }
-  ]
-  private idCont = this.categorias.length; // idCont coincidente con la cantidad de categorias
+
   findAll() {
     return this.categoriasRepository.find();
   }
@@ -30,7 +26,7 @@ export class CategoriasService {
   }
 
   async seedDB(){
-    await Promise.all(this.categorias.map((categoria) => this.create(categoria)));
+    await Promise.all(categorias.map((categoria) => this.create(categoria)));
     return 'Categorias cargadas a la base de datos'
   }
   async create(payload: CreateCategoriaDTO) {

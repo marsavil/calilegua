@@ -1,7 +1,7 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { OperadoresService } from 'src/operadores/services/operadores.service';
-import { CreateOperadorDTO, UpdateOperadorDTO } from '../dtos/operador.dto';
+import { CreateOperadorDTO, FilterOperadoresDTO, UpdateOperadorDTO } from '../dtos/operador.dto';
 
 @ApiTags('Operadores')
 @Controller('operadores')
@@ -9,19 +9,19 @@ export class OperadoresController {
   constructor(private operadoresService: OperadoresService){}
   @Get()
   @ApiOperation({summary: 'Devuelve una lista con todos los operadores'})
-  getAllOperadores() {
-    return this.operadoresService.findAll();
+  getAllOperadores(@Query() params: FilterOperadoresDTO) {
+    return this.operadoresService.findAll(params);
   }
   @Get(':id')
   @ApiOperation({summary: 'Devuelve la información del operador identificado con el id suministrado'})
   getOperadorById(@Param('id', ParseIntPipe) id: number) {
     return this.operadoresService.findOne(id);;
   }
-  // @Post('seed')
-  // @ApiOperation({summary: 'Carga inicial de operadores para la base de datos'})
-  // seedDB() {
-  //   return this.operadoresService.seedDB();
-  // }
+  @Post('seed')
+  @ApiOperation({summary: 'Carga inicial de operadores para la base de datos'})
+  seedDB() {
+    return this.operadoresService.seedDB();
+  }
   @Post('add')
   @ApiOperation({summary: 'Crea un nuevo operador con la información suministrada'})
   createOperador(@Body() payload: CreateOperadorDTO) {

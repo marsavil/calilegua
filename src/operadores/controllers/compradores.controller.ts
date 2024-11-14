@@ -1,7 +1,7 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CompradoresService } from '../services/compradores.service';
-import { CreateCompradorDTO } from '../dtos/comprador.dto';
+import { CreateCompradorDTO, FilterCompradoresDTO } from '../dtos/comprador.dto';
 
 @ApiTags('Compradores')
 @Controller('compradores')
@@ -9,19 +9,21 @@ export class CompradoresController {
   constructor(private compradoresService: CompradoresService) {}
   @Get()
   @ApiOperation({summary: 'Devuelve una lista con todos los compradores'})
-  getAllCompradores() {
-    return this.compradoresService.findAll();
+  getAllCompradores(
+    @Query() params:FilterCompradoresDTO
+  ) {
+    return this.compradoresService.findAll(params);
   }
   @Get(':id')
   @ApiOperation({summary: 'Devuelve un comprador específico'})
   getCompradorById(@Param('id', new ParseIntPipe()) id: number) {
     return this.compradoresService.findOne(id);
   }
-  // @Post('seed')
-  // @ApiOperation({summary: 'Carga inicial de compradores en la base de datos'})
-  // seedDB() {
-  //   return this.compradoresService.seedDB();
-  // }
+  @Post('seed')
+  @ApiOperation({summary: 'Carga inicial de compradores en la base de datos'})
+  seedDB() {
+    return this.compradoresService.seedDB();
+  }
   @Post('add')
   @ApiOperation({summary: 'Agrega un nuevo comprador'})
   createComprador(@Body() payload: any) {

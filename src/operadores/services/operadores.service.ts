@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { Operador } from 'src/operadores/entities/operador.entity';
 //import { Pedido } from 'src/operadores/entities/pedido.entity';
 import { ProductosService } from 'src/productos/services/productos.service';
-import { CreateOperadorDTO, UpdateOperadorDTO } from '../dtos/operador.dto';
+import { CreateOperadorDTO, FilterOperadoresDTO, UpdateOperadorDTO } from '../dtos/operador.dto';
 import { Client } from 'pg';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -21,16 +21,20 @@ export class OperadoresService {
 
     //@Inject('PG') private clientPg: Client,
   ){}
-  // operadores: Operador[] = [
-  //   { id: 1, email: 'operador1@email.com', password: '123456', role: 'admin' },
-  //   { id: 2, email: 'operador2@email.com', password: '654321', role: 'operador' },
-  // ];
-  // private idCont = this.operadores.length; // idCont coincidente con la cantidad de operadores
+  operadores: Partial<Operador>[] = [
+    { id: 1, email: 'operador1@email.com', password: '123456', role: 'admin' },
+    { id: 2, email: 'operador2@email.com', password: '654321', role: 'operador' },
+  ];
+  private idCont = this.operadores.length; // idCont coincidente con la cantidad de operadores
 
-  // async seedDB(){
-  //   await Promise.all(this.operadores.map((operador) => this.create(operador)));
-  //   return 'Carga inicial de operadores a base de datos realizada'
-  // }
+  async seedDB() {
+    // Usa un bucle para crear y guardar cada operador
+    for (const operador of this.operadores) {
+      const nuevoOperador = this.operadoresRepository.create(operador);
+      await this.operadoresRepository.save(nuevoOperador); // Guardar cada operador
+    }
+    return 'Carga inicial de operadores a la base de datos realizada';
+  }
 
   async findOne(id: number) {
     const operador = await this.operadoresRepository.findOne(id, {
@@ -42,11 +46,19 @@ export class OperadoresService {
     // return this.operadoresRepository.findOneBy({id});
     return operador;
   }
-  async findAll() {
+  async findAll(params?: FilterOperadoresDTO) {
     // const apiKey = this.configService.get('API_KEY'); // Asignacion de la variable de entorno a una constante
     // const dbName = this.configService.get('DATABASE_NAME');  // idem
     // console.log('Api key: ',apiKey, 'DB name: ', dbName);
     // return this.operadores;
+    if (params) {
+      const { limit, offset } = params;
+      return await this.operadoresRepository.find({
+        relations: ['comprador'],
+        take: limit,
+        skip: offset,
+      });
+    }
     const operadores = await this.operadoresRepository.find({
       relations: ['comprador'],
     });

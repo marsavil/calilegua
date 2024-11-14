@@ -4,7 +4,7 @@ import { DetallePedido } from "src/operadores/entities/detallePedido.entity";
 import { Pedido } from "src/operadores/entities/pedido.entity";
 import { Repository } from "typeorm";
 import { Producto } from "../entities/producto.entity";
-import { CreateDetallePedidoDto } from "../dtos/detallePedido.dt";
+import { CreateDetallePedidoDto } from "../dtos/detallePedido.dto";
 
 
 @Injectable()

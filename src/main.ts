@@ -1,5 +1,5 @@
-import { NestFactory } from '@nestjs/core';
-import { ValidationPipe } from '@nestjs/common';
+import { NestFactory, Reflector } from '@nestjs/core';
+import { ValidationPipe, ClassSerializerInterceptor } from '@nestjs/common';
 import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
@@ -16,10 +16,16 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true, //evita campos extras en el Payload
-      //forbidNonWhitelisted: true, // lanza error si existen datos prohibidos
+      forbidNonWhitelisted: true, // lanza error si existen datos prohibidos
       //disableErrorMessages: true, // deshabilita mensajes de error (producción)
+      transformOptions: {
+        enableImplicitConversion: true, // convierte si existe una cadena de caracteres numericos
+      }
     })
   )
+
+  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector))); // permite serializar los objetos de respuesta
+
   SwaggerModule.setup('info', app, document);
   await app.listen(3000);
 }

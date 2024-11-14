@@ -2,6 +2,7 @@ import { PrimaryGeneratedColumn, Column, Entity, CreateDateColumn, UpdateDateCol
 import { IsNumberString } from 'class-validator';
 import { Operador } from './operador.entity';
 import { Pedido } from './pedido.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity()
 export class Comprador {
@@ -18,27 +19,29 @@ export class Comprador {
   @IsNumberString()
   telefono: string;
 
+  @Exclude()
   @CreateDateColumn({
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP',
   })
-  createdAt: Date;
+  created_at: Date;
 
+  @Exclude()
   @UpdateDateColumn({
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP',
   })
-  updatedAt: Date;
+  updated_at: Date;
 
   @OneToOne(() => Operador, (operador) => operador.comprador, {
     nullable: true,
   })
 
-  @JoinColumn({ name: 'operadorId'})
+  @JoinColumn({ name: 'operador_id'})
   operador: Operador;
 
-  @Column( { name: 'operadorId', nullable: true} )
-  operadorId: number;
+  @Column( { name: 'operador_id', nullable: true} )
+  operador_id: number;
 
   @OneToMany(() => Pedido, (pedido) => pedido.comprador )
   pedidos: Pedido[];

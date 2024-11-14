@@ -1,8 +1,10 @@
-import { PrimaryGeneratedColumn, Column, Entity, CreateDateColumn, UpdateDateColumn, ManyToOne, ManyToMany } from 'typeorm';
+import { PrimaryGeneratedColumn, Column, Entity, CreateDateColumn, UpdateDateColumn, ManyToOne, ManyToMany, Index, JoinColumn } from 'typeorm';
 import { Fabricante } from './fabricante.entity';
 import { Categoria } from './categoria.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity()
+@Index(['precio', 'stock'])
 export class Producto {
   @PrimaryGeneratedColumn()
   id: number;
@@ -25,19 +27,25 @@ export class Producto {
   @Column({type: 'varchar'})
   origen: string;
 
+  @Exclude()
   @CreateDateColumn({
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP',
   })
-  createdAt: Date;
+  created_at: Date;
 
+  @Exclude()
   @UpdateDateColumn({
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP',
   })
-  updatedAt: Date;
+  updated_at: Date;
 
   @ManyToOne(() => Fabricante, (fabricante) => fabricante.products)
+  @JoinColumn({
+    name: 'fabricante_id',
+    //referencedColumnName: 'id'
+  })
   fabricante: Fabricante;
 
   @ManyToMany(() => Categoria, (categoria) => categoria.productos ) 

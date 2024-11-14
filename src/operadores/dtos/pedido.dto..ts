@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsPositive } from "class-validator";
+import { IsNotEmpty, IsOptional, IsPositive, Min } from "class-validator";
 import { ApiProperty, PartialType } from "@nestjs/swagger";
 
 export class CreatePedidoDto {
@@ -10,3 +10,14 @@ export class CreatePedidoDto {
 
 export class UpdatePedidoDto extends PartialType(CreatePedidoDto) {}
 
+export class FilterPedidosDTO {
+  @ApiProperty({description: 'Cantidad de pedidos por página'})
+  @IsOptional()
+  @IsPositive()
+  limit: number;
+
+  @ApiProperty({description: 'Punto de inicio de la lista de pedidos a devolver'})
+  @IsOptional()
+  @Min(0)
+  offset: number;
+}

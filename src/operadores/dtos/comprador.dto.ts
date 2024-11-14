@@ -2,7 +2,10 @@ import { ApiProperty, PartialType, OmitType } from '@nestjs/swagger';
 
 import {
   IsNotEmpty,
+  IsOptional,
+  IsPositive,
   IsString,
+  Min,
 } from 'class-validator';
 
 export class CreateCompradorDTO {
@@ -26,3 +29,15 @@ export class CreateCompradorDTO {
 export class UpdateCompradorDTO extends PartialType(
   OmitType(CreateCompradorDTO, ['nombre', 'apellido']),
 ) {}
+
+export class FilterCompradoresDTO {
+  @ApiProperty({description: 'Cantidad de compradores por página'})
+  @IsOptional()
+  @IsPositive()
+  limit: number;
+
+  @ApiProperty({description: 'Punto de inicio de la lista de compradores a devolver'})
+  @IsOptional()
+  @Min(0)
+  offset: number;
+}
