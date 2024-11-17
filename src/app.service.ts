@@ -13,6 +13,7 @@ export class AppService {
     @Inject('TAREA ASINC') private tarea: string,
     @Inject('APIKEY') private Key: string,
     @Inject(config.KEY) private configServ: ConfigType<typeof config>,
+    @Inject('MONGO') private database
     //@Inject('PG') private clientPg: Client, 
   ) {}
 
@@ -33,6 +34,12 @@ export class AppService {
     const name = this.configServ.database.name;
     const dbPort = this.configServ.database.port
     return `Envs: La llave de la aplicación es: ${apiKey} y el nombre de la base de datos es: ${name}. El puerto de la base de datos es : ${dbPort}`;
+  }
+  async getTasksMongo() {
+    const tasksCollection = this.database.collection('tasks');
+    const tareas = await tasksCollection.find().toArray();
+    console.log (tareas);
+    return tareas;
   }  
   // getTasks() { 
   //   return new Promise((resolve, reject) => {

@@ -9,9 +9,11 @@ import { ProductosModule } from './productos/productos.module';
 import { lastValueFrom } from 'rxjs';
 import { DatabaseModule } from './database/database.module';
 import { environments } from './environments'; // importación de la definición de entornos
+import { MongoClient } from 'mongodb';
 import * as Joi from 'joi';
 import { Client } from 'pg';
 
+const uri = 'mongodb://admin:123456@localhost:27017/?authMechanism=DEFAULT';
 
 
 const APIKEY = 'DEV-456';
@@ -29,6 +31,17 @@ const APIKEYPROD = 'PROD-12345';
 //   console.log('Filas en BD', res.rows);
 //   console.log('Conección a la BD establecida')
 // });
+
+// const client = new MongoClient(uri);
+// async function run(){
+//   await client.connect();
+//   console.log('Connected successfully to mongo server');
+//   const database =  client.db('admin');
+//   const taskCollection = database.collection('tasks');
+//   const tasks = await taskCollection.find().toArray();
+//   console.log(tasks);
+// }
+// run();
 
 
 @Module({

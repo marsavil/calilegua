@@ -41,6 +41,11 @@ getEnvs(): string {
 //   tasks() {
 // 	return this.appService.getTasks();
 //   }
+@Get('tareas')
+  async getTasksMongo() {
+    const result = await this.appService.getTasksMongo();
+    return result;
+  }
 
 
 }
