@@ -1,4 +1,4 @@
-version: '3.8'
+
 
 services:
   postgres:
@@ -44,6 +44,18 @@ services:
     ports:
     - '8080:80'
     
+
+  mongodb:
+  # Replace 'your_username' and 'your_password' with your actual MongoDB credentials
+    image: mongo
+    environment:
+      - MONGO_INITDB_DATABASE=my_mongo
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=123456
+    ports:
+      - '27017:27017'
+    volumes:
+      - ./mongodb_data:/data/db
 
 
   

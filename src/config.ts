@@ -20,6 +20,14 @@ export default registerAs('config', () => {
       password: process.env.MYSQL_ROOT_PASSWORD,
       dbName: process.env.MYSQL_DATABASE,
     },
+    mongo: {
+      dbName:process.env.MONGODB,
+      user: process.env.MONGO_ROOT_USER,
+      password: process.env.MONGO_ROOT_PASS,
+      host: process.env.MONGO_HOST,
+      port: parseInt(process.env.MONGO_PORT, 10),
+      connection: process.env.MONGO_CONNECTION,
+    },
   
     apiKey: process.env.API_KEY,
   }
