@@ -20,24 +20,24 @@ const APIKEYPROD = 'PROD-12345';
 @Global()
 @Module({
   imports: [
-    // TypeOrmModule.forRootAsync({
-    //   inject:[config.KEY],
-    //   useFactory: (configService: ConfigType<typeof config>) => {
-    //     const { user, host, dbName, password, port } = configService.postgres;
-    //     //const { user, host, dbName, password, port } = configService.mysql;
-    //     return {
-    //       type: 'postgres',
-    //       //type: 'mysql',
-    //       host,
-    //       port,
-    //       username: user,
-    //       password,
-    //       database: dbName,
-    //       synchronize: false, 
-    //       autoLoadEntities: true,
-    //     };
-    //   }
-    // }),
+    TypeOrmModule.forRootAsync({
+      inject:[config.KEY],
+      useFactory: (configService: ConfigType<typeof config>) => {
+        const { user, host, dbName, password, port } = configService.postgres;
+        //const { user, host, dbName, password, port } = configService.mysql;
+        return {
+          type: 'postgres',
+          //type: 'mysql',
+          host,
+          port,
+          username: user,
+          password,
+          database: dbName,
+          synchronize: false, 
+          autoLoadEntities: true,
+        };
+      }
+    }),
   ],
   providers: [
     {
@@ -51,6 +51,7 @@ const APIKEYPROD = 'PROD-12345';
         const database = client.db(dbName)
         return database; 
       },
+      inject:[config.KEY],
         // provide: 'APIKEY',
         // useValue: process.env.NODE_ENV === 'prod' ? APIKEYPROD : APIKEY,
 
