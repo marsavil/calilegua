@@ -47,15 +47,15 @@ services:
 
   mongodb:
   # Replace 'your_username' and 'your_password' with your actual MongoDB credentials
-    image: mongo
+    image: mongo:4.4
     environment:
       - MONGO_INITDB_DATABASE=my_mongo
       - MONGO_INITDB_ROOT_USERNAME=admin
       - MONGO_INITDB_ROOT_PASSWORD=123456
     ports:
       - '27017:27017'
-    volumes:
-      - ./mongodb_data:/data/db
+    # volumes:
+    #   - ./mongodb_data:/data/db
 
 
   
