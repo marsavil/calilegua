@@ -51,7 +51,11 @@ const APIKEYPROD = 'PROD-12345';
         const database = client.db(dbName)
         return database; 
       },
+<<<<<<< HEAD
       inject:[config.KEY],
+=======
+      inject:[config.KEY]
+>>>>>>> ab2a655f3f79b78e3a4585ccebf2d8d98aa0da88
         // provide: 'APIKEY',
         // useValue: process.env.NODE_ENV === 'prod' ? APIKEYPROD : APIKEY,
 
