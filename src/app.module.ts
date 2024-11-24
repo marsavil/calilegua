@@ -47,7 +47,7 @@ const APIKEYPROD = 'PROD-12345';
 @Module({
   imports: [
     HttpModule,
-    OperadoresModule,
+    //OperadoresModule,
     ProductosModule,
     DatabaseModule,
     ConfigModule.forRoot({  // Implementación

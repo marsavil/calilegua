@@ -16,11 +16,11 @@ import { DetallePedidosController } from 'src/productos/controllers/detalle-pedi
 import { Producto } from 'src/productos/entities/producto.entity';
 
 @Module({
-  imports: [
-    ProductosModule,
-    TypeOrmModule.forFeature([Operador, Comprador, Pedido, DetallePedido, Producto]),
-  ],
-  controllers: [PedidosController, OperadoresController, CompradoresController, DetallePedidosController],
-  providers: [PedidosService, OperadoresService, CompradoresService, DetallePedidoService],
+  // imports: [
+  //   ProductosModule,
+  //   TypeOrmModule.forFeature([Operador, Comprador, Pedido, DetallePedido, Producto]),
+  // ],
+  // controllers: [PedidosController, OperadoresController, CompradoresController, DetallePedidosController],
+  // providers: [PedidosService, OperadoresService, CompradoresService, DetallePedidoService],
 })
 export class OperadoresModule {}

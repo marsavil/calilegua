@@ -16,23 +16,23 @@ export class DetallePedidoService {
   ){}
 
   async create (payload: CreateDetallePedidoDto) {
-    const pedido = await this.pedidoRepository.findOne(payload.pedidoId);
-    if (!pedido) {
-      throw new Error('Pedido no encontrado');
-    }
-    const producto = await this.productoRepository.findOne(payload.productoId);
-    if (!producto) {
-      throw new Error('Producto no encontrado');
-    }
-    const detalle = new DetallePedido();
-    detalle.pedido = pedido;
-    detalle.producto = producto;
-    detalle.cantidad = payload.cantidad;
-    await this.detalleRepository.save(detalle);
-    return {
-      message: 'Detalle agregado con exito al pedido',
-      pedido,
-      detalle
-    };
+    // const pedido = await this.pedidoRepository.findOne(payload.pedidoId);
+    // if (!pedido) {
+    //   throw new Error('Pedido no encontrado');
+    // }
+    // const producto = await this.productoRepository.findOne(payload.productoId);
+    // if (!producto) {
+    //   throw new Error('Producto no encontrado');
+    // }
+    // const detalle = new DetallePedido();
+    // detalle.pedido = pedido;
+    // detalle.producto = producto;
+    // detalle.cantidad = payload.cantidad;
+    // await this.detalleRepository.save(detalle);
+    // return {
+    //   message: 'Detalle agregado con exito al pedido',
+    //   pedido,
+    //   detalle
+    // };
   }
 }
