@@ -33,6 +33,5 @@ export class Fabricante {
   })
   updated_at: Date;
 
-  @OneToMany(() => Producto, (product) => product.fabricante)
-  products: Producto[];
+
 }

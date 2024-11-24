@@ -33,28 +33,28 @@ export class PedidosService {
   }
 
   async create(payload: CreatePedidoDto){
-    const pedido = new Pedido();
-    if (payload.compradorId){
-      const comprador = await this.compradorRepository.findOne(payload.compradorId);
-      if (!comprador) {
-        throw new NotFoundException(`El comprador con el id ${payload.compradorId} no se encuentra`);
-      }
-      pedido.comprador = comprador;
-    }
-    const saved = await this.pedidosRepository.save(pedido);
-    return `Pedido creado bajo el identificador ${saved.id}`;
+    // const pedido = new Pedido();
+    // if (payload.compradorId){
+    //   const comprador = await this.compradorRepository.findOne(payload.compradorId);
+    //   if (!comprador) {
+    //     throw new NotFoundException(`El comprador con el id ${payload.compradorId} no se encuentra`);
+    //   }
+    //   pedido.comprador = comprador;
+    // }
+    // const saved = await this.pedidosRepository.save(pedido);
+    // return `Pedido creado bajo el identificador ${saved.id}`;
   }
 
   async update(id: number, payload: UpdatePedidoDto){
-    const pedido = await this.pedidosRepository.findOne(id);
-    if (payload.compradorId) {
-      const comprador = await this.compradorRepository.findOne(payload.compradorId);
-      if (!comprador) {
-        throw new NotFoundException(`El comprador con el id ${payload.compradorId} no se encuentra`);
-      }
-      pedido.comprador = comprador;
-    }
-    return this.pedidosRepository.save(pedido);
+    // const pedido = await this.pedidosRepository.findOne(id);
+    // if (payload.compradorId) {
+    //   const comprador = await this.compradorRepository.findOne(payload.compradorId);
+    //   if (!comprador) {
+    //     throw new NotFoundException(`El comprador con el id ${payload.compradorId} no se encuentra`);
+    //   }
+    //   pedido.comprador = comprador;
+    // }
+    // return this.pedidosRepository.save(pedido);
   }
   remove(id: number){
     return this.pedidosRepository.delete(id);

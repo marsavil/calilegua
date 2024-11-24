@@ -1,9 +1,10 @@
 import { Global, Module } from '@nestjs/common';
 import { Client } from 'pg';
 import config from '../config';
-import { ConfigType } from '@nestjs/config';
+import { ConfigService, ConfigType } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MongoClient } from 'mongodb';
+import { MongooseModule } from '@nestjs/mongoose';
 
 
 const APIKEY = 'DEV-456';
@@ -38,6 +39,27 @@ const APIKEYPROD = 'PROD-12345';
         };
       }
     }),
+    MongooseModule.forRootAsync({
+      useFactory: (ConfigService: ConfigType<typeof config>) => {
+        const { connection, user, password, host, port, dbName } = ConfigService.mongo;
+        console.log('Connection established to mongo through mongoose')
+
+        // Configuración global de Mongoose para convertir ObjectId en cadenas
+        const mongoose = require('mongoose');
+        mongoose.Schema.Types.ObjectId.get(function () {
+          return this.toString();
+        });
+
+        return{
+          uri: `${connection}://${user}:${password}@${host}:${port}/?authMechanism=DEFAULT`,
+          user,
+          pass: password,
+          dbName
+          
+        }
+      },
+      inject:[config.KEY],
+    })
   ],
   providers: [
     {
@@ -51,11 +73,8 @@ const APIKEYPROD = 'PROD-12345';
         const database = client.db(dbName)
         return database; 
       },
-<<<<<<< HEAD
       inject:[config.KEY],
-=======
-      inject:[config.KEY]
->>>>>>> ab2a655f3f79b78e3a4585ccebf2d8d98aa0da88
+
         // provide: 'APIKEY',
         // useValue: process.env.NODE_ENV === 'prod' ? APIKEYPROD : APIKEY,
 
@@ -78,7 +97,7 @@ const APIKEYPROD = 'PROD-12345';
     // },
   
   ],
- exports: ['MONGO'],
+ exports: ['MONGO', MongooseModule],
 })
 export class DatabaseModule {}
 

@@ -6,43 +6,43 @@ import { Exclude } from 'class-transformer';
 
 @Entity()
 export class Comprador {
-  @PrimaryGeneratedColumn()
-  id: number;
+  // @PrimaryGeneratedColumn()
+  // id: number;
 
-  @Column({type: 'varchar'})
-  nombre: string;
+  // @Column({type: 'varchar'})
+  // nombre: string;
 
-  @Column({type: 'varchar'})
-  apellido: string;
+  // @Column({type: 'varchar'})
+  // apellido: string;
 
-  @Column({type: 'varchar'})
-  @IsNumberString()
-  telefono: string;
+  // @Column({type: 'varchar'})
+  // @IsNumberString()
+  // telefono: string;
 
-  @Exclude()
-  @CreateDateColumn({
-    type: 'timestamptz',
-    default: () => 'CURRENT_TIMESTAMP',
-  })
-  created_at: Date;
+  // @Exclude()
+  // @CreateDateColumn({
+  //   type: 'timestamptz',
+  //   default: () => 'CURRENT_TIMESTAMP',
+  // })
+  // created_at: Date;
 
-  @Exclude()
-  @UpdateDateColumn({
-    type: 'timestamptz',
-    default: () => 'CURRENT_TIMESTAMP',
-  })
-  updated_at: Date;
+  // @Exclude()
+  // @UpdateDateColumn({
+  //   type: 'timestamptz',
+  //   default: () => 'CURRENT_TIMESTAMP',
+  // })
+  // updated_at: Date;
 
-  @OneToOne(() => Operador, (operador) => operador.comprador, {
-    nullable: true,
-  })
+  // @OneToOne(() => Operador, (operador) => operador.comprador, {
+  //   nullable: true,
+  // })
 
-  @JoinColumn({ name: 'operador_id'})
-  operador: Operador;
+  // @JoinColumn({ name: 'operador_id'})
+  // operador: Operador;
 
-  @Column( { name: 'operador_id', nullable: true} )
-  operador_id: number;
+  // @Column( { name: 'operador_id', nullable: true} )
+  // operador_id: number;
 
-  @OneToMany(() => Pedido, (pedido) => pedido.comprador )
-  pedidos: Pedido[];
+  // @OneToMany(() => Pedido, (pedido) => pedido.comprador )
+  // pedidos: Pedido[];
 }
