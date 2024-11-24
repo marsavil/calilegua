@@ -43,15 +43,15 @@ export class CreateProductoDTO {
   @IsNotEmpty()
   readonly imagen: string;
 
-  @ApiProperty({description: 'ID del fabricante del producto', required: true})
-  @IsNotEmpty()
-  @IsPositive()
-  readonly fabricanteId: number;
+  // @ApiProperty({description: 'ID del fabricante del producto', required: true})
+  // @IsNotEmpty()
+  // @IsPositive()
+  // readonly fabricanteId: number;
 
-  @ApiProperty({description: 'Categorias del producto', required: true})
-  @IsNotEmpty()
-  @IsArray()
-  readonly categoriasIds: number[];
+  // @ApiProperty({description: 'Categorias del producto', required: true})
+  // @IsNotEmpty()
+  // @IsArray()
+  // readonly categoriasIds: number[];
 }
 
 export class UpdateProductoDTO extends PartialType(

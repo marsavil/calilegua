@@ -12,30 +12,30 @@ import { Exclude } from 'class-transformer';
 
 @Entity()
 export class DetallePedido {
-  @PrimaryGeneratedColumn()
-  id: number;
+  // @PrimaryGeneratedColumn()
+  // id: number;
   
-  @Exclude()
-  @CreateDateColumn({
-    type: 'timestamptz',
-    default: () => 'CURRENT_TIMESTAMP'
-  })
-  created_at: Date;
+  // @Exclude()
+  // @CreateDateColumn({
+  //   type: 'timestamptz',
+  //   default: () => 'CURRENT_TIMESTAMP'
+  // })
+  // created_at: Date;
 
-  @Exclude()
-  @UpdateDateColumn({
-    type: 'timestamptz',
-    default: () => 'CURRENT_TIMESTAMP'
-  })
-  updated_at: Date;
+  // @Exclude()
+  // @UpdateDateColumn({
+  //   type: 'timestamptz',
+  //   default: () => 'CURRENT_TIMESTAMP'
+  // })
+  // updated_at: Date;
 
-  @Column({type: 'int'})
-    cantidad: number;
+  // @Column({type: 'int'})
+  //   cantidad: number;
 
-    @ManyToOne(() => Producto) 
-    producto: Producto; // No es necesaria la relacion bidireccional
+  //   @ManyToOne(() => Producto) 
+  //   producto: Producto; // No es necesaria la relacion bidireccional
 
-    @ManyToOne(() => Pedido, (pedido) => pedido.detalles)
-    pedido: Pedido; 
+  //   @ManyToOne(() => Pedido, (pedido) => pedido.detalles)
+  //   pedido: Pedido; 
 
 }

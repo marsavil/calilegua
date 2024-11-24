@@ -17,21 +17,5 @@ export class Categoria  {
   })
   created_at: Date;
 
-  @Exclude()
-  @UpdateDateColumn({
-    type: 'timestamptz',
-    default: () => 'CURRENT_TIMESTAMP',
-  })
-  updated_at: Date;
-
-  @ManyToMany(() => Producto, (producto) => producto.categorias)
-  @JoinTable({
-    name: 'categorias_productos',
-    joinColumn: {
-        name: 'categoria_id' },
-    inverseJoinColumn: { 
-      name: 'product_id' },
-  })// solo se declara en una parte de la relación
-
-  productos: Producto[]
+ 
 }
