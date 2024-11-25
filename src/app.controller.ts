@@ -11,51 +11,9 @@ export class AppController {
   ) {}
 
 
-  @Get('hi')
+  @Get()
   getHello(): string {
     return this.appService.getHello();
-  }
-  @Get('apikey')
-  getApiKey(): string {
-    return this.appService.getApiKey();
-  }
-  @Get('tarea')
-  getTarea(): string {
-    return this.appService.getTarea();
-  }
-
-  @Get('operativo')
-  getEstoyFuncionando(): string {
-    return 'Estoy funcionando!';
-}
-
-@Get('/estoyok/')
-getEstoyOk(): string {
-  return 'sigo funcionando!';
-}
-@Get()
-getEnvs(): string {
-  return this.appService.getEnvs();
-}
-// @Get('tasks')
-//   tasks() {
-// 	return this.appService.getTasks();
-//   }
-@Get('tareas')
-  async getTasksMongo() {
-    const result = await this.appService.getTasksMongo();
-    return result;
-  }
-
-
-}
-
-@Controller('users')
-export class UsersController {
-
-  @Get(':id')
-  getUserById(@Param('id') id: string) {
-    return 'User with ID ${id}';
   }
 
 }

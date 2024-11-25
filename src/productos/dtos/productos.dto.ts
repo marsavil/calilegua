@@ -45,13 +45,12 @@ export class CreateProductoDTO {
 
   // @ApiProperty({description: 'ID del fabricante del producto', required: true})
   // @IsNotEmpty()
-  // @IsPositive()
-  // readonly fabricanteId: number;
+  // readonly fabricanteId: string;
 
   // @ApiProperty({description: 'Categorias del producto', required: true})
   // @IsNotEmpty()
   // @IsArray()
-  // readonly categoriasIds: number[];
+  // readonly categoriasIds: string[];
 }
 
 export class UpdateProductoDTO extends PartialType(

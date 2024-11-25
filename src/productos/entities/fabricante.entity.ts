@@ -1,37 +1,22 @@
-import { PrimaryGeneratedColumn, Column, Entity, CreateDateColumn, OneToMany } from 'typeorm';
-import { Producto } from './producto.entity';
-import { Exclude } from 'class-transformer';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
 
-@Entity()
-export class Fabricante {
-  @PrimaryGeneratedColumn()
-  id: number;
+@Schema()
+export class Fabricante extends Document{
 
-  @Column({type: 'varchar', unique: true})
+
+  @Prop({required:true, unique: true})
   nombre: string;
 
-  @Column({type: 'varchar'})
+  @Prop()
   direccion: string;
 
-  @Column({type: 'varchar', unique: true})
+  @Prop({required:true, unique: true})
   email: string;
 
-  @Column({type: 'varchar'})
+  @Prop()
   imagen: string;
   
-  @Exclude()
-  @CreateDateColumn({
-    type: 'timestamptz',
-    default: () => 'CURRENT_TIMESTAMP',
-  })
-  created_at: Date;
-
-  @Exclude()
-  @CreateDateColumn({
-    type: 'timestamptz',
-    default: () => 'CURRENT_TIMESTAMP',
-  })
-  updated_at: Date;
-
 
 }
+export const FabricanteSchema = SchemaFactory.createForClass(Fabricante)

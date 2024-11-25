@@ -203,70 +203,60 @@ export const productos = [
 
 export const fabricantes = [
   {
-    "id": 1,
     "nombre": "Fabricante1",
     "direccion": "calle 1",
     "email": "fabricante1@mail.com",
     "imagen": "https://res.cloudinary.com/dlzp43wz9/image/upload/v1709585844/user-icon-2048x2048-ihoxz4vq_ydc8ku.png"
   },
   {
-    "id": 2,
     "nombre": "Fabricante2",
     "direccion": "calle 2",
     "email": "fabricante2@mail.com",
     "imagen": "https://res.cloudinary.com/dlzp43wz9/image/upload/v1709585844/user-icon-2048x2048-ihoxz4vq_ydc8ku.png"
   },
   {
-    "id": 3,
     "nombre": "Fabricante3",
     "direccion": "calle 3",
     "email": "fabricante3@mail.com",
     "imagen": "https://res.cloudinary.com/dlzp43wz9/image/upload/v1709585844/user-icon-2048x2048-ihoxz4vq_ydc8ku.png"
   },
   {
-    "id": 4,
     "nombre": "Fabricante4",
     "direccion": "calle 4",
     "email": "fabricante4@mail.com",
     "imagen": "https://res.cloudinary.com/dlzp43wz9/image/upload/v1709585844/user-icon-2048x2048-ihoxz4vq_ydc8ku.png"
   },
   {
-    "id": 5,
     "nombre": "Fabricante5",
     "direccion": "calle 5",
     "email": "fabricante5@mail.com",
     "imagen": "https://res.cloudinary.com/dlzp43wz9/image/upload/v1709585844/user-icon-2048x2048-ihoxz4vq_ydc8ku.png"
   },
   {
-    "id": 6,
     "nombre": "Fabricante6",
     "direccion": "calle 6",
     "email": "fabricante6@mail.com",
     "imagen": "https://res.cloudinary.com/dlzp43wz9/image/upload/v1709585844/user-icon-2048x2048-ihoxz4vq_ydc8ku.png"
   },
   {
-    "id": 7,
     "nombre": "Fabricante7",
     "direccion": "calle 7",
     "email": "fabricante7@mail.com",
     "imagen": "https://res.cloudinary.com/dlzp43wz9/image/upload/v1709585844/user-icon-2048x2048-ihoxz4vq_ydc8ku.png"
   },
   {
-    "id": 8,
     "nombre": "Fabricante8",
     "direccion": "calle 8",
     "email": "fabricante8@mail.com",
     "imagen": "https://res.cloudinary.com/dlzp43wz9/image/upload/v1709585844/user-icon-2048x2048-ihoxz4vq_ydc8ku.png"
   },
   {
-    "id": 9,
     "nombre": "Fabricante9",
     "direccion": "calle 9",
     "email": "fabricante9@mail.com",
     "imagen": "https://res.cloudinary.com/dlzp43wz9/image/upload/v1709585844/user-icon-2048x2048-ihoxz4vq_ydc8ku.png"
   },
   {
-    "id": 10,
     "nombre": "Fabricante10",
     "direccion": "calle 10",
     "email": "fabricante10@mail.com",
