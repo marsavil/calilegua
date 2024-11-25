@@ -1,15 +1,15 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Comprador } from '../entities/comprador.entity';
-import { Repository } from 'typeorm';
 import { CreateCompradorDTO, FilterCompradoresDTO, UpdateCompradorDTO } from '../dtos/comprador.dto';
 import { compradores } from 'src/data/data';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class CompradoresService {
   constructor(
-    @InjectRepository(Comprador)
-    private readonly compradoresRepository: Repository<Comprador>,
+    @InjectModel(Comprador.name)
+    private readonly compradoresModel: Model<Comprador>,
   ){}
   async seedDB(){
     await Promise.all(compradores.map((comprador) => this.create(comprador)));
@@ -18,26 +18,32 @@ export class CompradoresService {
   async findAll(params?: FilterCompradoresDTO) {
     if (params) {
       const { limit, offset } = params
-      return this.compradoresRepository.find({
-        relations: ['operador'],
-        take: limit,
-        skip: offset,
-      });
+      const result = await this.compradoresModel
+      .find()
+      .lean<Comprador[]>()
+      .skip(offset)
+      .limit(limit)
+      .exec()
+
+      const ids = result.map(r => r._id.toString())
+
+      return {
+        data: result,
+        ids
+      }
     }
-    const compradores =  await this.compradoresRepository.find({
-      relations: ['operador']
-    });
-    if ( !compradores.length) {
-      throw new NotFoundException('No se encontraron compradores en la base de datos');
+    const result = await this.compradoresModel
+    .find()
+    .exec()
+    const ids = result.map(r => r._id.toString())
+    return {
+      data: result,
+      ids
     }
-    return compradores
   }
 
-  async findOne(id: number) {
-    //return this.compradoresRepository.findOneBy({ id });
-    const comprador = await this.compradoresRepository.findOne( id, {
-      relations: ['operador']
-    } );
+  async findOne(id: string) {
+    const comprador = await this.compradoresModel.findById( id );
     if (!comprador) {
       throw new NotFoundException(`El comprador con el id ${id} no se encuentra`);
     }
@@ -45,56 +51,21 @@ export class CompradoresService {
   }
 
   async create(payload: CreateCompradorDTO) {
-    // this.idCont = this.idCont + 1;
-    // const newComprador = {
-    //   id: this.idCont,
-    //   ...payload,
-    // };
-    // this.compradores.push(newComprador);
-    // return newComprador;
-    const newComprador = await this.compradoresRepository.create(payload);
-    return await this.compradoresRepository.save(newComprador);
+    const newComprador = await new this.compradoresModel(payload);
+    return await newComprador.save();
   }
-  async update(id: number, payload: UpdateCompradorDTO) {
-    // const comprador = this.compradores.find((p) => p.id === id);
-    // if (!comprador) {
-    //   throw new Error(`No se encontró el compradoro con id ${id}`);
-    // }
-    // Object.assign(comprador, payload);
-    // const index = this.compradores.findIndex((item) => item.id === id);
-    // if (index === -1) {
-    //   throw new NotFoundException(`El comprador #${id} no se encuentra`);
-    // }
-
-    // // Reemplazar el compradoro actualizado en la lista
-    // this.compradores.splice(index, 1, comprador);
-    // return {
-    //   message: 'comprador actualizado correctamente',
-    //   comprador,
-    // };
-    const comprador = await this.findOne(id)
+  async update(id: string, payload: UpdateCompradorDTO) {
+    const comprador = await this.compradoresModel.findByIdAndUpdate(id)
     if (!comprador) {
       throw new NotFoundException(`El comprador con el id ${id} no se encuentra`);
     }
-    await this.compradoresRepository.merge(comprador, payload);
-    return await this.compradoresRepository.save(comprador);
+    return await comprador.save();
   }
-  async remove(id: number) {
-    // const index = this.compradores.findIndex((item) => item.id === id);
-    // if (index === -1) {
-    //   throw new NotFoundException(
-    //     `El comprador con el id ${id} no se encuentra`,
-    //   );
-    // }
-    // this.compradores.splice(index, 1);
-    // return {
-    //   message: 'comprador eliminado correctamente',
-    //   id,
-    // }
-    const comprador = await this.compradoresRepository.findOne(id);
-    if (!comprador) {
-      throw new NotFoundException(`No existe un comprador con el id ${id} en esta base de datos`);
+  async remove(id: string) {
+
+    return {
+      producto: await this.compradoresModel.findByIdAndDelete(id),
+      message: `El comprador con el id ${id} ha sido eliminado de la base de datos` 
+      }
     }
-    return this.compradoresRepository.delete(id)
   }
-}

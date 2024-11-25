@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query } 
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CompradoresService } from '../services/compradores.service';
 import { CreateCompradorDTO, FilterCompradoresDTO } from '../dtos/comprador.dto';
+import { MongoIdPipe } from 'src/common/mongo-id.pipe';
 
 @ApiTags('Compradores')
 @Controller('compradores')
@@ -16,7 +17,7 @@ export class CompradoresController {
   }
   @Get(':id')
   @ApiOperation({summary: 'Devuelve un comprador específico'})
-  getCompradorById(@Param('id', new ParseIntPipe()) id: number) {
+  getCompradorById(@Param('id', MongoIdPipe) id: string) {
     return this.compradoresService.findOne(id);
   }
   @Post('seed')
@@ -32,14 +33,14 @@ export class CompradoresController {
   @Put('edit/:id')
   @ApiOperation({summary: 'Actualiza la información de un comprador existente'})
   updateComprador(
-    @Param('id', new ParseIntPipe()) id: number,
+    @Param('id', MongoIdPipe) id: string,
     @Body() payload: CreateCompradorDTO,
   ) {
     return this.compradoresService.update(id, payload)
   }
   @Delete('delete/:id')
   @ApiOperation({summary: 'Elimina un comprador existente'})
-  deleteComprador(@Param('id', new ParseIntPipe()) id: number){
+  deleteComprador(@Param('id', MongoIdPipe) id: string){
     return this.compradoresService.remove(id)
   }
 }

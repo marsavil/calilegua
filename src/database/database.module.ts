@@ -1,8 +1,6 @@
 import { Global, Module } from '@nestjs/common';
-import { Client } from 'pg';
 import config from '../config';
 import { ConfigService, ConfigType } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { MongoClient } from 'mongodb';
 import { MongooseModule } from '@nestjs/mongoose';
 

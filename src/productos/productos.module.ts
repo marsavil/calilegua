@@ -8,6 +8,7 @@ import { ProductosService } from './services/productos.service';
 import { Producto, ProductoSchema } from './entities/producto.entity';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Fabricante, FabricanteSchema } from './entities/fabricante.entity';
+import { Categoria, CategoriaSchema } from './entities/categoria.entity';
 
 @Module({
   //Mongoose se encargará de administrar las entidades intervinientes
@@ -20,6 +21,10 @@ import { Fabricante, FabricanteSchema } from './entities/fabricante.entity';
       {
         name: Fabricante.name,
         schema: FabricanteSchema
+      },
+      {
+        name: Categoria.name,
+        schema:CategoriaSchema
       }
     ])
     
@@ -28,12 +33,12 @@ import { Fabricante, FabricanteSchema } from './entities/fabricante.entity';
   controllers: [
     FabricantesController,
     ProductosController,
-    //CategoriasController,
+    CategoriasController,
   ],
   providers: [
     ProductosService,
     FabricantesService,
-    //CategoriasService,
+    CategoriasService,
   ],
   exports: [ ProductosService ]
 })

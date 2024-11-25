@@ -1,81 +1,60 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Categoria } from '../entities/categoria.entity';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import { CreateCategoriaDTO, UpdateCategoriaDTO } from '../dtos/categorias.dto';
 import { categorias } from 'src/data/data';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 
 @Injectable()
 export class CategoriasService {
-  // constructor(
-  //   @InjectRepository(Categoria)
-  //   private readonly categoriasRepository: Repository<Categoria>,
-  // ){}
+  constructor(
+    @InjectModel(Categoria.name)
+    private readonly categoriasModel: Model<Categoria>,
+  ){}
 
-  // findAll() {
-  //   return this.categoriasRepository.find();
-  // }
+  async findAll() {
+    const result = await this.categoriasModel.find().exec();
 
-  // findOne(id: number) {
-  //   const categoria = this.categoriasRepository.findOne(id);
-  //   if (!categoria) {
-  //     throw new NotFoundException(`No se encontró la categoría con id ${id}`);
-  //   }
-  //   // return this.categoriasRepository.findOneBy({id});
-  //   return categoria;
-  // }
+    const ids = result.map(r => r._id.toString())
 
-  // async seedDB(){
-  //   await Promise.all(categorias.map((categoria) => this.create(categoria)));
-  //   return 'Categorias cargadas a la base de datos'
-  // }
-  // async create(payload: CreateCategoriaDTO) {
-  //   // this.idCont = this.idCont + 1;
-  //   // const newCategory = {
-  //   //   id: this.idCont,
-  //   //   ...payload,
-  //   // };
-  //   // this.categorias.push(newCategory);
-  //   // return newCategory;
-  //   const newCategory = this.categoriasRepository.create(payload)
-  //   return await this.categoriasRepository.save(newCategory);
-  // }
-  // async update(id: number, payload: UpdateCategoriaDTO) {
-  //   // const category = this.categorias.find((p) => p.id === id);
-  //   // if (!category) {
-  //   //   throw new Error(`No se encontró la categoría con id ${id}`);
-  //   // }
-  //   // Object.assign(category, payload);
-  //   // const index = this.categorias.findIndex((item) => item.id === id);
-  //   // if (index === -1) {
-  //   //   throw new NotFoundException(`La categoriía #${id} no se encuentra`);
-  //   // }
+      return {
+        data: result,
+        ids
+      }
+  }
 
-  //   // // Reemplazar el categoryo actualizado en la lista
-  //   // this.categorias.splice(index, 1, category);
-  //   // return {
-  //   //   message: 'Categoria actualizada correctamente',
-  //   //   category,
-  //   // };
-  //   const category = await this.findOne(id);
-  //   if (!category) {
-  //     throw new NotFoundException(`El operador #${id} no se encuentra`);
-  //   }
-  //   this.categoriasRepository.merge(category, payload);
-  //   return await this.categoriasRepository.save(category);
-  // }
-  // remove(id: number) {
-  //   // const index = this.categorias.findIndex((item) => item.id === id);
-  //   // if (index === -1) {
-  //   //   throw new NotFoundException(
-  //   //     `La categoria con el id ${id} no se encuentra`,
-  //   //   );
-  //   // }
-  //   // this.categorias.splice(index, 1);
-  //   // return {
-  //   //   message: 'Categoría eliminada correctamente',
-  //   //   id,
-  //   // }
-  //   return this.categoriasRepository.delete(id)
-  // }
+  findOne(id: string) {
+    const categoria = this.categoriasModel.findById(id);
+    if (!categoria) {
+      throw new NotFoundException(`No se encontró la categoría con id ${id}`);
+    }
+    // return this.categoriasModel.findOneBy({id});
+    return categoria;
+  }
+
+  async seedDB(){
+    await Promise.all(categorias.map((categoria) => this.create(categoria)));
+    return 'Categorias cargadas a la base de datos'
+  }
+  async create(payload: CreateCategoriaDTO) {
+    const newCategoria = new this.categoriasModel(payload);
+
+    return await newCategoria.save()
+
+  }
+  async update(id: string, payload: UpdateCategoriaDTO) {
+    const category = await this.categoriasModel
+    .findByIdAndUpdate( id, { $set: payload }, { new: true })
+    .exec();
+    if ( !category ) {
+      throw new NotFoundException(`La categoria con el id ${id} no se encuentra`);
+    } 
+    return await category.save();
+   }
+  async remove(id: string) {
+    return {
+      categoria: await this.categoriasModel.findByIdAndDelete(),
+      message: `La categoria con el id ${id} ha sido eliminada de la base de datos` 
+    }
+  }
 }

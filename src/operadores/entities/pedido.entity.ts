@@ -1,38 +1,15 @@
-import {
-  PrimaryGeneratedColumn,
-  Column,
-  Entity,
-  CreateDateColumn,
-  UpdateDateColumn,
-  ManyToOne,
-  OneToMany,
-  JoinColumn,
-} from 'typeorm';
+
 import { Operador } from './operador.entity';
 import { Producto } from 'src/productos/entities/producto.entity';
 import { Comprador } from './comprador.entity';
 import { DetallePedido } from './detallePedido.entity';
 import { Exclude, Expose } from 'class-transformer';
+import { Schema, SchemaFactory } from '@nestjs/mongoose';
 
-@Entity()
+@Schema()
 export class Pedido {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Exclude()
-  @CreateDateColumn({
-    type: 'timestamptz',
-    default: () => 'CURRENT_TIMESTAMP',
-  })
-  created_at: Date;
-
-  @Exclude()
-  @UpdateDateColumn({
-    type: 'timestamptz',
-    default: () => 'CURRENT_TIMESTAMP',
-  })
-  updated_at: Date;
 
 
  
 }
+export const PedidoSchema = SchemaFactory.createForClass(Pedido)

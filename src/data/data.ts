@@ -265,32 +265,32 @@ export const fabricantes = [
 ]
 
 export const categorias = [
-  { "id": 1, "nombre": "Juegos" },
-  { "id": 2, "nombre": "Música" },
-  { "id": 3, "nombre": "Deportes" },
-  { "id": 4, "nombre": "Electrónica" },
-  { "id": 5, "nombre": "Hogar" },
-  { "id": 6, "nombre": "Moda" },
-  { "id": 7, "nombre": "Libros" },
-  { "id": 8, "nombre": "Juguetes" },
-  { "id": 9, "nombre": "Belleza" },
-  { "id": 10, "nombre": "Automotriz" }
+  {  "nombre": "Juegos" },
+  {  "nombre": "Música" },
+  {  "nombre": "Deportes" },
+  {  "nombre": "Electrónica" },
+  {  "nombre": "Hogar" },
+  {  "nombre": "Moda" },
+  {  "nombre": "Libros" },
+  {  "nombre": "Juguetes" },
+  {  "nombre": "Belleza" },
+  {  "nombre": "Automotriz" }
 ]
 
 export const compradores = [
-  { "id": 1, "nombre": "Juan", "apellido": "Pérez", "telefono": "123456789" },
-  { "id": 2, "nombre": "María", "apellido": "González", "telefono": "987654321" },
-  { "id": 3, "nombre": "Carlos", "apellido": "Rodríguez", "telefono": "456789123" },
-  { "id": 4, "nombre": "Ana", "apellido": "López", "telefono": "321654987" },
-  { "id": 5, "nombre": "Luis", "apellido": "Martínez", "telefono": "789123456" },
-  { "id": 6, "nombre": "Laura", "apellido": "Hernández", "telefono": "654321789" },
-  { "id": 7, "nombre": "Pedro", "apellido": "Jiménez", "telefono": "123789456" },
-  { "id": 8, "nombre": "Sofía", "apellido": "Ruiz", "telefono": "789456123" },
-  { "id": 9, "nombre": "Jorge", "apellido": "Ramírez", "telefono": "456123789" },
-  { "id": 10, "nombre": "Lucía", "apellido": "Torres", "telefono": "321987654" },
-  { "id": 11, "nombre": "Fernando", "apellido": "Díaz", "telefono": "654789321" },
-  { "id": 12, "nombre": "Gabriela", "apellido": "Castro", "telefono": "987123654" },
-  { "id": 13, "nombre": "Roberto", "apellido": "Ortiz", "telefono": "789654321" },
-  { "id": 14, "nombre": "Marta", "apellido": "Silva", "telefono": "456321987" },
-  { "id": 15, "nombre": "Elena", "apellido": "Morales", "telefono": "321456987" }
+  {  "nombre": "Juan", "apellido": "Pérez", "telefono": "123456789" },
+  {  "nombre": "María", "apellido": "González", "telefono": "987654321" },
+  {  "nombre": "Carlos", "apellido": "Rodríguez", "telefono": "456789123" },
+  {  "nombre": "Ana", "apellido": "López", "telefono": "321654987" },
+  {  "nombre": "Luis", "apellido": "Martínez", "telefono": "789123456" },
+  {  "nombre": "Laura", "apellido": "Hernández", "telefono": "654321789" },
+  {  "nombre": "Pedro", "apellido": "Jiménez", "telefono": "123789456" },
+  {  "nombre": "Sofía", "apellido": "Ruiz", "telefono": "789456123" },
+  {  "nombre": "Jorge", "apellido": "Ramírez", "telefono": "456123789" },
+  {  "nombre": "Lucía", "apellido": "Torres", "telefono": "321987654" },
+  {  "nombre": "Fernando", "apellido": "Díaz", "telefono": "654789321" },
+  {  "nombre": "Gabriela", "apellido": "Castro", "telefono": "987123654" },
+  {  "nombre": "Roberto", "apellido": "Ortiz", "telefono": "789654321" },
+  {  "nombre": "Marta", "apellido": "Silva", "telefono": "456321987" },
+  {  "nombre": "Elena", "apellido": "Morales", "telefono": "321456987" }
 ]

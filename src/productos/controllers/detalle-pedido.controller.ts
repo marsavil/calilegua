@@ -4,11 +4,11 @@ import { CreateDetallePedidoDto } from "../dtos/detallePedido.dto";
 
 @Controller("detalle-pedidos")
 export class DetallePedidosController  {
-  constructor (private detalleService: DetallePedidoService) {}
+  // constructor (private detalleService: DetallePedidoService) {}
 
-  @Post()
-  create (
-    @Body() payload: CreateDetallePedidoDto) {
-      return this.detalleService.create(payload);
-    }
+  // @Post()
+  // create (
+  //   @Body() payload: CreateDetallePedidoDto) {
+  //     return this.detalleService.create(payload);
+  //   }
 }

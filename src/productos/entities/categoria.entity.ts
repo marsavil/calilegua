@@ -1,21 +1,12 @@
-import { PrimaryGeneratedColumn, Column, Entity, CreateDateColumn, UpdateDateColumn, ManyToMany, JoinTable } from 'typeorm';
 import { Producto } from './producto.entity';
 import { Exclude } from 'class-transformer';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
-@Entity()
+@Schema()
 export class Categoria  {
-  @PrimaryGeneratedColumn()
-  id: number;
 
-  @Column({type: 'varchar'})
+  @Prop()
   nombre: string;
 
-  @Exclude()
-  @CreateDateColumn({
-    type: 'timestamptz',
-    default: () => 'CURRENT_TIMESTAMP',
-  })
-  created_at: Date;
-
- 
 }
+export const CategoriaSchema = SchemaFactory.createForClass(Categoria)

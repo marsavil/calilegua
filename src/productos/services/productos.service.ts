@@ -38,7 +38,14 @@ export class ProductosService {
         ids
       }
     }
-    return this.productosModel.find().exec();
+    const result = await this.productosModel
+    .find()
+    .exec()
+    const ids = result.map(r => r._id.toString())
+    return {
+      data: result,
+      ids
+    }
   }
 
   async findOne(id: string) {
@@ -110,7 +117,7 @@ export class ProductosService {
     //   product.categorias = categorias;
     // }
   
-    return product;
+    return await product.save();
   }
 
   async remove(id: string) {

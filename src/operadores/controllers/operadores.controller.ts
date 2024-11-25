@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query } 
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { OperadoresService } from 'src/operadores/services/operadores.service';
 import { CreateOperadorDTO, FilterOperadoresDTO, UpdateOperadorDTO } from '../dtos/operador.dto';
+import { MongoIdPipe } from 'src/common/mongo-id.pipe';
 
 @ApiTags('Operadores')
 @Controller('operadores')
@@ -14,7 +15,7 @@ export class OperadoresController {
   }
   @Get(':id')
   @ApiOperation({summary: 'Devuelve la información del operador identificado con el id suministrado'})
-  getOperadorById(@Param('id', ParseIntPipe) id: number) {
+  getOperadorById(@Param('id', MongoIdPipe) id: string) {
     return this.operadoresService.findOne(id);;
   }
   @Post('seed')
@@ -30,18 +31,18 @@ export class OperadoresController {
 
   @Put('edit/:id')
   @ApiOperation({summary: 'Actualiza la información del operador identificado con el id suministrado'})
-  updateOperador(@Param('id', new ParseIntPipe()) id: number, @Body() payload: UpdateOperadorDTO) {
+  updateOperador(@Param('id', MongoIdPipe) id: string, @Body() payload: UpdateOperadorDTO) {
     return this.operadoresService.update(id, payload)
   }
 
-  @Get (':id/pedidos')
-  @ApiOperation({summary: 'Devuelve una lista con todos los pedidos realizados por el operador identificado con el id suministrado'})
-  getOrders( @Param('id', ParseIntPipe) id: number ){
-    return this.operadoresService.getOrdersByUser(id);
-  }
+  // @Get (':id/pedidos')
+  // @ApiOperation({summary: 'Devuelve una lista con todos los pedidos realizados por el operador identificado con el id suministrado'})
+  // getOrders( @Param('id', ParseIntPipe) id: number ){
+  //   return this.operadoresService.getOrdersByUser(id);
+  // }
   @Delete('delete/:id')
   @ApiOperation({summary: 'Elimina el opérador identificado con el id suministrado'})
-  deleteOperador(@Param('id', new ParseIntPipe()) id: number) {
+  deleteOperador(@Param('id', MongoIdPipe) id: string) {
     console.log(`operador a elimnar con id ${id}`)
 
     return this.operadoresService.remove(id);

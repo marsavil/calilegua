@@ -14,6 +14,4 @@ export class CreateCategoriaDTO {
 }
 
 
-export class UpdateCategoriaDTO extends PartialType(
-  OmitType(CreateCategoriaDTO, ['nombre']),
-) {}
+export class UpdateCategoriaDTO extends PartialType(CreateCategoriaDTO) {}

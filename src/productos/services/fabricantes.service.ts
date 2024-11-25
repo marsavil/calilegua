@@ -20,11 +20,12 @@ export class FabricantesService {
     if(params){
       const filters: FilterQuery<Fabricante> = {}
       const { limit, offset } = params;
-      const result = await this.fabricantesModel.find()
-        .lean<Fabricante[]>()
-        .skip(offset)
-        .limit(limit)
-        .exec();
+      const result = await this.fabricantesModel
+      .find()
+      .lean<Fabricante[]>()
+      .skip(offset)
+      .limit(limit)
+      .exec()
 
       const ids = result.map(r => r._id.toString())
 
@@ -33,7 +34,14 @@ export class FabricantesService {
         ids
       }
     }
-    return this.fabricantesModel.find().exec();
+    const result = await this.fabricantesModel
+    .find()
+    .exec()
+    const ids = result.map(r => r._id.toString())
+    return {
+      data: result,
+      ids
+    }
   }
 
   async findOne(id: string) {

@@ -1,44 +1,19 @@
-import { PrimaryGeneratedColumn, Column, Entity, CreateDateColumn, UpdateDateColumn, OneToOne, JoinColumn } from 'typeorm';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Comprador } from './comprador.entity';
 import { Exclude } from 'class-transformer';
+import { Document } from 'mongoose';
 
-@Entity()
-export class Operador {
-  // @PrimaryGeneratedColumn()
-  // id: number;
+@Schema()
+export class Operador extends Document {
 
-  // @Column({type: 'varchar', unique: true})
-  // email: string;
+  @Prop({required:true, unique: true})
+  email: string;
 
-  // @Column({type: 'varchar'})
-  // password: string;
+  @Prop()
+  password: string;
 
-  // @Column({type: 'varchar'})
-  // role: string;
-
-  // @Exclude()
-  // @CreateDateColumn({
-  //   type: 'timestamptz',
-  //   default: () => 'CURRENT_TIMESTAMP',
-  // })
-  // created_at: Date;
-
-  // @Exclude()
-  // @UpdateDateColumn({
-  //   type: 'timestamptz',
-  //   default: () => 'CURRENT_TIMESTAMP',
-  // })
-  // updated_at: Date;
-
-  // @OneToOne(() => Comprador, (comprador) => comprador.operador, {
-  //   nullable: true,
-  // })
-  // @JoinColumn({ 
-  //   name: 'comprador_id'
-  // })
-  // comprador: Comprador;
-
-  // @Column( { name: 'comprador_id', nullable: true} )
-  // comprador_id: number;
+  @Prop()
+  role: string;
   
 }
+export const OperadorSchema = SchemaFactory.createForClass(Operador)
