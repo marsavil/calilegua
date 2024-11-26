@@ -13,19 +13,19 @@ export class PedidosService {
   ){}
 
 findAll(params?) {
-  // if (params) {
-  //       const { limit, offset } = params;
-  //       return this.pedidosModel
-  //       .find()
-  //       .populate('comprador')
-  //       .populate({
-  //         path: 'productos',
-  //         model: 'Producto',
-  //       })
-  //       .skip(offset)
-  //       .limit(limit)
-  //       .exec()
-  // }
+  if (params) {
+        const { limit, offset } = params;
+        return this.pedidosModel
+        .find()
+        //.populate('comprador')
+        // .populate({
+        //   path: 'productos',
+        //   model: 'Producto',
+        // })
+        .skip(offset)
+        .limit(limit)
+        .exec()
+  }
   return this.pedidosModel
     .find()
     // .populate('comprador')
@@ -83,7 +83,7 @@ findAll(params?) {
   }
   async removeProducto ( id: string, productId: string){
     const pedido = await this.pedidosModel.findById(id);
-    //pedido.productos.pull(productId)
+    pedido.productos.pull(productId)
     pedido.save()
     return {
       pedido,
@@ -93,7 +93,7 @@ findAll(params?) {
 
   async addProductos( id: string, productsIds: string[]){
     const pedido = await this.pedidosModel.findById(id);
-    //productsIds.forEach((pId) => pedido.productos.push(pId));
+    productsIds.forEach((pId) => pedido.productos.push(pId));
     pedido.save()
     return {
       pedido,

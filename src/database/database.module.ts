@@ -1,20 +1,8 @@
 import { Global, Module } from '@nestjs/common';
 import config from '../config';
-import { ConfigService, ConfigType } from '@nestjs/config';
-import { MongoClient } from 'mongodb';
+import { ConfigType } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 
-
-// const APIKEY = 'DEV-456';
-// const APIKEYPROD = 'PROD-12345';
-// const client = new Client({
-//   user: 'root',
-//   host: 'localhost',
-//   database: 'my_db',
-//   password: '123456',
-//   port: 5432,
-// });
-// client.connect();
 
 @Global()
 @Module({
