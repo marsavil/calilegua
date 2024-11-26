@@ -25,7 +25,8 @@ export class ProductosService {
         filters.precio = { $gte: precioMinimo, $lte: precioMaximo }; 
       }
       const result = await this.productosModel
-      .find()
+      .find(filters)
+      .populate('fabricante')
       .lean<Producto[]>()
       .skip(offset)
       .limit(limit)
@@ -40,6 +41,7 @@ export class ProductosService {
     }
     const result = await this.productosModel
     .find()
+    .populate('fabricante')
     .exec()
     const ids = result.map(r => r._id.toString())
     return {
@@ -49,7 +51,9 @@ export class ProductosService {
   }
 
   async findOne(id: string) {
-    const product = await this.productosModel.findById(id,).exec();
+    const product = await this.productosModel.findById(id,)
+    .populate('fabricante')
+    .exec();
     if (!product) {
       throw new NotFoundException(
         `El producto con el id ${id} no se encuentra`,

@@ -15,7 +15,7 @@ import * as Joi from 'joi';
 @Module({
   imports: [
     HttpModule,
-    //OperadoresModule,
+    OperadoresModule,
     ProductosModule,
     DatabaseModule,
     ConfigModule.forRoot({  // Implementación

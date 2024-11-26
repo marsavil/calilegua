@@ -52,7 +52,7 @@ export class CompradoresService {
 
   async create(payload: CreateCompradorDTO) {
     const newComprador = await new this.compradoresModel(payload);
-    return await newComprador.save();
+    return  newComprador;
   }
   async update(id: string, payload: UpdateCompradorDTO) {
     const comprador = await this.compradoresModel.findByIdAndUpdate(id)

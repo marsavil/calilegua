@@ -14,6 +14,8 @@ import { DetallePedidoService } from 'src/productos/services/detalle-pedido.serv
 import { DetallePedidosController } from 'src/productos/controllers/detalle-pedido.controller';
 import { Producto, ProductoSchema } from 'src/productos/entities/producto.entity';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ProductosService } from 'src/productos/services/productos.service';
+import { ProductosController } from 'src/productos/controllers/productos.controller';
 
 @Module({
    //Mongoose se encargará de administrar las entidades intervinientes
@@ -42,6 +44,6 @@ import { MongooseModule } from '@nestjs/mongoose';
     ])
   ],
   controllers: [PedidosController, OperadoresController, CompradoresController, DetallePedidosController],
-  providers: [PedidosService, OperadoresService, CompradoresService, DetallePedidoService],
+  providers: [PedidosService, OperadoresService, CompradoresService, DetallePedidoService, ProductosService],
 })
 export class OperadoresModule {}

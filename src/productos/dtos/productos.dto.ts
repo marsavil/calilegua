@@ -9,7 +9,11 @@ import {
   IsOptional,
   Min,
   ValidateIf,
+  ValidateNested,
+  IsMongoId,
 } from 'class-validator';
+import { CreateCategoriaDTO } from './categorias.dto';
+import { Type } from 'class-transformer';
 
 export class CreateProductoDTO {
   @ApiProperty({description: 'Marca comercial del producto', required: true})
@@ -47,10 +51,14 @@ export class CreateProductoDTO {
   // @IsNotEmpty()
   // readonly fabricanteId: string;
 
-  // @ApiProperty({description: 'Categorias del producto', required: true})
-  // @IsNotEmpty()
-  // @IsArray()
-  // readonly categoriasIds: string[];
+  @ApiProperty({ description: 'Categoría del producto', required: true })
+  @ValidateNested()
+  @Type(() => CreateCategoriaDTO)
+  @IsNotEmpty()
+
+  @IsNotEmpty()
+  @IsMongoId()
+  readonly fabricante: string;
 }
 
 export class UpdateProductoDTO extends PartialType(
@@ -75,4 +83,6 @@ export class FilterProductoDTO {
   @ValidateIf((item) => item.precioMinimo)
   @IsPositive()
   precioMaximo: number;
+
+
 }

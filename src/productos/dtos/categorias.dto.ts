@@ -3,6 +3,7 @@ import { ApiProperty, PartialType, OmitType } from '@nestjs/swagger';
 import {
   IsNotEmpty,
   IsString,
+  IsUrl,
 } from 'class-validator';
 
 export class CreateCategoriaDTO {
@@ -10,6 +11,11 @@ export class CreateCategoriaDTO {
   @IsString()
   @IsNotEmpty()
   readonly nombre: string;
+
+  @ApiProperty({description: 'Imagen representativa de la categoria', required: true})
+  @IsUrl()
+  @IsNotEmpty()
+  readonly imagen: string
 
 }
 

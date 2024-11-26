@@ -28,6 +28,7 @@ export class CompradoresController {
   @Post('add')
   @ApiOperation({summary: 'Agrega un nuevo comprador'})
   createComprador(@Body() payload: any) {
+    console.log("se va a cargar un nuevo comprador")
     return this.compradoresService.create(payload);
   }
   @Put('edit/:id')

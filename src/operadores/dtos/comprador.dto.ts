@@ -1,12 +1,17 @@
 import { ApiProperty, PartialType, OmitType } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 
 import {
+  IsArray,
   IsNotEmpty,
   IsOptional,
   IsPositive,
   IsString,
   Min,
+  ValidateNested,
 } from 'class-validator';
+
+
 
 export class CreateCompradorDTO {
   @ApiProperty({description: 'Nombre de pila del comprador', required: true})
@@ -23,6 +28,12 @@ export class CreateCompradorDTO {
   @IsString()
   @IsNotEmpty()
   readonly telefono: string;
+
+  @IsArray()
+  @IsNotEmpty()
+  @ValidateNested({each: true})
+  @Type(()=> CreateDireccionesDTO)
+  readonly direcciones?: CreateDireccionesDTO[]; //las direcciones pueden venir o no
 }
 
 
@@ -41,3 +52,20 @@ export class FilterCompradoresDTO {
   @Min(0)
   offset: number;
 }
+
+export class CreateDireccionesDTO{
+  @IsString()
+  @IsNotEmpty()
+  readonly calle: string;
+
+  @IsString()
+  @IsNotEmpty()
+  readonly numero: string;
+
+  @IsString()
+  @IsNotEmpty()
+  readonly ciudad: string;
+}
+
+export class UpdateDirecciones extends
+PartialType(CreateDireccionesDTO) {}

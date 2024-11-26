@@ -29,11 +29,11 @@ export class CategoriasController {
     
     return this.categoriasService.findOne(id);
   }
-  @Post('seed')
-  @ApiOperation({summary: 'Cargaihnicial de categorias a la base de datos'})
-  seedDB() {
-    return this.categoriasService.seedDB();
-  }
+  // @Post('seed')
+  // @ApiOperation({summary: 'Cargaihnicial de categorias a la base de datos'})
+  // seedDB() {
+  //   return this.categoriasService.seedDB();
+  // }
   @Post('add')
   @ApiOperation({summary: 'Agrega una nueva categoría'})
   createCategory(@Body() payload: CreateCategoriaDTO) {

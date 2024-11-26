@@ -32,10 +32,10 @@ export class CategoriasService {
     return categoria;
   }
 
-  async seedDB(){
-    await Promise.all(categorias.map((categoria) => this.create(categoria)));
-    return 'Categorias cargadas a la base de datos'
-  }
+  // async seedDB(){
+  //   await Promise.all(categorias.map((categoria) => this.create(categoria)));
+  //   return 'Categorias cargadas a la base de datos'
+  // }
   async create(payload: CreateCategoriaDTO) {
     const newCategoria = new this.categoriasModel(payload);
 
