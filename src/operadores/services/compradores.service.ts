@@ -12,8 +12,9 @@ export class CompradoresService {
     private readonly compradoresModel: Model<Comprador>,
   ){}
   async seedDB(){
+    console.log("Carga de compradores")
     await Promise.all(compradores.map((comprador) => this.create(comprador)));
-    return 'Coimpradores cargados a la base de datos'
+    return 'Compradores cargados a la base de datos'
   }
   async findAll(params?: FilterCompradoresDTO) {
     if (params) {
@@ -51,8 +52,14 @@ export class CompradoresService {
   }
 
   async create(payload: CreateCompradorDTO) {
-    const newComprador = await new this.compradoresModel(payload);
-    return  newComprador;
+    try {
+      //console.log("Agregando el nuevo comprador")
+      const newComprador = await new this.compradoresModel(payload);
+      return  newComprador;
+    } catch (error: any) {
+      return error.message
+    }
+
   }
   async update(id: string, payload: UpdateCompradorDTO) {
     const comprador = await this.compradoresModel.findByIdAndUpdate(id)

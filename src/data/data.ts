@@ -6,7 +6,7 @@ export const productos = [
     "descripcion": "Descripción del producto 1",
     "imagen": "imagen1.png",
     "origen": "Origen 1",
-    "fabricante": "6745c267eb23a6714b8a903d",
+    "fabricante": "674712fcc903ac3b1cec5666",
     "categoria": {  nombre: "Varios", imagen: 'imagenCategoria.png' },
   },
   {
@@ -16,8 +16,8 @@ export const productos = [
     "descripcion": "Descripción del producto 2",
     "imagen": "imagen2.png",
     "origen": "Origen 2",
-    "fabricante": "6745bd490d123a553f8ac5c4",
-    // "categoriasIds": [2, 3]
+    "fabricante": "674712fcc903ac3b1cec5666",
+    "categoria": {  nombre: "Varios", imagen: 'imagenCategoria.png' }
   },
   {
     "nombre": "Producto 3",
@@ -26,7 +26,7 @@ export const productos = [
     "descripcion": "Descripción del producto 3",
     "imagen": "imagen3.png",
     "origen": "Origen 3",
-    "fabricante": "6745c267eb23a6714b8a903e",
+    "fabricante": "674712fcc903ac3b1cec5665",
     "categoria": {  nombre: "Varios", imagen: 'imagenCategoria.png' },
   },
   {
@@ -36,7 +36,7 @@ export const productos = [
     "descripcion": "Descripción del producto 4",
     "imagen": "imagen4.png",
     "origen": "Origen 4",
-    "fabricante": "6745bd490d123a553f8ac5c4",
+    "fabricante": "674712fcc903ac3b1cec5665",
     "categoria": {  nombre: "Varios", imagen: 'imagenCategoria.png' },
   },
   {
@@ -46,7 +46,7 @@ export const productos = [
     "descripcion": "Descripción del producto 5",
     "imagen": "imagen5.png",
     "origen": "Origen 5",
-    "fabricante": "6745c267eb23a6714b8a9040",
+    "fabricante": "674712fcc903ac3b1cec5668",
     "categoria": {  nombre: "Varios", imagen: 'imagenCategoria.png' },
   },
   {
@@ -56,7 +56,7 @@ export const productos = [
     "descripcion": "Descripción del producto 6",
     "imagen": "imagen6.png",
     "origen": "Origen 6",
-    "fabricante": "6745bd490d123a553f8ac5c4",
+    "fabricante": "674712fcc903ac3b1cec5668",
     "categoria": {  nombre: "Varios", imagen: 'imagenCategoria.png' },
   },
   {
@@ -66,7 +66,7 @@ export const productos = [
     "descripcion": "Descripción del producto 7",
     "imagen": "imagen7.png",
     "origen": "Origen 7",
-    "fabricante": "6745c267eb23a6714b8a903d",
+    "fabricante": "674712fcc903ac3b1cec566a",
     "categoria": {  nombre: "Varios", imagen: 'imagenCategoria.png' },
   },
   {
@@ -76,7 +76,7 @@ export const productos = [
     "descripcion": "Descripción del producto 8",
     "imagen": "imagen8.png",
     "origen": "Origen 8",
-    "fabricante": "6745be720d123a553f8ac5c5",
+    "fabricante": "674712fcc903ac3b1cec566a",
     "categoria": {  nombre: "Varios", imagen: 'imagenCategoria.png' },
   },
   {
@@ -86,7 +86,7 @@ export const productos = [
     "descripcion": "Descripción del producto 9",
     "imagen": "imagen9.png",
     "origen": "Origen 9",
-    "fabricante": "6745c267eb23a6714b8a903e",
+    "fabricante": "674712fcc903ac3b1cec5669",
     "categoria": {  nombre: "Varios", imagen: 'imagenCategoria.png' },
   },
   {
@@ -96,7 +96,7 @@ export const productos = [
     "descripcion": "Descripción del producto 10",
     "imagen": "imagen10.png",
     "origen": "Origen 10",
-    "fabricante": "6745be720d123a553f8ac5c5",
+    "fabricante": "674712fcc903ac3b1cec5669",
     "categoria": {  nombre: "Varios", imagen: 'imagenCategoria.png' },
   },
   {
@@ -106,7 +106,7 @@ export const productos = [
     "descripcion": "Descripción del producto 11",
     "imagen": "imagen11.png",
     "origen": "Origen 11",
-    "fabricante": "6745c267eb23a6714b8a9041",
+    "fabricante": "674712fcc903ac3b1cec5667",
     "categoria": {  nombre: "Varios", imagen: 'imagenCategoria.png' },
   },
   {
@@ -116,7 +116,7 @@ export const productos = [
     "descripcion": "Descripción del producto 12",
     "imagen": "imagen12.png",
     "origen": "Origen 12",
-    "fabricante": "6745c267eb23a6714b8a9040",
+    "fabricante": "674712fcc903ac3b1cec5667",
     "categoria": {  nombre: "Varios", imagen: 'imagenCategoria.png' },
   },
   {
@@ -126,7 +126,7 @@ export const productos = [
     "descripcion": "Descripción del producto 13",
     "imagen": "imagen13.png",
     "origen": "Origen 13",
-    "fabricante": "6745c267eb23a6714b8a903d",
+    "fabricante": "674712fcc903ac3b1cec5663",
     "categoria": {  nombre: "Varios", imagen: 'imagenCategoria.png' },
   },
   {
@@ -136,7 +136,7 @@ export const productos = [
     "descripcion": "Descripción del producto 14",
     "imagen": "imagen14.png",
     "origen": "Origen 14",
-    "fabricante": "6745c267eb23a6714b8a9043",
+    "fabricante": "674712fcc903ac3b1cec5663",
     "categoria": {  nombre: "Varios", imagen: 'imagenCategoria.png' },
   },
   {
@@ -146,7 +146,7 @@ export const productos = [
     "descripcion": "Descripción del producto 15",
     "imagen": "imagen15.png",
     "origen": "Origen 15",
-    "fabricante": "6745c267eb23a6714b8a903f",
+    "fabricante": "674712fcc903ac3b1cec5664",
     "categoria": {  nombre: "Varios", imagen: 'imagenCategoria.png' },
   },
   {
@@ -156,7 +156,7 @@ export const productos = [
     "descripcion": "Descripción del producto 16",
     "imagen": "imagen16.png",
     "origen": "Origen 16",
-    "fabricante": "6745bf090d123a553f8ac5c6",
+    "fabricante": "674712fcc903ac3b1cec5664",
     "categoria": {  nombre: "Varios", imagen: 'imagenCategoria.png' },
   },
   {
@@ -166,7 +166,7 @@ export const productos = [
     "descripcion": "Descripción del producto 17",
     "imagen": "imagen17.png",
     "origen": "Origen 17",
-    "fabricante": "6745c267eb23a6714b8a903f",
+    "fabricante": "674712fcc903ac3b1cec5662",
     "categoria": {  nombre: "Varios", imagen: 'imagenCategoria.png' },
   },
   {
@@ -176,7 +176,7 @@ export const productos = [
     "descripcion": "Descripción del producto 18",
     "imagen": "imagen18.png",
     "origen": "Origen 18",
-    "fabricante": "6745bf090d123a553f8ac5c6",
+    "fabricante": "674712fcc903ac3b1cec5662",
     "categoria": {  nombre: "Varios", imagen: 'imagenCategoria.png' },
   },
   {
@@ -186,7 +186,7 @@ export const productos = [
     "descripcion": "Descripción del producto 19",
     "imagen": "imagen19.png",
     "origen": "Origen 19",
-    "fabricante": "6745c267eb23a6714b8a9040",
+    "fabricante": "674712fcc903ac3b1cec5661",
     "categoria": {  nombre: "Varios", imagen: 'imagenCategoria.png' },
   },
   
@@ -197,7 +197,7 @@ export const productos = [
     "descripcion": "Descripción del producto 20",
     "imagen": "imagen20.png",
     "origen": "Origen 20",
-    "fabricante": "6745c267eb23a6714b8a9042",
+    "fabricante": "674712fcc903ac3b1cec5661",
     "categoria": {  nombre: "Varios", imagen: 'imagenCategoria.png' },
   },
 ]

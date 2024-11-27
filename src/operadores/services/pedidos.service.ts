@@ -17,31 +17,25 @@ findAll(params?) {
         const { limit, offset } = params;
         return this.pedidosModel
         .find()
-        //.populate('comprador')
-        // .populate({
-        //   path: 'productos',
-        //   model: 'Producto',
-        // })
+        .populate('comprador')
+        .populate({
+          path: 'productos',
+          model: 'Producto',
+        })
         .skip(offset)
         .limit(limit)
         .exec()
   }
   return this.pedidosModel
     .find()
-    // .populate('comprador')
-    // .populate({
-    //   path: 'productos',
-    //   model: 'Producto',
-    // })
+    .populate('comprador')
+    .populate({
+      path: 'productos',
+      model: 'Producto',
+    })
     .exec();
 }
-  // findAll(params?: FilterPedidosDTO) {
-  //   if (params) {
-  //     const { limit, offset } = params;
-  //     return this.pedidosModel.find();
-  //   }
-  //   return this.pedidosModel.find()
-  // }
+
 
   async findOne(id: string){
     const pedido = await this.pedidosModel.findById(id);

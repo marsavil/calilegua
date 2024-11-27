@@ -27,6 +27,15 @@ export default registerAs('config', () => {
       host: process.env.MONGO_HOST,
       port: parseInt(process.env.MONGO_PORT, 10),
       connection: process.env.MONGO_CONNECTION,
+      message: 'Connection established to mongo Docker through mongoose'
+    },
+    atlas: {
+      atlas: process.env.MOGO_ATLAS_URI,
+      user: process.env.ATLAS_ROOT_USER,
+      password: process.env.ATLAS_ROOT_PASS,
+      dbName: process.env.ATLAS_MONGODB,
+      message: 'Connection established to mongo Atlas through mongoose'
+
     },
   
     apiKey: process.env.API_KEY,
