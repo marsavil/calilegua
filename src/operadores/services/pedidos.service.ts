@@ -17,22 +17,22 @@ findAll(params?) {
         const { limit, offset } = params;
         return this.pedidosModel
         .find()
-        .populate('comprador')
-        .populate({
-          path: 'productos',
-          model: 'Producto',
-        })
+        // .populate('comprador')
+        // .populate({
+        //   path: 'productos',
+        //   model: 'Producto',
+        // })
         .skip(offset)
         .limit(limit)
         .exec()
   }
   return this.pedidosModel
     .find()
-    .populate('comprador')
-    .populate({
-      path: 'productos',
-      model: 'Producto',
-    })
+    // .populate('comprador')
+    // .populate({
+    //   path: 'productos',
+    //   model: 'Producto',
+    // })
     .exec();
 }
 

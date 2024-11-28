@@ -54,7 +54,8 @@ export class CompradoresService {
   async create(payload: CreateCompradorDTO) {
     try {
       //console.log("Agregando el nuevo comprador")
-      const newComprador = await new this.compradoresModel(payload);
+      const newComprador = new this.compradoresModel(payload);
+      await newComprador.save();
       return  newComprador;
     } catch (error: any) {
       return error.message
