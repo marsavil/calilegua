@@ -12,8 +12,9 @@ export class CompradoresService {
     private readonly compradoresModel: Model<Comprador>,
   ){}
   async seedDB(){
+    console.log("Carga de compradores")
     await Promise.all(compradores.map((comprador) => this.create(comprador)));
-    return 'Coimpradores cargados a la base de datos'
+    return 'Compradores cargados a la base de datos'
   }
   async findAll(params?: FilterCompradoresDTO) {
     if (params) {
@@ -25,21 +26,21 @@ export class CompradoresService {
       .limit(limit)
       .exec()
 
-      const ids = result.map(r => r._id.toString())
-
-      return {
-        data: result,
-        ids
-      }
+      const formated = result.map((r) => {
+        const id = r._id.toString(); // Convertir ObjectId a string
+        return { ...r, _id: id }; // Actualiza el formato de _id
+      });
+      return formated
     }
     const result = await this.compradoresModel
     .find()
     .exec()
-    const ids = result.map(r => r._id.toString())
-    return {
-      data: result,
-      ids
-    }
+    
+    const formated = result.map((r) => {
+      const id = r._id.toString(); // Convertir ObjectId a string
+      return { ...r, _id: id }; // Actualiza el formato de _id
+    });
+    return formated
   }
 
   async findOne(id: string) {
@@ -51,8 +52,15 @@ export class CompradoresService {
   }
 
   async create(payload: CreateCompradorDTO) {
-    const newComprador = await new this.compradoresModel(payload);
-    return  newComprador;
+    try {
+      //console.log("Agregando el nuevo comprador")
+      const newComprador = new this.compradoresModel(payload);
+      await newComprador.save();
+      return  newComprador;
+    } catch (error: any) {
+      return error.message
+    }
+
   }
   async update(id: string, payload: UpdateCompradorDTO) {
     const comprador = await this.compradoresModel.findByIdAndUpdate(id)
