@@ -7,6 +7,7 @@ import { CreateOperadorDTO, FilterOperadoresDTO, UpdateOperadorDTO } from '../dt
 import { CompradoresService } from './compradores.service';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import * as bcrypt from 'bcrypt';
 
 
 @Injectable()
@@ -19,17 +20,15 @@ export class OperadoresService {
 
     //@Inject('PG') private clientPg: Client,
   ){}
-  operadores: Partial<Operador>[] = [
+  operadores: CreateOperadorDTO[] = [
     { email: 'operador1@email.com', password: '123456', role: 'admin' },
     { email: 'operador2@email.com', password: '654321', role: 'operador' },
   ];
-  private idCont = this.operadores.length; // idCont coincidente con la cantidad de operadores
-
+  
   async seedDB() {
     // Usa un bucle para crear y guardar cada operador
     for (const operador of this.operadores) {
-      const nuevoOperador = new this.operadoresModel(operador);
-      await nuevoOperador.save(); // Guardar cada operador
+      this.create(operador)
     }
     return 'Carga inicial de operadores a la base de datos realizada';
   }
@@ -80,7 +79,14 @@ export class OperadoresService {
     }
     async create(payload: CreateOperadorDTO) {
       const newOperador = new this.operadoresModel(payload);
-      return await newOperador.save(); 
+      const hashPassword = await bcrypt.hash(newOperador.password, 10);
+      console.log('se va a guardar la contraseña hasheada', hashPassword)
+      newOperador.password = hashPassword;
+      const operador = await newOperador.save();
+      const id = operador._id.toString()
+      const { password, ...rest } = operador.toJSON()
+      rest._id = id
+      return rest; 
     }
     async remove(id: string) {
 
@@ -88,6 +94,16 @@ export class OperadoresService {
         producto: await this.operadoresModel.findByIdAndDelete(id),
         message: `El operador con el id ${id} ha sido eliminado de la base de datos` 
         }
+    }
+
+    async findByEmail(email: string){
+      const user = await this.operadoresModel.findOne({email}).exec()
+      if ( !user ){
+        throw new NotFoundException
+      }
+      const id = user._id.toString()
+      user._id = id
+      return user
     }
     // async getOrdersByUser (id: number){
     //   const operador = this.findOne(id);
