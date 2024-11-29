@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, Injectable } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import config from './config'
 import { HttpModule } from '@nestjs/axios';
@@ -8,6 +8,10 @@ import { OperadoresModule } from './operadores/operadores.module';
 import { ProductosModule } from './productos/productos.module';
 import { DatabaseModule } from './database/database.module';
 import { environments } from './environments'; // importación de la definición de entornos
+import { AuthModule } from './auth/auth.module';
+import { IS_PUBLIC_KEY } from './auth/decorators/public.decorator';
+import { ConfigType } from '@nestjs/config';
+
 import * as Joi from 'joi';
 
 
@@ -25,6 +29,7 @@ import * as Joi from 'joi';
       validationSchema: Joi.object()
   
     }),
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [
