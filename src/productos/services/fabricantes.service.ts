@@ -27,21 +27,20 @@ export class FabricantesService {
       .limit(limit)
       .exec()
 
-      const ids = result.map(r => r._id.toString())
-
-      return {
-        data: result,
-        ids
-      }
+      const formated = result.map((r) => {
+        const id = r._id.toString(); // Convertir ObjectId a string
+        return { ...r, _id: id }; // Actualiza el formato de _id
+      });
+      return formated
     }
     const result = await this.fabricantesModel
     .find()
     .exec()
-    const ids = result.map(r => r._id.toString())
-    return {
-      data: result,
-      ids
-    }
+    const formated = result.map((r) => {
+      const id = r._id.toString(); // Convertir ObjectId a string
+      return { ...r, _id: id }; // Actualiza el formato de _id
+    });
+    return formated
   }
 
   async findOne(id: string) {

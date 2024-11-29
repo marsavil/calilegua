@@ -266,16 +266,16 @@ export const fabricantes = [
 ]
 
 export const categorias = [
-  {  "nombre": "Juegos" },
-  {  "nombre": "Música" },
-  {  "nombre": "Deportes" },
-  {  "nombre": "Electrónica" },
-  {  "nombre": "Hogar" },
-  {  "nombre": "Moda" },
-  {  "nombre": "Libros" },
-  {  "nombre": "Juguetes" },
-  {  "nombre": "Belleza" },
-  {  "nombre": "Automotriz" }
+  {  "nombre": "Juegos", "imagen": "categoria.png" },
+  {  "nombre": "Música", "imagen": "categoria.png" },
+  {  "nombre": "Deportes", "imagen": "categoria.png" },
+  {  "nombre": "Electrónica", "imagen": "categoria.png" },
+  {  "nombre": "Hogar", "imagen": "categoria.png" },
+  {  "nombre": "Moda", "imagen": "categoria.png" },
+  {  "nombre": "Libros", "imagen": "categoria.png" },
+  {  "nombre": "Juguetes", "imagen": "categoria.png" },
+  {  "nombre": "Belleza", "imagen": "categoria.png" },
+  {  "nombre": "Automotriz", "imagen": "categoria.png" }
 ]
 
 export const compradores = [

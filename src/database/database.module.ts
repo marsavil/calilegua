@@ -12,8 +12,6 @@ import { MongooseModule } from '@nestjs/mongoose';
         //const { connection, user, password, host, port, dbName, message } = ConfigService.mongo;
         const {  user, password, dbName, atlas, message } = ConfigService.atlas;
         console.log(`${message}`)
-
-        // Configuración global de Mongoose para convertir ObjectId en cadenas
         const mongoose = require('mongoose');
         mongoose.Schema.Types.ObjectId.get(function () {
           return this.toString();

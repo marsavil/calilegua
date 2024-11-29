@@ -13,14 +13,19 @@ export class CategoriasService {
   ){}
 
   async findAll() {
-    const result = await this.categoriasModel.find().exec();
+    const result = await this.categoriasModel
+    .find()
+    .lean<Categoria[]>()
+    .exec();
 
     const ids = result.map(r => r._id.toString())
+      const formated = result.map((r) => {
+        const id = r._id.toString();
+        r._id = id;
+        return r
+      })
 
-      return {
-        data: result,
-        ids
-      }
+      return formated
   }
 
   findOne(id: string) {
@@ -32,10 +37,10 @@ export class CategoriasService {
     return categoria;
   }
 
-  // async seedDB(){
-  //   await Promise.all(categorias.map((categoria) => this.create(categoria)));
-  //   return 'Categorias cargadas a la base de datos'
-  // }
+  async seedDB(){
+    await Promise.all(categorias.map((categoria) => this.create(categoria)));
+    return 'Categorias cargadas a la base de datos'
+  }
   async create(payload: CreateCategoriaDTO) {
     const newCategoria = new this.categoriasModel(payload);
 
