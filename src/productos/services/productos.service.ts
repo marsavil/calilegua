@@ -58,42 +58,20 @@ export class ProductosService {
         `El producto con el id ${id} no se encuentra`,
       );
     }
+    const formatId = product._id.toString()
+    product._id = formatId
     return product;
   }
 
   async create(payload: CreateProductoDTO) {
 
     const newProduct = new this.productosModel(payload);
-    // if (payload.fabricanteId) {
-    //   const fabricante = await this.fabricantesService.findOne(
-    //     payload.fabricanteId,
-    //   );
-    //   if (!fabricante) {
-    //     throw new Error(
-    //       `Fabricante con id ${payload.fabricanteId} no encontrado`,
-    //     );
-    //   }
-    //   newProduct.fabricante = fabricante;
-    // }
-    // if (payload.categoriasIds) {
-    //   const categorias = await this.categoriasRepository.findByIds(
-    //     payload.categoriasIds,
-    //   );
-    //   console.log('estas son las categorias a guardar',categorias)
-    //   if (categorias.length !== payload.categoriasIds.length) {
-    //     throw new Error(
-    //       `Hay un error con alguno de los ids ${payload.categoriasIds}. Verifique`,
-    //     );
-    //   }
-    //   newProduct.categorias = categorias;
-    // }
+    
     return await newProduct.save();
   }
 
   async update(id: string, payload: UpdateProductoDTO) {
-    // Separar los IDs de fabricante y categorías del resto del payload
-    // const { fabricanteId, categoriasIds, ...updateData } = payload;
-  
+
     // Buscar el producto
     const product = await this.productosModel
     .findByIdAndUpdate(id, { $set: payload }, { new: true })
@@ -101,25 +79,6 @@ export class ProductosService {
     if (!product) {
       throw new NotFoundException(`El producto con el id ${id} no se encuentra`);
     } 
-  
-    // Validar y asignar el fabricante si fabricanteId está en el payload
-    // if (fabricanteId) {
-    //   const fabricante = await this.fabricantesService.findOne(fabricanteId);
-    //   if (!fabricante) {
-    //     throw new Error(`Fabricante con id ${fabricanteId} no encontrado`);
-    //   }
-    //   product.fabricante = fabricante;
-    // }
-  
-    // // Validar y asignar categorías si categoriasIds está en el payload
-    // if (categoriasIds && categoriasIds.length > 0) {
-    //   const categorias = await this.categoriasRepository.findByIds(categoriasIds);
-    //   if (categorias.length !== categoriasIds.length) {
-    //     throw new Error(`Hay un error con alguno de los ids ${categoriasIds}. Verifique`);
-    //   }
-    //   product.categorias = categorias;
-    // }
-  
     return await product.save();
   }
 
