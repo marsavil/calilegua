@@ -34,38 +34,39 @@ export class OperadoresService {
   }
 
   async findOne(id: string) {
-    const operador = await this.operadoresModel.findById(id);
+    const operador = await this.operadoresModel
+    .findById(id)
+    .lean<Operador>();
     if ( !operador ) {
       throw new NotFoundException(`El operador con el id ${id} no se encuentra`);
     }
-    // return this.operadoresModel.findOneBy({id});
-    return operador;
+    const { _id, password, ...rest }: any = operador;
+    const stringId = _id.toString();
+
+    return {
+      _id: stringId,
+      ...rest
+    }
   }
   async findAll(params?: FilterOperadoresDTO) {
+    const query = this.operadoresModel.find();
+  
     if (params) {
       const { limit, offset } = params;
-      const result = await this.operadoresModel
-      .find()
-      .lean<Operador[]>()
-      .skip(offset)
-      .limit(limit)
-      .exec()
-
-      const formated = result.map((r) => {
-        const id = r._id.toString(); // Convertir ObjectId a string
-        return { ...r, _id: id }; // Actualiza el formato de _id
-      });
-      return formated
+      query.skip(offset).limit(limit);
     }
-    const result = await this.operadoresModel
-    .find()
-    .exec()
-    const ids = result.map(r => r._id.toString())
-    return {
-      data: result,
-      ids
-    };
-    }
+  
+    // Excluimos el campo 'password' y usamos lean() para obtener objetos JavaScript simples
+    const result = await query.select('-password').lean<Operador[]>().exec();
+  
+    // Convertimos _id de ObjectId a string
+    const formated = result.map((r) => ({
+      ...r,
+      _id: r._id.toString(), // Convertir ObjectId a string
+    }));
+  
+    return formated;
+  }
 
     async update(id: string, payload: UpdateOperadorDTO) {
       const operador = await this.operadoresModel
@@ -86,7 +87,7 @@ export class OperadoresService {
       const id = operador._id.toString()
       const { password, ...rest } = operador.toJSON()
       rest._id = id
-      return rest; 
+      return ; 
     }
     async remove(id: string) {
 
