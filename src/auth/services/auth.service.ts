@@ -1,11 +1,15 @@
 import { Injectable } from '@nestjs/common';
 import { OperadoresService } from 'src/operadores/services/operadores.service';
 import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
+import { Operador } from 'src/operadores/entities/operador.entity';
+import { PayloadToken } from './../models/token.model'
 
 @Injectable()
 export class AuthService {
   constructor(
-    private operadoresService: OperadoresService
+    private operadoresService: OperadoresService,
+    private jwtService: JwtService, // Inyección de dependencia de JwtService
   )
   {}
   async validateUser (email: string, password: string){
@@ -20,5 +24,13 @@ export class AuthService {
       }
     }
     return null
+  }
+  generateJWT(operador: Operador){
+    const payload: PayloadToken = { role: operador.role, sub: operador.id };
+
+    return {
+      access_token: this.jwtService.sign(payload), //se genera el token
+      operador,
+    };
   }
 }

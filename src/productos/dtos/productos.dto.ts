@@ -55,7 +55,10 @@ export class CreateProductoDTO {
   @ValidateNested()
   @Type(() => CreateCategoriaDTO)
   @IsNotEmpty()
+  readonly categoria: { nombre: string; imagen: string };
+  
 
+  @ApiProperty({ description: 'ID del fabricante del producto', required: true})
   @IsNotEmpty()
   @IsMongoId()
   readonly fabricante: string;
