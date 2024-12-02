@@ -42,6 +42,7 @@ export class ProductosController {
     return this.productsService.findOne(id);
     
   }
+  @Roles(Role.ADMIN)  
   @Post('seed')
   @ApiOperation({summary: 'Genera y añade productos a la base de datos'})
   seedDB() {
