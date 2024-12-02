@@ -44,23 +44,25 @@ export class CompradoresService {
   }
 
   async findOne(id: string) {
-    const comprador = await this.compradoresModel.findById( id );
+    const comprador = await this.compradoresModel
+    .findById( id )
+    .lean<Comprador>();
     if (!comprador) {
       throw new NotFoundException(`El comprador con el id ${id} no se encuentra`);
     }
-    return comprador
+    const { _id, ...rest }: any = comprador;
+    const stringId = _id.toString();
+    return {
+      _id: stringId,
+      ...rest
+    }
   }
 
   async create(payload: CreateCompradorDTO) {
-    try {
       //console.log("Agregando el nuevo comprador")
       const newComprador = new this.compradoresModel(payload);
       await newComprador.save();
       return  newComprador;
-    } catch (error: any) {
-      return error.message
-    }
-
   }
   async update(id: string, payload: UpdateCompradorDTO) {
     const comprador = await this.compradoresModel.findByIdAndUpdate(id)
@@ -70,10 +72,8 @@ export class CompradoresService {
     return await comprador.save();
   }
   async remove(id: string) {
-
-    return {
-      producto: await this.compradoresModel.findByIdAndDelete(id),
-      message: `El comprador con el id ${id} ha sido eliminado de la base de datos` 
-      }
-    }
+    await this.compradoresModel.findByIdAndDelete(id);
+    return `El comprador con el id ${id} ha sido eliminado de la base de datos`
+    
   }
+}

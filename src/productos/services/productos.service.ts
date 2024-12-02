@@ -28,7 +28,12 @@ export class ProductosService {
       productos.map(async (producto) => {
         // Seleccionar un fabricante aleatorio
         const randomFabricante = fabs[Math.floor(Math.random() * fabs.length)];
+        const categoria = {
+          nombre: 'Varios',
+          imagen: 'imagenCategoria.png',
+        }
         producto.fabricante = randomFabricante._id; // Asigna el ID del fabricante
+        producto.categoria = categoria; // Asigna la categoria
         await this.create(producto); // Crear el producto
       })
     );
@@ -72,19 +77,23 @@ export class ProductosService {
   async findOne(id: string) {
     const product = await this.productosModel.findById(id,)
     .populate('fabricante')
+    .lean<Producto>()
     .exec();
     if (!product) {
       throw new NotFoundException(
         `El producto con el id ${id} no se encuentra`,
       );
     }
-    const formatId = product._id.toString()
-    product._id = formatId
-    return product;
+    const { _id, ...rest }: any = product;
+    const formatId = _id.toString()
+    return {
+      _id: formatId,
+      ...rest
+    }
   }
 
   async create(payload: CreateProductoDTO) {
-
+    console.log('llego al servicio', payload)
     const newProduct = new this.productosModel(payload);
     
     return await newProduct.save();

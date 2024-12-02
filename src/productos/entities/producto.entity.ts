@@ -34,8 +34,11 @@ export class Producto extends Document {
   )
   categoria: Record<string, any>; // se agrega la propiedad subdocumento
 
-  @Prop({ type: Types.ObjectId, ref: Fabricante.name })
-  fabricante: Fabricante | Types.ObjectId
+  // @Prop({ type: Types.ObjectId, ref: Fabricante.name })
+  // fabricante: Fabricante | Types.ObjectId
+
+  @Prop()
+  fabricante: string;
 
 }
 

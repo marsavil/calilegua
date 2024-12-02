@@ -7,16 +7,25 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Public } from 'src/auth/decorators/public.decorator';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 import { MongoIdPipe } from 'src/common/mongo-id.pipe';
 import { CreateProductoDTO, FilterProductoDTO, UpdateProductoDTO } from 'src/productos/dtos/productos.dto';
 import { ProductosService } from 'src/productos/services/productos.service';
+import { Roles } from '../../auth/decorators/roles.decorator';
+import { Role } from '../../auth/models/roles.model';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
 
+@UseGuards(JwtAuthGuard, RolesGuard)
 @ApiTags('Productos')
 @Controller('productos')
 export class ProductosController {
   constructor(private productsService: ProductosService) {}
+  //@Public()
+  //@Roles(Role.ADMIN)
   @Get()
   @ApiOperation({summary: 'Devuelve una lista con una cantidad determinada de productos'})
   getAllProductos(
@@ -25,6 +34,7 @@ export class ProductosController {
     console.log(`Buscando todos los productos`);
     return this.productsService.findAll(params);
   }
+  //@Public()
   @Get(':id')
   @ApiOperation({summary: 'Devuelve información del producto identificado con el id suministrado'})
   getProductoById(@Param('id', MongoIdPipe) id: string) {
@@ -38,18 +48,23 @@ export class ProductosController {
     
     return this.productsService.seedDB();
   }
+  @Roles(Role.ADMIN)
   @Post('add')
   @ApiOperation({summary: 'Crea un nuevo producto con la información suministrada'})
   createProducto(@Body() payload: CreateProductoDTO) {
+    console.log("se va a cargar un nuevo producto")
   
     return this.productsService.create(payload)
   }
+
+  @Roles(Role.ADMIN)  
   @Put('edit/:id')
   @ApiOperation({summary: 'Actualiza el producto identificado con el id suministrado'})
   updateProducto(@Param('id', MongoIdPipe) id: string, @Body() payload: UpdateProductoDTO) {
 
     return this.productsService.update(id, payload);
   }
+  @Roles(Role.ADMIN)
   @Delete('delete/:id')
   @ApiOperation({summary: 'Elimina el producto identificado con el id suministrado'})
   deleteProducto(@Param('id', MongoIdPipe) id: string) {
