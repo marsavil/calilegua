@@ -6,7 +6,7 @@ import { Document } from 'mongoose';
 
 @Schema()
 export class DetallePedido extends Document {
-   
+
 
 }
 export const DetallePedidoSchema = SchemaFactory.createForClass(DetallePedido)

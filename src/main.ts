@@ -25,7 +25,7 @@ async function bootstrap() {
     })
   )
 
-  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector))); // permite serializar los objetos de respuesta
+  //app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector))); // permite serializar los objetos de respuesta
 
   SwaggerModule.setup('info', app, document);
   await app.listen(3000);

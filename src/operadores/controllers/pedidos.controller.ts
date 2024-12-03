@@ -30,7 +30,6 @@ export class PedidosController {
   }
   @Post('add')
   create(@Body() payload: CreatePedidoDto) {
-    console.log('se va a crear el pedido')
     return this.pedidosService.create(payload);
   }
   // @Put(':id')
@@ -48,12 +47,12 @@ export class PedidosController {
     return this.pedidosService.addProductos( id, payload.productsIds)
   }
 
-  @Delete(':id/producto/:productoId') // quita un producto del pedido
-  removeProduct (
-    @Param('id') id: string,
-    @Param( 'productoId' ) productoId: string,
-  ) {
-    console.log('tomo la ruta')
-    return this.pedidosService.removeProducto( id, productoId )
-  }
+  // @Delete(':id/producto/:productoId') // quita un producto del pedido
+  // removeProduct (
+  //   @Param('id') id: string,
+  //   @Param( 'productoId' ) productoId: string,
+  // ) {
+  //   console.log('tomo la ruta')
+  //   return this.pedidosService.removeProducto( id, productoId )
+  // }
 }
