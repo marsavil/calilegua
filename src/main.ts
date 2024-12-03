@@ -20,7 +20,8 @@ async function bootstrap() {
       //disableErrorMessages: true, // deshabilita mensajes de error (producción)
       transformOptions: {
         enableImplicitConversion: true, // convierte si existe una cadena de caracteres numericos
-      }
+      },
+      //transform: false
     })
   )
 

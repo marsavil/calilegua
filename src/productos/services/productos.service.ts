@@ -5,6 +5,7 @@ import { CreateProductoDTO, FilterProductoDTO, UpdateProductoDTO } from './../dt
 import { productos } from 'src/data/data';
 import { InjectModel } from '@nestjs/mongoose';
 import { FilterQuery, Model } from 'mongoose';
+import { CategoriasService } from './categorias.service';
 
 @Injectable()
 export class ProductosService {
@@ -13,14 +14,20 @@ export class ProductosService {
     private readonly productosModel: Model<Producto>,
     @Inject()
     private readonly fabricantesService: FabricantesService,
+    @Inject() 
+    private readonly categoriaService: CategoriasService
   ) {}
   
   async seedDB() {
     // Obtener todos los fabricantes de la base de datos
     const fabs = await this.fabricantesService.findAll();
+    const cats = await this.categoriaService.findAll()
   
     if (fabs.length === 0) {
       throw new Error('No hay fabricantes en la base de datos. Por favor, crea fabricantes primero.');
+    }
+    if (cats.length === 0) {
+      throw new Error('No hay categorias en la base de datos. Por favor, crea categorias primero.');
     }
   
     // Asignar un fabricante aleatorio a cada producto
@@ -28,12 +35,10 @@ export class ProductosService {
       productos.map(async (producto) => {
         // Seleccionar un fabricante aleatorio
         const randomFabricante = fabs[Math.floor(Math.random() * fabs.length)];
-        const categoria = {
-          nombre: 'Varios',
-          imagen: 'imagenCategoria.png',
-        }
+        const randomCategoria = cats[Math.floor(Math.random() * cats.length)]
+
         producto.fabricante = randomFabricante._id; // Asigna el ID del fabricante
-        producto.categoria = categoria; // Asigna la categoria
+        producto.categoria = randomCategoria; // Asigna la categoria
         await this.create(producto); // Crear el producto
       })
     );

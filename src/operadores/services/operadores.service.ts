@@ -22,7 +22,7 @@ export class OperadoresService {
   ){}
   operadores: CreateOperadorDTO[] = [
     { email: 'operador1@email.com', password: '123456', role: 'admin' },
-    { email: 'operador2@email.com', password: '654321', role: 'operador' },
+    { email: 'operador2@email.com', password: '654321', role: 'comprador' },
   ];
   
   async seedDB() {

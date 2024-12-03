@@ -7,12 +7,18 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CategoriasService } from '../services/categorias.service';
 import { CreateCategoriaDTO } from '../dtos/categorias.dto';
 import { MongoIdPipe } from 'src/common/mongo-id.pipe';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { Roles } from 'src/auth/decorators/roles.decorator';
+import { Role } from 'src/auth/models/roles.model';
 
+@UseGuards(JwtAuthGuard, RolesGuard)
 @ApiTags('Categorias')
 @Controller('categorias')
 export class CategoriasController {
@@ -23,27 +29,32 @@ export class CategoriasController {
     console.log("se van a mostrar todas las categorías de productos")
     return this.categoriasService.findAll()
   }
+  
   @Get(':id')
   @ApiOperation({summary: 'Devuelve la categoría con el id especificado'})
   getCategoryById(@Param('id', MongoIdPipe) id: string) {
     
     return this.categoriasService.findOne(id);
   }
+
   @Post('seed')
   @ApiOperation({summary: 'Cargaihnicial de categorias a la base de datos'})
   seedDB() {
     return this.categoriasService.seedDB();
   }
+  @Roles(Role.ADMIN)  
   @Post('add')
   @ApiOperation({summary: 'Agrega una nueva categoría'})
   createCategory(@Body() payload: CreateCategoriaDTO) {
     return this.categoriasService.create(payload);
   }
+  @Roles(Role.ADMIN)  
   @Put('edit/:id')
   @ApiOperation({summary: 'Modifica la categoria del id proporcionado'})
   updateCategory(@Param('id', MongoIdPipe) id: string, @Body() payload: any) {
     return this.categoriasService.update(id, payload);
   }
+  @Roles(Role.ADMIN)  
   @Delete('delete/:id')
   @ApiOperation({summary: 'Elimina la categoría del id proporcionado'})
   deleteCategory(@Param('id', MongoIdPipe) id: string) {

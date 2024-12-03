@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { PedidosController } from './controllers/pedidos.controller';
 import { OperadoresController } from './controllers/operadores.controller';
 import { CompradoresController } from './controllers/compradores.controller';
@@ -18,10 +18,13 @@ import { ProductosService } from 'src/productos/services/productos.service';
 import { ProductosController } from 'src/productos/controllers/productos.controller';
 import { FabricantesService } from 'src/productos/services/fabricantes.service';
 import { Fabricante, FabricanteSchema } from 'src/productos/entities/fabricante.entity';
+import { AuthModule } from 'src/auth/auth.module';
+import { CategoriasService } from 'src/productos/services/categorias.service';
 
 @Module({
    //Mongoose se encargará de administrar las entidades intervinientes
   imports:[
+    forwardRef(() => AuthModule), // Rompe la dependencia circular
     MongooseModule.forFeature([
       {
         name: Comprador.name,
@@ -47,10 +50,11 @@ import { Fabricante, FabricanteSchema } from 'src/productos/entities/fabricante.
         name: Fabricante.name,
         schema: FabricanteSchema
       }
-    ])
+    ]),
+    ProductosModule,
   ],
   controllers: [PedidosController, OperadoresController, CompradoresController, DetallePedidosController],
-  providers: [PedidosService, OperadoresService, CompradoresService, DetallePedidoService, ProductosService, FabricantesService],
+  providers: [PedidosService, OperadoresService, CompradoresService, DetallePedidoService, ProductosService, FabricantesService, CategoriasService],
   exports: [OperadoresService]
 })
 export class OperadoresModule {}

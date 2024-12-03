@@ -6,7 +6,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { OperadoresModule } from './operadores/operadores.module';
 import { ProductosModule } from './productos/productos.module';
-import { DatabaseModule } from './database/database.module';
+import { DatabaseModule } from './operadores/database/database.module';
 import { environments } from './environments'; // importación de la definición de entornos
 import { AuthModule } from './auth/auth.module';
 import { IS_PUBLIC_KEY } from './auth/decorators/public.decorator';

@@ -43,8 +43,13 @@ export class CategoriasService {
   }
   async create(payload: CreateCategoriaDTO) {
     const newCategoria = new this.categoriasModel(payload);
-
-    return await newCategoria.save()
+    await newCategoria.save();
+    const { _id, ...rest }: any  = newCategoria;
+    const stringId = _id.toString();
+    return {
+      _id: stringId,
+      ...rest
+    }
 
   }
   async update(id: string, payload: UpdateCategoriaDTO) {
@@ -55,11 +60,17 @@ export class CategoriasService {
       throw new NotFoundException(`La categoria con el id ${id} no se encuentra`);
     } 
     return await category.save();
-   }
+  }
   async remove(id: string) {
-    return {
-      categoria: await this.categoriasModel.findByIdAndDelete(),
-      message: `La categoria con el id ${id} ha sido eliminada de la base de datos` 
+    if (!id) {
+      throw new Error('ID no proporcionado');
     }
+  
+    const deletedCategory = await this.categoriasModel.findByIdAndDelete(id);
+    if (!deletedCategory) {
+      throw new Error(`Categoría con id ${id} no encontrada`);
+    }
+  
+    return `La categoría con el id ${id} ha sido eliminada de la base de datos`;
   }
 }

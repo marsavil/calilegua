@@ -7,5 +7,8 @@ export class Categoria extends Document {
   @Prop()
   nombre: string;
 
+  @Prop()
+  imagen: string
+
 }
 export const CategoriaSchema = SchemaFactory.createForClass(Categoria)

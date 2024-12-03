@@ -17,6 +17,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   }
 
   validate(payload: PayloadToken){
+    console.log('Payload recibido en JwtStrategy:', payload);
     return payload; // return the user object if the token is valid
   }
 }

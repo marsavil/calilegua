@@ -16,32 +16,31 @@ export class CompradoresService {
     await Promise.all(compradores.map((comprador) => this.create(comprador)));
     return 'Compradores cargados a la base de datos'
   }
-  async findAll(params?: FilterCompradoresDTO) {
-    if (params) {
-      const { limit, offset } = params
-      const result = await this.compradoresModel
+async findAll(params?: FilterCompradoresDTO) {
+  const formatResult = (result: Comprador[]) =>
+    result.map((comprador) => {
+      const id = comprador._id.toString(); // Convertir ObjectId a string
+      const direcciones = comprador.direcciones.map((direccion) => {
+        const { _id, ...rest } = direccion;
+        return { _id: _id.toString(), ...rest }; // Formatear ID de direcciones
+      });
+      return { ...comprador, _id: id, direcciones }; // Actualizar comprador
+    });
+
+  if (params) {
+    const { limit, offset } = params;
+    const result = await this.compradoresModel
       .find()
       .lean<Comprador[]>()
       .skip(offset)
       .limit(limit)
-      .exec()
-
-      const formated = result.map((r) => {
-        const id = r._id.toString(); // Convertir ObjectId a string
-        return { ...r, _id: id }; // Actualiza el formato de _id
-      });
-      return formated
-    }
-    const result = await this.compradoresModel
-    .find()
-    .exec()
-    
-    const formated = result.map((r) => {
-      const id = r._id.toString(); // Convertir ObjectId a string
-      return { ...r, _id: id }; // Actualiza el formato de _id
-    });
-    return formated
+      .exec();
+    return formatResult(result);
   }
+
+  const result = await this.compradoresModel.find().exec();
+  return formatResult(result);
+}
 
   async findOne(id: string) {
     const comprador = await this.compradoresModel
@@ -50,11 +49,17 @@ export class CompradoresService {
     if (!comprador) {
       throw new NotFoundException(`El comprador con el id ${id} no se encuentra`);
     }
-    const { _id, ...rest }: any = comprador;
+    const { _id, direcciones, ...rest }: any = comprador;
+    const formatDirecciones = direcciones.map((direccion) => {
+      const { _id, ...rest } = direccion;
+      return { _id: _id.toString(), ...rest }; // Formatear ID de direcciones
+    });
     const stringId = _id.toString();
+
     return {
       _id: stringId,
-      ...rest
+      ...rest,
+      direcciones: formatDirecciones,
     }
   }
 

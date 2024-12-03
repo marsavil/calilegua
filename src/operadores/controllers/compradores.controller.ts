@@ -31,12 +31,14 @@ export class CompradoresController {
   seedDB() {
     return this.compradoresService.seedDB();
   }
+  @Roles(Role.ADMIN)
   @Post('add')
   @ApiOperation({summary: 'Agrega un nuevo comprador'})
   createComprador(@Body() payload: any) {
     console.log("se va a cargar un nuevo comprador")
     return this.compradoresService.create(payload);
   }
+  @Roles(Role.ADMIN)
   @Put('edit/:id')
   @ApiOperation({summary: 'Actualiza la información de un comprador existente'})
   updateComprador(
@@ -45,6 +47,7 @@ export class CompradoresController {
   ) {
     return this.compradoresService.update(id, payload)
   }
+  @Roles(Role.ADMIN)
   @Delete('delete/:id')
   @ApiOperation({summary: 'Elimina un comprador existente'})
   deleteComprador(@Param('id', MongoIdPipe) id: string){

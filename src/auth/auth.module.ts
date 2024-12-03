@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { AuthService } from './services/auth.service';
 import { OperadoresModule } from 'src/operadores/operadores.module';
 import { PassportModule } from '@nestjs/passport';
@@ -11,7 +11,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 
 @Module({
   imports: [
-    OperadoresModule,
+    forwardRef(() => OperadoresModule), // Rompe la dependencia circular
     PassportModule,
     JwtModule.registerAsync({
       inject: [config.KEY],
