@@ -16,6 +16,7 @@ export class CategoriasService {
     const result = await this.categoriasModel
     .find()
     .lean<Categoria[]>()
+    .populate('productos')
     .exec();
 
     const ids = result.map(r => r._id.toString())
@@ -29,7 +30,9 @@ export class CategoriasService {
   }
 
   findOne(id: string) {
-    const categoria = this.categoriasModel.findById(id);
+    const categoria = this.categoriasModel
+    .findById(id)
+    .populate('productos');
     if (!categoria) {
       throw new NotFoundException(`No se encontró la categoría con id ${id}`);
     }

@@ -267,9 +267,9 @@ export const fabricantes = [
 
 export const categorias = [
   {  "nombre": "Juegos", "imagen": "categoria.png" },
-  {  "nombre": "Música", "imagen": "categoria.png" },
+  {  "nombre": "Musica", "imagen": "categoria.png" },
   {  "nombre": "Deportes", "imagen": "categoria.png" },
-  {  "nombre": "Electrónica", "imagen": "categoria.png" },
+  {  "nombre": "Electronica", "imagen": "categoria.png" },
   {  "nombre": "Hogar", "imagen": "categoria.png" },
   {  "nombre": "Moda", "imagen": "categoria.png" },
   {  "nombre": "Libros", "imagen": "categoria.png" },

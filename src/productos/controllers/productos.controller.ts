@@ -42,6 +42,12 @@ export class ProductosController {
     return this.productsService.findOne(id);
     
   }
+  @Get('/categoria/:categoria')
+  @ApiOperation({summary: 'Devuelve el listado de productos asigndos a una categoria'})
+  getProductosByCategory(@Param('categoria', MongoIdPipe) categoria: string) {
+    
+    return this.productsService.findByCategory(categoria);
+  }
   @Roles(Role.ADMIN)  
   @Post('seed')
   @ApiOperation({summary: 'Genera y añade productos a la base de datos'})

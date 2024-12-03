@@ -39,7 +39,14 @@ export class ProductosService {
 
         producto.fabricante = randomFabricante._id; // Asigna el ID del fabricante
         producto.categoria = randomCategoria; // Asigna la categoria
-        await this.create(producto); // Crear el producto
+        const newProducto = await this.create(producto); // Crear el producto
+        const productoId = newProducto._id.toString()
+        const categoriaId = randomCategoria._id.toString()
+
+
+        const categoriaDocument = await this.categoriaService.findOne(categoriaId);
+        categoriaDocument.productos.push(productoId);
+        await categoriaDocument.save(); // Guardar la categoría con los productos actualizados
       })
     );
   
@@ -95,6 +102,22 @@ export class ProductosService {
       _id: formatId,
       ...rest
     }
+  }
+
+  async findByCategory(categoria: string){
+    const productosIds = await this.productosModel.find({ 'categoria.nombre': new RegExp(`^${categoria}$`, 'i') })//utilizacion de expresiones regualres para matchear el parametro recibido con el nombre en la BD
+    .exec();
+    if (productosIds.length === 0) {
+      throw new NotFoundException(`No hay productos en la categoría ${categoria}`);
+    }
+    const productos = await Promise.all(
+      productosIds.map((p) => this.findOne(p._id.toString()))
+    );
+
+    return {
+      message: `Estos son los ${productos.length} productos de la categoria ${categoria}`,
+      productos
+    };
   }
 
   async create(payload: CreateProductoDTO) {
