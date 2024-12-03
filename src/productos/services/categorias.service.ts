@@ -39,6 +39,30 @@ export class CategoriasService {
     // return this.categoriasModel.findOneBy({id});
     return categoria;
   }
+  async findByNameOrCreate(name: string) {
+    // Función para capitalizar el nombre de la categoría
+    function capitalize(str: string) {
+      return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+    }
+  
+    const nameCapitalized = capitalize(name);
+  
+    // Buscar una categoría que tenga el nombre capitalizado
+    const categoria = await this.categoriasModel.findOne({ nombre: nameCapitalized }).populate('productos');
+  
+    // Si la categoría no existe, crearla
+    if (!categoria) {
+      const newCategoria = await this.categoriasModel.create({
+        nombre: nameCapitalized,
+        imagen: 'defaultImage.png',
+        productos: [],
+      });
+      return newCategoria;
+    }
+  
+    // Si la categoría ya existe, devolverla
+    return categoria;
+  }
 
   async seedDB(){
     await Promise.all(categorias.map((categoria) => this.create(categoria)));
@@ -75,5 +99,12 @@ export class CategoriasService {
     }
   
     return `La categoría con el id ${id} ha sido eliminada de la base de datos`;
+  }
+  
+  async findCategoriesByProduct(id: string){
+    const categorias = await this.categoriasModel.find({
+      productos: { $in: [id] }
+    }).exec();
+    return categorias
   }
 }

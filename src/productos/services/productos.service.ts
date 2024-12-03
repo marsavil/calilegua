@@ -121,10 +121,30 @@ export class ProductosService {
   }
 
   async create(payload: CreateProductoDTO) {
-    console.log('llego al servicio', payload)
+    console.log('llego al servicio', payload);
+  
+    // Crear el producto
     const newProduct = new this.productosModel(payload);
-    
-    return await newProduct.save();
+  
+    // Verificar si la categoría existe o si hay que crearla
+    const categoria = await this.categoriaService.findByNameOrCreate(payload.categoria.nombre);
+  
+    // Agregar el producto a la propiedad productos de la categoría
+    categoria.productos.push(newProduct._id.toString());
+  
+    // Guardar la categoría con el nuevo producto
+    await categoria.save();
+
+    // Guyardar el nuevo producto
+    await newProduct.save();
+
+    const { _id, ...rest }: any = newProduct
+  
+    // Guardar el nuevo producto
+    return {
+      _id: _id.toString(),
+      ...rest
+    }
   }
 
   async update(id: string, payload: UpdateProductoDTO) {
@@ -140,7 +160,7 @@ export class ProductosService {
   }
 
   async remove(id: string) {
-
+    await this.removeProductFromCategory(id)
     return {
       producto: await this.productosModel.findByIdAndDelete(id),
       message: `El producto con el id ${id} ha sido eliminado de la base de datos` 
@@ -160,14 +180,18 @@ export class ProductosService {
   //   return this.productosModel.save(producto);
   // }
 
-  // async removeProductFromCategory(produtoId: number, categoryId: number) {
-  //   console.log(`Quitando categoría ${categoryId}`)
-  //   const producto = await this.productosModel.findOne(produtoId, {
-  //     relations: ['categorias'],
-  //   })
-  //   producto.categorias = producto.categorias.filter(
-  //     (cat) => cat.id !== categoryId,
-  //   );
-  //   return this.productosModel.save(producto);
-  // }
+  async removeProductFromCategory(productoId: string) {
+    const categorias = await this.categoriaService.findCategoriesByProduct(productoId);
+
+    for (const categoria of categorias ){
+      console.log(categoria, 'categoria original')
+      const filtered = categoria.productos.filter((p) => p !== productoId)
+      console.log(filtered, 'nuevo arreglo')
+      categoria.productos = filtered
+      console.log(categoria, 'resultado')
+      await categoria.save()
+    }
+
+    }
+
 }
