@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Fabricante } from '../entities/fabricante.entity';
 import { CreateFabricanteDTO, FilterFabricantesDTO, UpdatefabricanteDTO } from '../dtos/fabricante.dto';
-import { fabricantes } from 'src/data/data';
+import { fabricantes } from '../../data/data';
 import { InjectModel } from '@nestjs/mongoose';
 import { FilterQuery, Model } from 'mongoose';
 

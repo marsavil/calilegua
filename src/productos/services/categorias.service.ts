@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Categoria } from '../entities/categoria.entity';
 import { CreateCategoriaDTO, UpdateCategoriaDTO } from '../dtos/categorias.dto';
-import { categorias } from 'src/data/data';
+import { categorias } from '../../data/data';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 

@@ -12,11 +12,11 @@ import {
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CategoriasService } from '../services/categorias.service';
 import { CreateCategoriaDTO } from '../dtos/categorias.dto';
-import { MongoIdPipe } from 'src/common/mongo-id.pipe';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { RolesGuard } from 'src/auth/guards/roles.guard';
-import { Roles } from 'src/auth/decorators/roles.decorator';
-import { Role } from 'src/auth/models/roles.model';
+import { MongoIdPipe } from '../../common/mongo-id.pipe';
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+import { RolesGuard } from '../../auth/guards/roles.guard';
+import { Roles } from '../../auth/decorators/roles.decorator';
+import { Role } from '../../auth/models/roles.model';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @ApiTags('Categorias')

@@ -9,10 +9,10 @@ import {
   ParseIntPipe,
   Query
 } from '@nestjs/common';
-import { PedidosService } from 'src/operadores/services/pedidos.service';
-import { AddProductsToOrderDto, CreatePedidoDto, FilterPedidosDto, UpdatePedidoDto } from 'src/operadores/dtos/pedido.dto.';
+import { PedidosService } from '../services/pedidos.service';
+import { AddProductsToOrderDto, CreatePedidoDto, FilterPedidosDto, UpdatePedidoDto } from '../../operadores/dtos/pedido.dto.';
 import { ApiOperation } from '@nestjs/swagger';
-import { MongoIdPipe } from 'src/common/mongo-id.pipe';
+import { MongoIdPipe } from '../../common/mongo-id.pipe';
 
 @Controller('pedidos')
 export class PedidosController {

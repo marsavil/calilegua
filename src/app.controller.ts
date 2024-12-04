@@ -5,7 +5,7 @@ import { AppService } from './app.service';
 import { ApiKeyGuard } from './auth/guards/api-key.guard';
 import { Public } from './auth/decorators/public.decorator';
 
-@UseGuards(ApiKeyGuard)
+//@UseGuards(ApiKeyGuard)
 @Controller()
 export class AppController {
   constructor(

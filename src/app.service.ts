@@ -9,7 +9,7 @@ export class AppService {
   constructor() {}
 
   getHello(): string {
-    return  `Bienvenido a Calilegua Backend. Conoce nuestros endpoints en ${process.env.HOST}info`;
+    return  'Hello World!';
   }
   
 }

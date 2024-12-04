@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Comprador } from '../entities/comprador.entity';
 import { CreateCompradorDTO, FilterCompradoresDTO, UpdateCompradorDTO } from '../dtos/comprador.dto';
-import { compradores } from 'src/data/data';
+import { compradores } from '../../data/data';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 

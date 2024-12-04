@@ -5,21 +5,20 @@ import { CompradoresController } from './controllers/compradores.controller';
 import { PedidosService } from './services/pedidos.service';
 import { CompradoresService } from './services/compradores.service';
 import { OperadoresService } from './services/operadores.service';
-import { ProductosModule } from 'src/productos/productos.module';
+import { ProductosModule } from '../productos/productos.module';
 import { Operador, OperadorSchema } from './entities/operador.entity';
 import { Comprador, CompradorSchema } from './entities/comprador.entity';
 import { Pedido, PedidoSchema } from './entities/pedido.entity';
 import { DetallePedido, DetallePedidoSchema } from './entities/detallePedido.entity';
 import { DetallePedidoService } from 'src/productos/services/detalle-pedido.service';
 import { DetallePedidosController } from 'src/productos/controllers/detalle-pedido.controller';
-import { Producto, ProductoSchema } from 'src/productos/entities/producto.entity';
+import { Producto, ProductoSchema } from '../productos/entities/producto.entity';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ProductosService } from 'src/productos/services/productos.service';
-import { ProductosController } from 'src/productos/controllers/productos.controller';
-import { FabricantesService } from 'src/productos/services/fabricantes.service';
-import { Fabricante, FabricanteSchema } from 'src/productos/entities/fabricante.entity';
-import { AuthModule } from 'src/auth/auth.module';
-import { CategoriasService } from 'src/productos/services/categorias.service';
+import { ProductosService } from '../productos/services/productos.service';
+import { FabricantesService } from '../productos/services/fabricantes.service';
+import { Fabricante, FabricanteSchema } from '../productos/entities/fabricante.entity';
+import { AuthModule } from '../auth/auth.module';
+import { CategoriasService } from '../productos/services/categorias.service';
 
 @Module({
    //Mongoose se encargará de administrar las entidades intervinientes

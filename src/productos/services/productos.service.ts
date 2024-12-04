@@ -2,7 +2,7 @@ import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Producto } from './../entities/producto.entity';
 import { FabricantesService } from './fabricantes.service';
 import { CreateProductoDTO, FilterProductoDTO, UpdateProductoDTO } from './../dtos/productos.dto';
-import { productos } from 'src/data/data';
+import { productos } from '../../data/data';
 import { InjectModel } from '@nestjs/mongoose';
 import { FilterQuery, Model } from 'mongoose';
 import { CategoriasService } from './categorias.service';

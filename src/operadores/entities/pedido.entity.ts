@@ -1,5 +1,5 @@
 import { Operador } from './operador.entity';
-import { Producto } from 'src/productos/entities/producto.entity';
+import { Producto } from '../../productos/entities/producto.entity';
 import { Comprador } from './comprador.entity';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Types } from 'mongoose';

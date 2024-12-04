@@ -1,8 +1,7 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { Operador } from 'src/operadores/entities/operador.entity';
-//import { Pedido } from 'src/operadores/entities/pedido.entity';
-import { ProductosService } from 'src/productos/services/productos.service';
+import { Operador } from '../entities/operador.entity';
+import { ProductosService } from '../../productos/services/productos.service';
 import { CreateOperadorDTO, FilterOperadoresDTO, UpdateOperadorDTO } from '../dtos/operador.dto';;
 import { CompradoresService } from './compradores.service';
 import { InjectModel } from '@nestjs/mongoose';

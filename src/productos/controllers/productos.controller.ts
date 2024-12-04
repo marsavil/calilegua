@@ -11,13 +11,13 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Public } from 'src/auth/decorators/public.decorator';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
-import { MongoIdPipe } from 'src/common/mongo-id.pipe';
-import { CreateProductoDTO, FilterProductoDTO, UpdateProductoDTO } from 'src/productos/dtos/productos.dto';
-import { ProductosService } from 'src/productos/services/productos.service';
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+import { MongoIdPipe } from '../../common/mongo-id.pipe';
+import { CreateProductoDTO, FilterProductoDTO, UpdateProductoDTO } from '../dtos/productos.dto';
+import { ProductosService } from '../services/productos.service';
 import { Roles } from '../../auth/decorators/roles.decorator';
 import { Role } from '../../auth/models/roles.model';
-import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { RolesGuard } from '../../auth/guards/roles.guard';
 
 @UseGuards(JwtAuthGuard, RolesGuard)
 @ApiTags('Productos')
