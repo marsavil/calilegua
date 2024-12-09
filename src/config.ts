@@ -12,6 +12,7 @@ export default registerAs('config', () => {
       password: process.env.POSTGRES_PASSWORD,
       user: process.env.POSTGRES_USER,
       host: process.env.POSTGRES_HOST,
+      message: 'Connection established postgres throug TypeORM'
     },
     mysql: {
       host: process.env.MYSQL_HOST,
@@ -19,6 +20,7 @@ export default registerAs('config', () => {
       user: process.env.MYSQL_USER,
       password: process.env.MYSQL_ROOT_PASSWORD,
       dbName: process.env.MYSQL_DATABASE,
+      message: 'Connection established mysql throug TypeORM'
     },
     mongo: {
       dbName:process.env.MONGODB,
